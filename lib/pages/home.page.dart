@@ -1,4 +1,6 @@
 import 'package:daily_recipe/pages/login.page.dart';
+import 'package:daily_recipe/pages/side.menu.page.dart';
+import 'package:daily_recipe/pages/start.page.dart';
 import 'package:flutter/material.dart';
 
 import '../services/preference.services.dart';
@@ -25,27 +27,34 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+          leading: IconButton(onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SideMenuPage(),
+                ));
+          }, icon: Icon(Icons.sort)),
           actions: [
-            IconButton(
+           /* IconButton(
                 onPressed: () async {
                   PreferencService.logout();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginPage(),
+                        builder: (context) => StartPage(),
                       ));
                   var email = await PreferencService.loginData();
                   print("output======> $email ========>");
                 },
-                icon: Icon(Icons.logout_rounded)),
+                icon: Icon(Icons.logout_rounded)),*/
 
             IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
           ]),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text("Good Morning,"),
+          padding: const EdgeInsets.all(15.0),
+          child: Text(" Good Morning, ${PreferencService.prefs?.getString("username")}",style:
+            TextStyle(color: Colors.red),),
         ),
       ),
     );

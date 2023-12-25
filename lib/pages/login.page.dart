@@ -153,9 +153,9 @@ class _LoginPageState extends State<LoginPage> {
                           // Handle button press
                           if (_formKey.currentState?.validate() ?? false) {
                             // Sign up the user with Firebase Authentication.
-                            // await PreferencService.prefs?.setBool('isLogin', true);
-                            PreferencService.saveLoginData(
-                                emailController.text, passwordController.text);
+                           // await PreferencService.prefs?.setBool('isLogin', true);
+                           await PreferencService.saveLoginData(
+                               emailController.text, passwordController.text);
                             // Navigate to the next screen.
                             Navigator.push(
                                 context,

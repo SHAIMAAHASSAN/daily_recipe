@@ -47,5 +47,7 @@ abstract class PreferencService {
     await PreferencService.initPrefs();
     prefs?.remove('email');
     prefs?.remove('password');
+    prefs?.remove('username');
+
   }
 }

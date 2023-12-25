@@ -1,4 +1,5 @@
-import 'package:daily_recipe/pages/splash.screen.dart';
+import 'package:daily_recipe/pages/splash.page.dart';
+import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/services/preference.services.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const SplahScreen(),
     );
   }
 }
