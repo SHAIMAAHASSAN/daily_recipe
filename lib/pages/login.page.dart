@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 import '../services/preference.services.dart';
+import '../utils/images.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,7 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool obscureText = false;
+  bool obscureText = true;
   final _formKey = GlobalKey<FormState>();
   late final emailController;
 
@@ -38,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/register.png'),
+                  image: AssetImage(ImagesPath.backgroundEffect),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -47,8 +48,13 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 20),
-                  Row(
+                  // SizedBox(height: 20),
+                  Image(
+                    width: 250, image: AssetImage(ImagesPath.logo),
+                    //   alignment: Alignment.center,
+                  ),
+
+                  /*Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -60,13 +66,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ],
-                  ),
-                  SizedBox(height: 40),
+                  ),*/
+                  SizedBox(height: 10),
                   Text(
                     'Sign In',
                     style: TextStyle(fontSize: 24, color: Colors.white),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: TextFormField(
@@ -128,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                         }),
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 15,
                   ),
                   Align(
                       alignment: Alignment.bottomRight,
@@ -153,9 +159,9 @@ class _LoginPageState extends State<LoginPage> {
                           // Handle button press
                           if (_formKey.currentState?.validate() ?? false) {
                             // Sign up the user with Firebase Authentication.
-                           // await PreferencService.prefs?.setBool('isLogin', true);
-                           await PreferencService.saveLoginData(
-                               emailController.text, passwordController.text);
+                            // await PreferencService.prefs?.setBool('isLogin', true);
+                            await PreferencService.saveLoginData(
+                                emailController.text, passwordController.text);
                             // Navigate to the next screen.
                             Navigator.push(
                                 context,
@@ -173,40 +179,44 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 60),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      //crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Don't have an account?",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegisterPage(),
-                                ));
-                          },
-                          child: Text(
-                            "Register",
-                            style: TextStyle(
-                                color: Colors.deepOrange, fontSize: 20),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
+                  //SizedBox(height: 60),
                 ],
               ),
             ),
+            Positioned(
+                child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  //crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegisterPage(),
+                            ));
+                      },
+                      child: Text(
+                        "Register",
+                        style:
+                            TextStyle(color: Colors.deepOrange, fontSize: 20),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ))
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:daily_recipe/pages/login.page.dart';
 import 'package:daily_recipe/pages/register.page.dart';
 import 'package:daily_recipe/services/preference.services.dart';
+import 'package:daily_recipe/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,8 +15,6 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +24,7 @@ class _StartPageState extends State<StartPage> {
             image: DecorationImage(
               //opacity: 0.2,
               image: AssetImage(
-                'assets/images/download.png',
+                ImagesPath.background,
               ),
               fit: BoxFit.cover,
             ),
@@ -36,9 +35,14 @@ class _StartPageState extends State<StartPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 150,
+                  height: 200,
                 ),
-                Row(
+                Image(
+                  width: 300,
+                  image: AssetImage(ImagesPath.logo),
+                  alignment: Alignment.center,
+                )
+                /* Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -55,18 +59,19 @@ class _StartPageState extends State<StartPage> {
                       ),
                     ),
                   ],
-                ),
+                ),*/
+                ,
                 SizedBox(
-                  height: 50,
+                  height: 10,
                 ),
                 Center(
                   child: Text(
                     "Cooking Done The Easy Way",
-                    style: TextStyle(color: Colors.white54, fontSize: 20),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
                 SizedBox(
-                  height: 300,
+                  height: 250,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -168,6 +173,7 @@ class _StartPageState extends State<StartPage> {
                           ),
                         ),
                       ),
+                      //SizedBox(height: 10,)
                     ],
                   ),
                 )
