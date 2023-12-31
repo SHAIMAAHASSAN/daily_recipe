@@ -1,0 +1,85 @@
+{
+   "ads":[
+  { "title": "1",
+    "image": "https://img.taste.com.au/P9OV-T58/w720-h480-cfill-q80/taste/2017/10/quick-vegetarian-meatballs_1980x1320-131685-1.jpg"
+  },
+     { "title": "2",
+       "image": "https://img.taste.com.au/IpbXc0lY/w720-h480-cfill-q80/taste/2020/06/july20_quick-cauliflower-and-broccoli-soup-162781-1.jpg"
+     },
+     { "title": "3",
+       "image": "https://img.taste.com.au/IyLht_w_/w720-h480-cfill-q80/taste/2016/11/prawn-pad-thai-104933-1.jpeg"
+     },
+     { "title": "4",
+       "image": "https://img.taste.com.au/1wVQyAEe/w720-h480-cfill-q80/taste/2018/05/one-pot-sticky-salmon-137372-1.jpg"
+     },
+     { "title": "5",
+       "image": "https://img.taste.com.au/6EJvw1kg/w720-h480-cfill-q80/taste/2020/04/may20_quick-pumpkin-dhal-160775-1.jpg"
+     }
+   ],
+   "recipes": [
+     {
+       "id": 1,
+       "meal_type": "breakfast",
+       "title": "French Toast with Berries",
+       "description":"",
+       "image": "assets/images/frenshtoast.png",
+       "rating": 5,
+       "calories": 120.0,
+       "prep_time": 120,
+      "serving": 2
+     },
+     {
+       "id": 2,
+       "meal_type": "Main Dish",
+       "title": " Glazed Salmon",
+       "description":"",
+       "image": "assets/images/Salmon.png",
+       "rating": 5,
+       "calories": 180.0,
+       "prep_time":30,
+       "serving": 1
+     },
+     {
+       "id": 3,
+       "meal_type": "Breakfast",
+       "title": " Blueberry Muffins",
+       "description":"",
+       "image": "assets/images/muffins.png",
+       "rating": 5,
+       "calories": 120.0,
+       "prep_time":10,
+       "serving": 1
+     },
+     {
+       "id": 4,
+       "meal_type": "Main Dish",
+       "title": "Asian Chicken Glazed Thighs",
+       "description":"",
+       "image": "assets/images/chicken.png",
+       "rating": 5,
+       "calories": 280.0,
+       "prep_time":45,
+       "serving": 1
+     },
+     {
+       "id": 5,
+       "meal_type": "Breakfast",
+       "title": "Brown Sugar Cinnamon Toast",
+       "description":"",
+       "image": "assets/images/Cinnamon.png",
+       "rating": 5,
+       "calories": 135.0,
+       "prep_time":15,
+       "serving": 1
+     }
+
+
+
+   ]
+
+
+
+
+
+
+}
