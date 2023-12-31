@@ -1,5 +1,6 @@
 import 'package:daily_recipe/pages/notification.page.dart';
 import 'package:daily_recipe/pages/side.menu.page.dart';
+import 'package:daily_recipe/widgets/header.bar.dart';
 import 'package:flutter/material.dart';
 
 class RecentlyViewedPage extends StatelessWidget {
@@ -36,21 +37,9 @@ class RecentlyViewedPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Recently Viewed",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    GestureDetector(
-                        onTap: () {},
-                        child: Text(
-                          "Clear",
-                          style: TextStyle(color: Colors.orange, fontSize: 18),
-                        )),
-                  ],
-                ),
+
+                HeaderBar(title:  "Recently Viewed", titleLeft:  "Clear"),
+
                 SizedBox(
                   height: 20,
                 ),

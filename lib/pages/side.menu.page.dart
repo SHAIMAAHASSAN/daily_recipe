@@ -1,3 +1,4 @@
+import 'package:daily_recipe/pages/home.page.dart';
 import 'package:daily_recipe/pages/recently_view.Page.dart';
 import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/services/preference.services.dart';
@@ -38,11 +39,20 @@ class _SideMenuPageState extends State<SideMenuPage> {
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.home)),
-                    Text("Home"),
-                  ],
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ));
+                  },
+                  child: Row(
+                    children: [
+                      IconButton(onPressed: () {}, icon: Icon(Icons.home)),
+                      Text("Home"),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
