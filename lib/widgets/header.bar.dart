@@ -13,13 +13,13 @@ class HeaderBar extends StatelessWidget {
           Text(title
             ,
             style:
-            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
           GestureDetector(
               onTap: () {},
               child:  Text(titleLeft
               ,
-                style: TextStyle(color: Colors.deepOrange, fontSize: 18),
+                style: TextStyle(color: Colors.deepOrange, fontSize: 18,fontWeight: FontWeight.w500),
               )),
         ],
       ),

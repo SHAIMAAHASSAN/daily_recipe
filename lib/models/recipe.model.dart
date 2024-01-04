@@ -9,7 +9,7 @@ class Recipe {
   int? rating;
   int? prepTime;
   int? serving;
-  double? calories;
+  int? calories;
 
   Recipe();
   //Recipe({required this.mealType,required this.title,required this.image

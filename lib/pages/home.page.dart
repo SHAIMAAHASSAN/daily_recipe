@@ -13,6 +13,8 @@ import 'package:daily_recipe/widgets/header.bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/ad.model.dart';
 import '../services/preference.services.dart';
@@ -44,8 +46,9 @@ class _HomePageState extends State<HomePage> {
         List<Map<String, dynamic>>.from(jsonDecode(recipeData)["recipes"]);
 
     recipeList = dataDecoded.map((e) => Recipe.fromJson(e)).toList();
+
     print("***************************");
-    print(recipeList);
+    print(recipeList[0].title);
     setState(() {});
   }
 
@@ -121,7 +124,8 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  " Good Morning, ${PreferencService.prefs?.getString("username")}",
+                  " Good Morning, ""${GetIt.I.get<SharedPreferences>().getString("name")}",
+                      //"${PreferencService.prefs?.getString("username")}",
                   style: const TextStyle(color: Colors.grey),
                 ),
                 const SizedBox(
@@ -130,8 +134,9 @@ class _HomePageState extends State<HomePage> {
                 const Text(
                   "What would you like to cook today ?",
                   style: TextStyle(
+                    fontFamily: "AbrilFatface",
                       fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.italic),
                 ),
                 const SizedBox(
@@ -192,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                               carouselController: carouselControllerEx,
                               options: CarouselOptions(
                                 height: 200.0,
-                                animateToClosest: true,
+                              //  animateToClosest: true,
                                 viewportFraction: .75,
                                 autoPlay: true,
                                 enlargeCenterPage: true,
@@ -211,13 +216,18 @@ class _HomePageState extends State<HomePage> {
                                       width: MediaQuery.of(context).size.width,
                                       margin: const EdgeInsets.symmetric(
                                           horizontal: 5.0),
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white70),
-                                      child:
-                                          // Text("${i}")
-                                          Image(
-                                        image: NetworkImage(ad.image!),
-                                      ));
+                                      decoration: BoxDecoration(
+                                          color: Colors.white70,),
+                                    //  image: DecorationImage(image:  NetworkImage(ad.image!),  fit: BoxFit.fitWidth,
+                                    //  )),
+
+                                    child:
+                                        //  Text("${i}")
+                                         Image(
+                                       image: NetworkImage(ad.image!),
+                                       fit: BoxFit.fitWidth,
+                                     )
+                                  );
                                 },
                               ).toList(),
                             ),
@@ -319,7 +329,7 @@ class _HomePageState extends State<HomePage> {
                                 prepTime: recipeList[0].prepTime,
                                 serving: recipeList[0].serving),
                             SizedBox(
-                              width: 10,
+                              width:25,
                             ),
                             CardRecipe(
                                 mealType: recipeList[1].mealType,
@@ -329,7 +339,7 @@ class _HomePageState extends State<HomePage> {
                                 prepTime: recipeList[1].prepTime,
                                 serving: recipeList[1].serving),
                             SizedBox(
-                              width: 10,
+                              width:25,
                             ),
                             CardRecipe(
                                 mealType: recipeList[4].mealType,
@@ -339,7 +349,7 @@ class _HomePageState extends State<HomePage> {
                                 prepTime: recipeList[4].prepTime,
                                 serving: recipeList[4].serving),
                             SizedBox(
-                              width: 10,
+                              width:25,
                             ),
                             CardRecipe(
                                 mealType: recipeList[3].mealType,

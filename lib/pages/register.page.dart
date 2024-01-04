@@ -4,6 +4,8 @@ import 'package:daily_recipe/utils/images.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -175,8 +177,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 if (_formKey.currentState?.validate() ??
                                     false) {
                                   // Sign up the user with Firebase Authentication.
-                                  PreferencService.saveUsernameData(
-                                      usernameController.text);
+
+                                  GetIt.I.get<SharedPreferences>().setString("name",  usernameController.text);
+                                  //PreferencService.saveUsernameData(
+                                    //  usernameController.text);
                                   // Navigate to the next screen.
                                   Navigator.push(
                                       context,

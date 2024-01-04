@@ -22,9 +22,9 @@
        "meal_type": "breakfast",
        "title": "French Toast with Berries",
        "description":"",
-       "image": "assets/images/frenshtoast.png",
+       "image": "assets/images/frenchtoast.png",
        "rating": 5,
-       "calories": 120.0,
+       "calories": 120,
        "prep_time": 120,
       "serving": 2
      },
@@ -35,7 +35,7 @@
        "description":"",
        "image": "assets/images/Salmon.png",
        "rating": 5,
-       "calories": 180.0,
+       "calories": 180,
        "prep_time":30,
        "serving": 1
      },
@@ -44,9 +44,9 @@
        "meal_type": "Breakfast",
        "title": " Blueberry Muffins",
        "description":"",
-       "image": "assets/images/muffins.png",
+       "image": "assets/images/muffins2.png",
        "rating": 5,
-       "calories": 120.0,
+       "calories": 120,
        "prep_time":10,
        "serving": 1
      },
@@ -55,9 +55,9 @@
        "meal_type": "Main Dish",
        "title": "Asian Chicken Glazed Thighs",
        "description":"",
-       "image": "assets/images/chicken.png",
+       "image": "assets/images/chicken2.png",
        "rating": 5,
-       "calories": 280.0,
+       "calories": 280,
        "prep_time":45,
        "serving": 1
      },
@@ -66,9 +66,9 @@
        "meal_type": "Breakfast",
        "title": "Brown Sugar Cinnamon Toast",
        "description":"",
-       "image": "assets/images/Cinnamon.png",
+       "image": "assets/images/Cinnamon2.png",
        "rating": 5,
-       "calories": 135.0,
+       "calories": 135,
        "prep_time":15,
        "serving": 1
      }

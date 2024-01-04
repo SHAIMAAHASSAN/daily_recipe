@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  get_it: ^7.6.4
   dots_indicator: ^3.0.0
   carousel_slider: ^4.2.1
   animated_rating_bar: ^0.0.8
@@ -84,9 +85,28 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Hellix
+      fonts:
+        - asset: assets/fonts/Hellix-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Hellix-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Hellix-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Hellix-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Hellix-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Hellix-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Hellix-ExtraBold.ttf
+          weight: 800
+
+    - family: AbrilFatface
+      fonts:
+         - asset: assets/fonts/AbrilFatface-Regular.ttf
+           weight: 400
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

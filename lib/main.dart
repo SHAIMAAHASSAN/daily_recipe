@@ -2,15 +2,24 @@ import 'package:daily_recipe/pages/splash.page.dart';
 import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/services/preference.services.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
+     var preferenceGetIt= await SharedPreferences.getInstance();
+     GetIt.I.registerSingleton<SharedPreferences>(preferenceGetIt);
 
-    if (PreferencService.initPrefs() != null) {
+
+   // var preference = await SharedPreferences.getInstance();
+
+   // GetIt.I.registerSingleton<SharedPreferences>(preference);
+    //if (PreferencService.initPrefs() != null) {
       print("========> Sucessful Run =======>");
-    }
+   // }
   } catch (e) {
     print("============> Exception error $e ==========>");
   }
@@ -27,6 +36,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: 'Hellix',
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see

@@ -17,7 +17,7 @@ class CardRecipeVertical extends StatefulWidget {
   // int? rating;
   int? prepTime;
   int? serving;
-  double? calories;
+  int? calories;
 
   @override
   State<CardRecipeVertical> createState() => _CardRecipeVerticalState();
@@ -35,15 +35,23 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
           // border: Border.all(color: Colors.black, width: 2), // Optional border
         ),
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.only(right: 4.0,left: 4,top: 8,bottom:8),
           child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+
+              crossAxisAlignment: CrossAxisAlignment.start,
+
               mainAxisSize: MainAxisSize.max,
               children: [
-            Image(
-              image: AssetImage(widget.image!),
-              width: 95,
+            Container(
+              //color: Colors.cyan,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Image(
+                  image: AssetImage(widget.image!),
+                  alignment: Alignment.center,
+                  width:120,
+                ),
+              ),
             ),
             SizedBox(
               width: 15,
@@ -53,14 +61,14 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
               children: [
                 Text(
                   widget.mealType!,
-                  style: TextStyle(color: Colors.cyan[600], fontSize: 16),
+                  style: TextStyle(color: Colors.cyan[600], fontSize: 14),
                 ),
                 Text(widget.title!, style: TextStyle(fontSize: 16)),
 //const Text("description"),
                 Row(
                   children: [
                     AnimatedRatingBar(
-                      width: 80,
+                      width:80,
                       initialRating: 0,
                       animationColor: Colors.yellow,
                       strokeColor: Colors.grey,
@@ -76,7 +84,7 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                 ),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
@@ -85,12 +93,12 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                           padding: EdgeInsets.all(2.0),
                           child: Text(" ${widget.prepTime!} mins",
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 14)),
+                                  TextStyle(color: Colors.grey, fontSize: 12)),
                         ),
                       ],
                     ),
                     SizedBox(
-                      width: 3,
+                      width: 5,
                     ),
                     Row(
                       children: [
@@ -99,7 +107,7 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                           padding: EdgeInsets.all(2.0),
                           child: Text(" ${widget.serving} serving",
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 14)),
+                                  TextStyle(color: Colors.grey, fontSize: 12)),
                         ),
                       ],
                     )
@@ -112,21 +120,19 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
               padding: const EdgeInsets.all(3.0),
               child: Align(
                 alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: Icon(     isfavorite
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                      color: _color, size: 24), // Use 'favorite_border' initially
-                  onPressed: () {
+                child:  GestureDetector(
+                  onTap: () {
                     setState(() {
-// Rebuild widget with updated state
+                      // Rebuild widget with updated state
                       isfavorite = !isfavorite; // Toggle favorite state
                       _color = isfavorite
                           ? Colors.deepOrange
                           : Colors.grey; // Change color based on state
                     });
                   },
-                ),
+                  child: Icon(isfavorite ? Icons.favorite : Icons.favorite_border,
+                      color: _color, size: 24),
+                ), // Use 'favorite_border' initially)
               ),
             )
           ]),

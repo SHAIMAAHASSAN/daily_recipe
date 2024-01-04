@@ -4,6 +4,8 @@ import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/services/preference.services.dart';
 import 'package:daily_recipe/utils/images.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SideMenuPage extends StatefulWidget {
   const SideMenuPage({super.key});
@@ -31,7 +33,7 @@ class _SideMenuPageState extends State<SideMenuPage> {
                     ),
                   ),
                   title:
-                      Text("${PreferencService.prefs?.getString("username")}"),
+                      Text("${GetIt.I.get<SharedPreferences>().getString("name")}"),
                   subtitle: Text("View Profile"),
                   trailing: IconButton(
                       onPressed: () {}, icon: Icon(Icons.notifications)),

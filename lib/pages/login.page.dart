@@ -2,6 +2,8 @@ import 'package:daily_recipe/pages/home.page.dart';
 import 'package:daily_recipe/pages/register.page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/preference.services.dart';
 import '../utils/images.dart';
@@ -160,8 +162,9 @@ class _LoginPageState extends State<LoginPage> {
                           if (_formKey.currentState?.validate() ?? false) {
                             // Sign up the user with Firebase Authentication.
                             // await PreferencService.prefs?.setBool('isLogin', true);
-                            await PreferencService.saveLoginData(
-                                emailController.text, passwordController.text);
+                            GetIt.I.get<SharedPreferences>().setBool("isLogin", true);
+                           // await PreferencService.saveLoginData(
+                             //   emailController.text, passwordController.text);
                             // Navigate to the next screen.
                             Navigator.push(
                                 context,
