@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 class HeaderBar extends StatelessWidget {
-  const HeaderBar({super.key,required this.title,required this.titleLeft});
+  const HeaderBar({super.key,required this.title,required this.titleRight});
   final String title;
-  final String titleLeft;
+  final String titleRight;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +17,7 @@ class HeaderBar extends StatelessWidget {
           ),
           GestureDetector(
               onTap: () {},
-              child:  Text(titleLeft
+              child:  Text(titleRight
               ,
                 style: TextStyle(color: Colors.deepOrange, fontSize: 18,fontWeight: FontWeight.w500),
               )),

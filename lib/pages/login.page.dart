@@ -1,5 +1,6 @@
 import 'package:daily_recipe/pages/home.page.dart';
 import 'package:daily_recipe/pages/register.page.dart';
+import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -166,11 +167,9 @@ class _LoginPageState extends State<LoginPage> {
                            // await PreferencService.saveLoginData(
                              //   emailController.text, passwordController.text);
                             // Navigate to the next screen.
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomePage(),
-                                ));
+
+                            NavigationUtils.push(context: context, page: HomePage());
+
                             //emailController.clear();
                             //passwordController.clear();
                           }
@@ -204,11 +203,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => RegisterPage(),
-                            ));
+                        NavigationUtils.push(context: context, page: RegisterPage());
+
                       },
                       child: Text(
                         "Register",

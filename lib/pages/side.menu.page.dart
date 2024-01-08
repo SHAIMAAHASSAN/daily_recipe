@@ -1,11 +1,15 @@
+import 'package:daily_recipe/pages/favorite.page.dart';
 import 'package:daily_recipe/pages/home.page.dart';
 import 'package:daily_recipe/pages/recently_view.Page.dart';
 import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/services/preference.services.dart';
 import 'package:daily_recipe/utils/images.dart';
+import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../utils/navigation.utils.dart';
 
 class SideMenuPage extends StatefulWidget {
   const SideMenuPage({super.key});
@@ -43,11 +47,13 @@ class _SideMenuPageState extends State<SideMenuPage> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(),
-                        ));
+
+                    NavigationUtils.push(context: context, page: HomePage());
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => HomePage(),
+                    //     ));
                   },
                   child: Row(
                     children: [
@@ -59,17 +65,20 @@ class _SideMenuPageState extends State<SideMenuPage> {
                 Row(
                   children: [
                     IconButton(
-                        onPressed: () {}, icon: Icon(Icons.favorite_border)),
+                        onPressed: () {
+                          NavigationUtils.push(context: context, page: FavoritePage());
+                        }, icon: Icon(Icons.favorite_border)),
                     Text("Favorites"),
                   ],
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    NavigationUtils.push(context: context, page: RecentlyViewedPage());
+                    /*Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => RecentlyViewedPage(),
-                        ));
+                        ));*/
                   },
                   child: Row(
                     children: [
@@ -105,12 +114,17 @@ class _SideMenuPageState extends State<SideMenuPage> {
                   onTap: () {
                     //  color= Colors.deepOrange;
                     // setState(){};
-                    PreferencService.logout();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => StartPage(),
-                        ));
+
+                    GetIt.I.get<SharedPreferences>().remove("name");
+                    GetIt.I.get<SharedPreferences>().remove("isLogin");
+
+                    //PreferencService.logout();
+                    NavigationUtils.push(context: context, page: StartPage());
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => StartPage(),
+                    //     ));
                   },
                   child: Row(
                     children: [

@@ -1,5 +1,7 @@
 import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/utils/images.dart';
+import 'package:daily_recipe/utils/navigation.utils.dart';
+import 'package:daily_recipe/widgets/page.view.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,13 +27,16 @@ class _SplahScreenState extends State<SplahScreen> {
     await Future.delayed(const Duration(seconds: 5));
     //if (PreferencService.isLoggedIn()) {
     if (GetIt.I.get<SharedPreferences>().getBool("isLogin")?? false) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => HomePage()));
+      NavigationUtils.pushReplacement(context: context, page: PageViewPages());
+      // Navigator.pushReplacement(
+      //     context, MaterialPageRoute(builder: (_) => PageViewPages()));
+         // context, MaterialPageRoute(builder: (_) => HomePage()));
       // go to home page
     } else {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => StartPage()));
-      // go to login page
+      NavigationUtils.pushReplacement(context: context, page: StartPage());
+      // Navigator.pushReplacement(
+      //     context, MaterialPageRoute(builder: (_) => StartPage()));
+
     }
   }
 

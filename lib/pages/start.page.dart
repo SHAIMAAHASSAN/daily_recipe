@@ -5,6 +5,7 @@ import 'package:daily_recipe/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../utils/navigation.utils.dart';
 import 'home.page.dart';
 
 class StartPage extends StatefulWidget {
@@ -85,19 +86,13 @@ class _StartPageState extends State<StartPage> {
                             //if (PreferencService.isLoggedIn()) {
                             // var email = await PreferencService.loginData();
                             // print("output======> $email ========>");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegisterPage(),
-                                ));
+
+                            NavigationUtils.push(context: context, page:RegisterPage());
+
                             //  }
                             // else {
 
-                            //Navigator.push(
-                            // context,
-                            //  MaterialPageRoute(
-                            //   builder: (context) => LoginPage(),
-                            // ));
+
                             //  }
                           },
                           child: Padding(
@@ -134,11 +129,9 @@ class _StartPageState extends State<StartPage> {
                             //if (PreferencService.isLoggedIn()) {
                             // var email = await PreferencService.loginData();
                             // print("output======> $email ========>");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginPage(),
-                                ));
+
+                            NavigationUtils.push(context: context, page: LoginPage());
+
                             //  }
                             // else {
 
