@@ -20,12 +20,13 @@ class AdsCubit extends Cubit<AdsState> {
 
   void fetchAds() async {
     try {
-      List<Ad> adslist = await  (FetchAds.fetchAdsFromJson());
+      List<Ad> adslist = await  (FetchData.fetchAdsFromJson());
       ads.addAll(adslist);
     } catch (error) {
       print("===============$error==============");
     }
   }
+
 
   void changeIndex(int index) {
     state.currentIndex =index ;

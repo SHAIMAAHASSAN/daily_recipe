@@ -1,9 +1,37 @@
+import 'package:daily_recipe/models/recipe.model.dart';
+import 'package:daily_recipe/services/ads.services.dart';
 import 'package:flutter/material.dart';
-class SearchBarEX extends StatelessWidget {
+class SearchBarEX extends StatefulWidget {
   const SearchBarEX({super.key, required this.hintText});
  final String hintText;
+// final bool textControllerEmpty ;
+
+  @override
+  State<SearchBarEX> createState() => _SearchBarEXState();
+}
+
+class _SearchBarEXState extends State<SearchBarEX> {
+  late List<Recipe> searchedRecipes;
+  List<Recipe> recipes =[];
+  final searchController =TextEditingController();
+
+  void searchedForRecipe (String searchedRecipe){
+    FetchData.fetchRecipesFromJson().then((value) {
+      value =recipes;
+    });
+    searchedRecipes= recipes.where((recipe) => recipe.title!.toLowerCase().startsWith(searchedRecipe)).toList();
+
+    print("=================searched=$searchedRecipes");
+    setState(() {
+
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
     return   Container(
       width: MediaQuery.of(context).size.width,
       child: Row(
@@ -11,8 +39,10 @@ class SearchBarEX extends StatelessWidget {
           Expanded(
             flex: 2,
             child: TextField(
+             controller: searchController,
+              onChanged: searchedForRecipe,
               decoration: InputDecoration(
-                hintText: hintText,
+                hintText: widget.hintText,
                 hintStyle: TextStyle(color: Colors.grey.shade600),
                 prefixIcon: Icon(
                   Icons.search,

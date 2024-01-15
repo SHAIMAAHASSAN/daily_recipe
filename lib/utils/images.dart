@@ -10,4 +10,10 @@ abstract class ImagesPath {
   static String salmon = '${(_path)}Salmon.png';
   static String frenchToast = '${(_path)}frenshtoast.png';
   static String profile = '${(_path)}img.png';
+  static String eggs = '${(_path)}eggs.jpg';
+  static String butter = '${(_path)}butter.jpg';
+  static String blueberries = '${(_path)}blueberries.jpg';
+  static String strawberry = '${(_path)}strawberry.jpg';
+  static String flour = '${(_path)}flour.jpg';
+  static String water = '${(_path)}water.jpg';
 }

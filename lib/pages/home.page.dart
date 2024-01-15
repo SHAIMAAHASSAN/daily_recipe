@@ -13,6 +13,7 @@ import 'package:daily_recipe/widgets/card.recipe.dart';
 import 'package:daily_recipe/widgets/card.recipe.vertical.dart';
 import 'package:daily_recipe/widgets/header.bar.dart';
 import 'package:daily_recipe/widgets/page.view.dart';
+import 'package:daily_recipe/widgets/recipes.widget.dart';
 import 'package:daily_recipe/widgets/search.bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
   ];
 
   // CarouselController carouselControllerEx = CarouselController();
-  List<Recipe> recipeList = [];
+ /* List<Recipe> recipeList = [];
   void getRecipe() async {
     var recipeData = await rootBundle.loadString('assets/data/sample.json');
     var dataDecoded =
@@ -69,12 +70,12 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
 
     adsList = dataDecoded.map((e) => Ad.fromJson(e)).toList();
     setState(() {});
-  }
+  }*/
 
   @override
   void initState() {
     _tabController = TabController(length: 3, initialIndex: 0, vsync: this);
-    getRecipe();
+   // getRecipe();
 
     // getAds();
     super.initState();
@@ -173,10 +174,10 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
                     fontWeight: FontWeight.w400,
                     fontStyle: FontStyle.italic),
               ),
-              const SizedBox(
+              /*const SizedBox(
                 height: 10,
               ),
-             SearchBarEX(hintText: "Search for recipes"),
+             SearchBarEX(hintText: "Search for recipes"),*/
 
               const SizedBox(
                 height: 20,
@@ -296,22 +297,28 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
               HeaderBar(
                   title: "Today's Fresh Recipes", titleRight: "See All"),
               const SizedBox(
-                height: 20,
+                height: 10,
+              ),
+              SearchBarEX(hintText: "Search for recipes"),
+              const SizedBox(
+                height: 25,
               ),
 
               //const SizedBox(
               //  height: 20,
               //  ),
-
+/*
               recipeList.isEmpty
                   ? const CircularProgressIndicator()
-                  :
+                  :*/
 
                   Container(
                       height: 300,
                       // color: Colors.cyan,
-                      child: ListView.builder(
-                          //shrinkWrap: true,
+                      child: RecipesWidget(scrollDirection: Axis.horizontal),
+
+                    /*ListView.builder(
+                          shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: recipeList.length,
                           itemBuilder: (context, index) {
@@ -325,7 +332,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
                                   prepTime: recipeList[index].prepTime,
                                   serving: recipeList[index].serving),
                             );
-                          }),
+                          }),*/
                     ),
               SizedBox(
                 height: 20,
@@ -334,7 +341,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
               SizedBox(
                 height: 20,
               ),
-              CardRecipeVertical(
+             /* CardRecipeVertical(
                   mealType: recipeList[2].mealType,
                   title: recipeList[2].title,
                   image: recipeList[2].image,
@@ -350,7 +357,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
                   image: recipeList[1].image,
                   calories: recipeList[1].calories,
                   prepTime: recipeList[1].prepTime,
-                  serving: recipeList[1].serving),
+                  serving: recipeList[1].serving),*/
             ],
           ),
         ),

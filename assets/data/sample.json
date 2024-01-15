@@ -75,7 +75,20 @@
 
 
 
-   ]
+   ],
+   "Ingredients":[
+     { "id": 0,
+       "image1": "assets/images/eggs.jpg",
+       "image2": "assets/images/butter.jpg",
+       "image3": "assets/images/blueberries.jpg",
+       "image4": "assets/images/strawberry.jpg",
+       "image5": "assets/images/flour.jpg",
+       "image6": "assets/images/water.jpg"
+     }
+
+
+
+    ]
 
 
 

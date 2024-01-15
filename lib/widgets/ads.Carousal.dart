@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:daily_recipe/models/ad.model.dart';
+import 'package:daily_recipe/provider/home.view.model.dart';
 import 'package:daily_recipe/services/ads.services.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../cubit/ads_cubit.dart';
@@ -13,19 +15,24 @@ class AdsCarousal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AdsCubit, AdsState>(
+    final CarouselController carouselControllerEx = CarouselController();
+    return Consumer<HomeViewModel>(
+        builder: (context, value, child) {
+     /* BlocConsumer<AdsCubit, AdsState>(
         listener: (_, __) {},
-        builder: (context, state) {
+        builder: (context, state) {*/
           print(
-              "============================ Ads ${context.read<AdsCubit>().ads}");
-          if (context.read<AdsCubit>().ads.isNotEmpty) {
+              "============================ Ads ${value.adsList}");
+         // if (context.read<AdsCubit>().ads.isNotEmpty) {
+          if (value.adsList.isNotEmpty) {
             return Column(
               children: [
                 Stack(children: [
                   CarouselSlider(
-                    carouselController:
-                        context.read<AdsCubit>().carouselControllerEx,
-                    items: context.read<AdsCubit>().ads.map(
+                    carouselController:carouselControllerEx,
+                        //context.read<AdsCubit>().carouselControllerEx,
+                  //  items: context.read<AdsCubit>().ads.map(
+                    items: value.adsList.map(
                       (ad) {
                         return Container(
                             width: MediaQuery.of(context).size.width,
@@ -49,10 +56,10 @@ class AdsCarousal extends StatelessWidget {
                         enlargeFactor: .3,
                         enlargeStrategy: CenterPageEnlargeStrategy.height,
                         onPageChanged: (index, _) {
-                          context.read<AdsCubit>().changeIndex(index);
+                          Provider.of<HomeViewModel>(context,listen: false).changeIndex(index);
 
                           print(
-                              "============${state.currentIndex}=============");
+                              "============${value.currentIndex}=============");
                         }),
                   ),
                   Positioned(
@@ -65,10 +72,9 @@ class AdsCarousal extends StatelessWidget {
                           color: Colors.brown,
                         ),
                         onPressed: () async {
-                          context
-                              .read<AdsCubit>()
-                              .carouselControllerEx
-                              .previousPage();
+
+                             carouselControllerEx.previousPage();
+
                         },
                       )),
                   Positioned(
@@ -81,24 +87,21 @@ class AdsCarousal extends StatelessWidget {
                           color: Colors.brown,
                         ),
                         onPressed: () async {
-                          context
-                              .read<AdsCubit>()
-                              .carouselControllerEx
-                              .nextPage();
+
+                             carouselControllerEx.nextPage();
+
                         },
                       ))
                 ]),
                 Align(
                   alignment: Alignment.center,
                   child: DotsIndicator(
-                    dotsCount: context.read<AdsCubit>().ads.length,
-                    position: state.currentIndex,
+                    dotsCount: value.adsList.length,
+                    position: value.currentIndex,
                     onTap: (position) async {
-                      await context
-                          .read<AdsCubit>()
-                          .carouselControllerEx
-                          .animateToPage(position);
-                      context.read<AdsCubit>().changeIndex(position);
+                      carouselControllerEx.animateToPage(position);
+
+                     Provider.of<HomeViewModel>(context,listen: false).changeIndex(position);
 
                       print(
                           "===========position  new = $position=================");

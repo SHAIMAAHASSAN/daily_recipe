@@ -1,10 +1,14 @@
+//import 'dart:js';
+
 import 'package:daily_recipe/cubit/ads_cubit.dart';
 import 'package:daily_recipe/pages/splash.page.dart';
 import 'package:daily_recipe/pages/start.page.dart';
+import 'package:daily_recipe/provider/home.view.model.dart';
 import 'package:daily_recipe/services/preference.services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -16,7 +20,6 @@ Future<void> main() async {
 
     // var preference = await SharedPreferences.getInstance();
 
-
     //if (PreferencService.initPrefs() != null) {
     print("========> Sucessful Run =======>");
     // }
@@ -24,7 +27,15 @@ Future<void> main() async {
     print("============> Exception error $e ==========>");
   }
 
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context)=> HomeViewModel()..initHomePage(),),
+
+    ],
+    child: const MyApp()),
+
+
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -33,9 +44,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: AdsCubit()..fetchAds(),
-      child: MaterialApp(
+    return 
+     // BlocProvider.value(
+      
+        //value: AdsCubit()..fetchAds(),
+     // child:
+      MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           fontFamily: 'Hellix',
@@ -58,7 +72,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const SplahScreen(),
-      ),
+     // ),
     );
   }
 }
