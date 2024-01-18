@@ -11,6 +11,7 @@ import '../services/ads.services.dart';
 class HomeViewModel extends ChangeNotifier{
   int currentIndex =0;
   List<Ad>  adsList= [];
+  List<Recipe> recipeList = [];
  /* void getAds() async {
     var adsData = await rootBundle.loadString('assets/data/sample.json');
     var dataDecoded =
@@ -32,9 +33,16 @@ class HomeViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  List<Recipe> recipeList = [];
+
   void getRecipe() async {
-    var recipeData = await rootBundle.loadString('assets/data/sample.json');
+    try {
+      List<Recipe> recipes = await  (FetchData.fetchRecipesFromJson());
+      recipeList.addAll(recipes);
+    } catch (error) {
+      print("===============$error==============");
+    }
+    notifyListeners();
+   /* var recipeData = await rootBundle.loadString('assets/data/sample.json');
     var dataDecoded =
     List<Map<String, dynamic>>.from(jsonDecode(recipeData)["recipes"]);
 
@@ -42,7 +50,7 @@ class HomeViewModel extends ChangeNotifier{
 
     print("***************************");
     print(recipeList[0].title);
-    notifyListeners();
+    notifyListeners();*/
   }
 
   void initHomePage(){
