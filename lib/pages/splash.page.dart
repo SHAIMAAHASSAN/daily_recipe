@@ -32,16 +32,11 @@ class _SplahScreenState extends State<SplahScreen> {
       print("===========================user=$user===========================");
       if (user!=null) {
         NavigationUtils.pushReplacement(context: context, page: PageViewPages());
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (_) => PageViewPages()));
-        // context, MaterialPageRoute(builder: (_) => HomePage()));
-        // go to home page
+
       }
       else {
           NavigationUtils.pushReplacement(context: context, page:StartPage());
 
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (_) => StartPage()));
 
       }
     });

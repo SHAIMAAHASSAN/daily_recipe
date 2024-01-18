@@ -56,11 +56,7 @@ class _SideMenuPageState extends State<SideMenuPage> {
                   onTap: (){
 
                     NavigationUtils.push(context: context, page: HomePage());
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => HomePage(),
-                    //     ));
+
                   },
                   child: Row(
                     children: [
@@ -81,11 +77,7 @@ class _SideMenuPageState extends State<SideMenuPage> {
                 GestureDetector(
                   onTap: () {
                     NavigationUtils.push(context: context, page: RecentlyViewedPage());
-                    /*Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RecentlyViewedPage(),
-                        ));*/
+
                   },
                   child: Row(
                     children: [
@@ -135,11 +127,7 @@ class _SideMenuPageState extends State<SideMenuPage> {
 
                     //PreferencService.logout();
                    // NavigationUtils.push(context: context, page: StartPage());
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => StartPage(),
-                    //     ));
+
                   },
                   child: Row(
                     children: [

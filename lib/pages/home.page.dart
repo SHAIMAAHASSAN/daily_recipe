@@ -145,11 +145,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
 
             IconButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NotificationPage(),
-                      ));
+
                 },
                 icon: const Icon(Icons.notifications)),
           ]),*/
