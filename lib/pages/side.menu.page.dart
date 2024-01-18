@@ -2,11 +2,16 @@ import 'package:daily_recipe/pages/favorite.page.dart';
 import 'package:daily_recipe/pages/home.page.dart';
 import 'package:daily_recipe/pages/recently_view.Page.dart';
 import 'package:daily_recipe/pages/start.page.dart';
+import 'package:daily_recipe/provider/auth.Provider.dart';
 import 'package:daily_recipe/services/preference.services.dart';
 import 'package:daily_recipe/utils/images.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/navigation.utils.dart';
@@ -37,7 +42,9 @@ class _SideMenuPageState extends State<SideMenuPage> {
                     ),
                   ),
                   title:
-                      Text("${GetIt.I.get<SharedPreferences>().getString("name")}"),
+                      Text("${FirebaseAuth.instance.currentUser!.displayName}"),
+                         // "${FirebaseAuth.instance.currentUser!.displayName}"),
+                  //${GetIt.I.get<SharedPreferences>().getString("name")}
                   subtitle: Text("View Profile"),
                   trailing: IconButton(
                       onPressed: () {}, icon: Icon(Icons.notifications)),
@@ -115,11 +122,19 @@ class _SideMenuPageState extends State<SideMenuPage> {
                     //  color= Colors.deepOrange;
                     // setState(){};
 
-                    GetIt.I.get<SharedPreferences>().remove("name");
-                    GetIt.I.get<SharedPreferences>().remove("isLogin");
+                   /* GetIt.I.get<SharedPreferences>().remove("name");
+                    GetIt.I.get<SharedPreferences>().remove("isLogin");*/
+
+                    Provider.of<AuthProviderViewModel>(context,listen: false).signOut(context);
+                       FirebaseAuth.instance.authStateChanges().listen((user) {
+
+      print("===========================user=$user===========================");
+    });
+                  //  if(mounted){Provider.of<AuthProviderViewModel>(context,listen: false).signOut(context);
+                   // };
 
                     //PreferencService.logout();
-                    NavigationUtils.push(context: context, page: StartPage());
+                   // NavigationUtils.push(context: context, page: StartPage());
                     // Navigator.push(
                     //     context,
                     //     MaterialPageRoute(

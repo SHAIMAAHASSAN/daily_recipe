@@ -7,6 +7,7 @@ import 'package:daily_recipe/pages/login.page.dart';
 import 'package:daily_recipe/pages/notification.page.dart';
 import 'package:daily_recipe/pages/side.menu.page.dart';
 import 'package:daily_recipe/pages/start.page.dart';
+import 'package:daily_recipe/provider/auth.Provider.dart';
 import 'package:daily_recipe/utils/images.dart';
 import 'package:daily_recipe/widgets/ads.Carousal.dart';
 import 'package:daily_recipe/widgets/card.recipe.dart';
@@ -16,9 +17,11 @@ import 'package:daily_recipe/widgets/page.view.dart';
 import 'package:daily_recipe/widgets/recipes.widget.dart';
 import 'package:daily_recipe/widgets/search.bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/ad.model.dart';
@@ -159,7 +162,9 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
             children: [
               Text(
                 " Good Morning, "
-                "${GetIt.I.get<SharedPreferences>().getString("name")}",
+                    "${FirebaseAuth.instance.currentUser!.displayName}",
+
+                //"${GetIt.I.get<SharedPreferences>().getString("name")}",
                 //"${PreferencService.prefs?.getString("username")}",
                 style: const TextStyle(color: Colors.grey),
               ),

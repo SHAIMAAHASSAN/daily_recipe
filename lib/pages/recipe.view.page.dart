@@ -38,114 +38,120 @@ class RecipeViewPage extends StatelessWidget {
     return Scaffold(body: SafeArea(
       child: Container(
           color: Colors.grey[200],
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-               Text( mealType!, style: TextStyle(color: Colors.cyan[600], fontSize: 16),),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:[
-                  Text( title!,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),
-                  FavoriteIcon(),
-                ] ),
-                Text(" ${calories} Calories",
-                    style: TextStyle(
-                        color: Colors.deepOrange, fontSize: 14)),
-                AnimatedRatingBar(
-                  //height: 35,
-                  initialRating: 0,
-                  animationColor: Colors.yellow,
-                  strokeColor: Colors.grey,
-                  activeFillColor: Colors.deepOrange,
-                  onRatingUpdate: (double value) {
-                   // setState(() {});
-                  },
-                ),
-                Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Stack(
+            children:[
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
+                    Text( mealType!, style: TextStyle(color: Colors.cyan[600], fontSize: 16),),
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children:[
+                          Text( title!,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),
+                          FavoriteIcon(),
+                        ] ),
+                    Text(" ${calories} Calories",
+                        style: TextStyle(
+                            color: Colors.deepOrange, fontSize: 14)),
+                    AnimatedRatingBar(
+                      //height: 35,
+                      initialRating: 0,
+                      animationColor: Colors.yellow,
+                      strokeColor: Colors.grey,
+                      activeFillColor: Colors.deepOrange,
+                      onRatingUpdate: (double value) {
+                        // setState(() {});
+                      },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
+                        Column(
                           children: [
-                            Icon(Icons.access_time_outlined),
-                            Padding(
-                              padding: EdgeInsets.all(5.0),
-                              child: Text(" ${prepTime!} mins",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 14)),
+                            Row(
+                              children: [
+                                Icon(Icons.access_time_outlined),
+                                Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Text(" ${prepTime!} mins",
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 14)),
+                                ),
+                              ],
                             ),
+                            SizedBox(height: 10,),
+                            Row(
+                              children: [
+                                Icon(Icons.dinner_dining),
+                                Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Text(" ${serving} serving",
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 14)),
+                                ),
+                              ],
+                            )
                           ],
                         ),
-                        SizedBox(height: 10,),
-                        Row(
-                          children: [
-                            Icon(Icons.dinner_dining),
-                            Padding(
-                              padding: EdgeInsets.all(5.0),
-                              child: Text(" ${serving} serving",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 14)),
-                            ),
-                          ],
+                        Container(
+                          // color: Colors.cyan,
+                            child: Transform.translate(
+                              offset: Offset(30,0),
+                              child: Image(
+                                width:200,
+                                height: 130,
+                                image: AssetImage(
+                                    image!),
+                                // fit: BoxFit.fitHeight
+                              ),
+                            ) // Use 'favorite_border' initially)
+
                         )
                       ],
                     ),
-                    Container(
-                      // color: Colors.cyan,
-                        child: Transform.translate(
-                          offset: Offset(30,0),
-                          child: Image(
-                            width:200,
-                            height: 130,
-                            image: AssetImage(
-                                image!),
-                            // fit: BoxFit.fitHeight
-                          ),
-                        ) // Use 'favorite_border' initially)
 
-                    )
+                    Text( "Ingredients",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),
+
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          ...ingredients.map((e) {
+
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image(
+                                width:80,
+                                height: 80,
+                                image: AssetImage(
+                                    e),
+                                // fit: BoxFit.fitHeight
+                              ),
+                            );
+                          }).toList()
+                        ],
+                      ),
+                    ),
+                    /*Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                        onPressed: () => showModalBottomSheet(
+                          isScrollControlled: true,
+                          isDismissible:false,
+                          context: context,
+                          builder: (context) => BuildBottomSheet(),
+                        ),
+                        child: Text('Directions'),
+                      ),
+                    )*/
+
                   ],
                 ),
-
-                Text( "Ingredients",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),
-
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      ...ingredients.map((e) {
-
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image(
-                            width:80,
-                            height: 80,
-                            image: AssetImage(
-                                e),
-                            // fit: BoxFit.fitHeight
-                          ),
-                        );
-                      }).toList()
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextButton(
-                    onPressed: () => showModalBottomSheet(
-                      isScrollControlled: true,
-
-                      context: context,
-                      builder: (context) => BuildBottomSheet(),
-                    ),
-                    child: Text('Directions'),
-                  ),
-                )
-
-              ],
-            ),
+              ),
+              Align(alignment: Alignment.bottomCenter,
+                  child: BuildBottomSheet())
+            ]
           ),
 
         ),
