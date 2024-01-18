@@ -64,22 +64,10 @@ class _RegisterPageState extends State<RegisterPage> {
                             Image(
                                width: 220,
                               image: AssetImage(ImagesPath.logo),
-                              // alignment: Alignment.center,
+
                             ),
 
-                            /* Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Daily Recipe",
-                          style: TextStyle(fontSize: 28, color: Colors.white),
-                          textDirection: TextDirection.ltr,
-                        ),
-                      ),
-                    ],
-                  ),*/
+
 
                             const Text(
                               'Register',
