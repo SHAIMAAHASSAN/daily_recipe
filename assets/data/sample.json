@@ -53,7 +53,7 @@
      {
        "id": 4,
        "meal_type": "Main Dish",
-       "title": "Asian Chicken Glazed Thighs",
+       "title": "Asian Chicken ",
        "description":"",
        "image": "assets/images/chicken2.png",
        "rating": 5,
@@ -64,7 +64,7 @@
      {
        "id": 5,
        "meal_type": "Breakfast",
-       "title": "Brown Sugar Cinnamon Toast",
+       "title": "Brown Cinnamon Toast",
        "description":"",
        "image": "assets/images/Cinnamon2.png",
        "rating": 5,

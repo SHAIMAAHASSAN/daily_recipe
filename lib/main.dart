@@ -3,20 +3,35 @@
 import 'package:daily_recipe/cubit/ads_cubit.dart';
 import 'package:daily_recipe/pages/splash.page.dart';
 import 'package:daily_recipe/pages/start.page.dart';
+import 'package:daily_recipe/provider/auth.Provider.dart';
 import 'package:daily_recipe/provider/home.view.model.dart';
 import 'package:daily_recipe/services/preference.services.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'firebase_options.dart';
+
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(
+/*    options: const FirebaseOptions(
+      apiKey: " ",//  ==   current_key in google-services.json file
+      appId: " ", // ==  mobilesdk_app_id  in google-services.json file
+      messagingSenderId: " ", // ==   project_number in google-services.json file
+      projectId: " ", // ==   project_id   in google-services.json file
+    ),*/
+  );
 
   try {
-    var preferenceGetIt = await SharedPreferences.getInstance();
-    GetIt.I.registerSingleton<SharedPreferences>(preferenceGetIt);
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+ /*   var preferenceGetIt = await SharedPreferences.getInstance();
+    GetIt.I.registerSingleton<SharedPreferences>(preferenceGetIt);*/
 
     // var preference = await SharedPreferences.getInstance();
 
@@ -30,6 +45,7 @@ Future<void> main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context)=> HomeViewModel()..initHomePage(),),
+      ChangeNotifierProvider(create: (context)=> AuthProviderViewModel(),),
 
     ],
     child: const MyApp()),

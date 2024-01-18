@@ -23,6 +23,7 @@ class _FavoritePageState extends State<FavoritePage> {
   List<Recipe> recipes =[];
   final searchController =TextEditingController();
    String searchedRecipe='';
+  bool _isSearching = false;
 
   @override
   void initState() {
@@ -61,6 +62,7 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
     print("Recipes=${recipes.length}==========");
@@ -79,94 +81,97 @@ class _FavoritePageState extends State<FavoritePage> {
                 },
                 icon: Icon(Icons.notifications)),
           ]),*/
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              HeaderBar(title:  "Favorites", titleRight:  ""),
-
-
-              SizedBox(
-                height: 20,
-              ),
-
-              //SearchBarEX(hintText: "Search Using Keywords",),
-
-              Container(
-            width: MediaQuery.of(context).size.width,
-            child: Row(
+      body: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 2,
-                  child: TextField(
-                    controller: searchController,
-                    onChanged: searchedForRecipe,
-                    decoration: InputDecoration(
-                      hintText: "searching",
-                      hintStyle: TextStyle(color: Colors.grey.shade600),
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.grey.shade600,
-                        size: 20,
+
+                HeaderBar(title:  "Favorites", titleRight:  ""),
+
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                //SearchBarEX(hintText: "Search Using Keywords",),
+
+                Container(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      controller: searchController,
+                      onChanged: searchedForRecipe,
+                      decoration: InputDecoration(
+                        hintText: "searching",
+                        hintStyle: TextStyle(color: Colors.grey.shade600),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.grey.shade600,
+                          size: 20,
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade100,
+                        contentPadding: EdgeInsets.all(10),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                            BorderSide(color: Colors.grey.shade100)),
                       ),
-                      filled: true,
-                      fillColor: Colors.grey.shade100,
-                      contentPadding: EdgeInsets.all(10),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide:
-                          BorderSide(color: Colors.grey.shade100)),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.grey.shade100,
+                  SizedBox(
+                    width: 5,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.tune_sharp),
-                  ),
-                )
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.grey.shade100,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.tune_sharp),
+                    ),
+                  )
+                ],
+              ),
+            ),
+               SizedBox(
+                    height: 570,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                      searchController.text.isEmpty?
+                      recipes.length
+                      :searchedRecipes.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                            padding: const EdgeInsets.only(top: 10,bottom: 10),
+                            child:
+                            //
+
+                            CardRecipeVertical(
+                                mealType: searchController.text.isEmpty? recipes[index].mealType : searchedRecipes[index].mealType,
+                                title: searchController.text.isEmpty?recipes[index].title: searchedRecipes[index].title,
+                                image: searchController.text.isEmpty?recipes[index].image : searchedRecipes[index].image,
+                                calories: searchController.text.isEmpty?recipes[index].calories : searchedRecipes[index].calories,
+                                prepTime:searchController.text.isEmpty? recipes[index].prepTime : searchedRecipes[index].prepTime,
+                                serving: searchController.text.isEmpty?recipes[index].serving : searchedRecipes[index].serving)
+
+                        );
+
+                      }),
+                ),
+
               ],
             ),
-          ),
-             SizedBox(
-                  height: 570,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount:
-                    searchController.text.isEmpty?
-                    recipes.length
-                    :searchedRecipes.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          child:
-                          //
-
-                          CardRecipeVertical(
-                              mealType: searchController.text.isEmpty? recipes[index].mealType : searchedRecipes[index].mealType,
-                              title: searchController.text.isEmpty?recipes[index].title: searchedRecipes[index].title,
-                              image: searchController.text.isEmpty?recipes[index].image : searchedRecipes[index].image,
-                              calories: searchController.text.isEmpty?recipes[index].calories : searchedRecipes[index].calories,
-                              prepTime:searchController.text.isEmpty? recipes[index].prepTime : searchedRecipes[index].prepTime,
-                              serving: searchController.text.isEmpty?recipes[index].serving : searchedRecipes[index].serving)
-
-                      );
-
-                    }),
-              ),
-
-            ],
           ),
         ),
       ),

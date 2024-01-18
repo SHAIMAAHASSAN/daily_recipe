@@ -2,6 +2,7 @@ import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/utils/images.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/widgets/page.view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,22 +25,27 @@ class _SplahScreenState extends State<SplahScreen> {
   }
 
   void initSplash() async {
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 3));
     //if (PreferencService.isLoggedIn()) {
-    if (GetIt.I.get<SharedPreferences>().getBool("isLogin")?? false) {
-      NavigationUtils.pushReplacement(context: context, page: PageViewPages());
-      // Navigator.pushReplacement(
-      //     context, MaterialPageRoute(builder: (_) => PageViewPages()));
-         // context, MaterialPageRoute(builder: (_) => HomePage()));
-      // go to home page
-    } else {
-      NavigationUtils.pushReplacement(context: context, page: StartPage());
-      // Navigator.pushReplacement(
-      //     context, MaterialPageRoute(builder: (_) => StartPage()));
+    // if (GetIt.I.get<SharedPreferences>().getBool("isLogin")?? false) {
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      print("===========================user=$user===========================");
+      if (user!=null) {
+        NavigationUtils.pushReplacement(context: context, page: PageViewPages());
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (_) => PageViewPages()));
+        // context, MaterialPageRoute(builder: (_) => HomePage()));
+        // go to home page
+      }
+      else {
+          NavigationUtils.pushReplacement(context: context, page:StartPage());
 
-    }
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (_) => StartPage()));
+
+      }
+    });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
