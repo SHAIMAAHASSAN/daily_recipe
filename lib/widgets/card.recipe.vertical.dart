@@ -35,107 +35,106 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
           // border: Border.all(color: Colors.black, width: 2), // Optional border
         ),
         child: Padding(
-          padding: const EdgeInsets.only(right: 4.0,left: 4,top: 8,bottom:8),
+          padding:
+              const EdgeInsets.only(right: 4.0, left: 4, top: 8, bottom: 8),
           child: Row(
-
               crossAxisAlignment: CrossAxisAlignment.start,
-
               mainAxisSize: MainAxisSize.max,
               children: [
-            Container(
-              //color: Colors.cyan,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Image(
-                  image: AssetImage(widget.image!),
-                  alignment: Alignment.center,
-                  width:120,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.mealType!,
-                  style: TextStyle(color: Colors.cyan[600], fontSize: 14),
-                ),
-                Text(widget.title!, style: TextStyle(fontSize: 16)),
-//const Text("description"),
-                Row(
-                  children: [
-                    AnimatedRatingBar(
-                      width:80,
-                      initialRating: 0,
-                      animationColor: Colors.yellow,
-                      strokeColor: Colors.grey,
-                      activeFillColor: Colors.deepOrange,
-                      onRatingUpdate: (double value) {
-                        setState(() {});
-                      },
+                Container(
+                  //color: Colors.cyan,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Image(
+                      image: NetworkImage(widget.image!),
+                      alignment: Alignment.center,
+                      width: 100,
                     ),
-                    Text(" ${widget.calories} Calories",
-                        style:
-                            TextStyle(color: Colors.deepOrange, fontSize: 14)),
-                  ],
+                  ),
                 ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                SizedBox(
+                  width: 15,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      widget.mealType!,
+                      style: TextStyle(color: Colors.cyan[600], fontSize: 16),
+                    ),
+                    Text(widget.title!, style: TextStyle(fontSize: 15)),
+//const Text("description"),
                     Row(
                       children: [
-                        Icon(Icons.access_time_outlined),
-                        Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: Text(" ${widget.prepTime!} mins",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 12)),
+                        AnimatedRatingBar(
+                          width: 80,
+                          initialRating: 0,
+                          animationColor: Colors.yellow,
+                          strokeColor: Colors.grey,
+                          activeFillColor: Colors.deepOrange,
+                          onRatingUpdate: (double value) {
+                            setState(() {});
+                          },
                         ),
+                        Text(" ${widget.calories} Calories",
+                            style: TextStyle(
+                                color: Colors.deepOrange, fontSize: 14)),
                       ],
                     ),
-                    SizedBox(
-                      width: 5,
-                    ),
+
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.dinner_dining),
-                        Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: Text(" ${widget.serving} serving",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 12)),
+                        Row(
+                          children: [
+                            Icon(Icons.access_time_outlined),
+                            Padding(
+                              padding: EdgeInsets.all(2.0),
+                              child: Text(" ${widget.prepTime!} mins",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12)),
+                            ),
+                          ],
                         ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.dinner_dining),
+                            Padding(
+                              padding: EdgeInsets.all(2.0),
+                              child: Text(" ${widget.serving} serving",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12)),
+                            ),
+                          ],
+                        )
                       ],
                     )
                   ],
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        // Rebuild widget with updated state
+                        isfavorite = !isfavorite; // Toggle favorite state
+                        _color = isfavorite
+                            ? Colors.deepOrange
+                            : Colors.grey; // Change color based on state
+                      });
+                    },
+                    child: Icon(
+                        isfavorite ? Icons.favorite : Icons.favorite_border,
+                        color: _color,
+                        size: 24),
+                  ), // Use 'favorite_border' initially)
                 )
-              ],
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: Align(
-                alignment: Alignment.topRight,
-                child:  GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      // Rebuild widget with updated state
-                      isfavorite = !isfavorite; // Toggle favorite state
-                      _color = isfavorite
-                          ? Colors.deepOrange
-                          : Colors.grey; // Change color based on state
-                    });
-                  },
-                  child: Icon(isfavorite ? Icons.favorite : Icons.favorite_border,
-                      color: _color, size: 24),
-                ), // Use 'favorite_border' initially)
-              ),
-            )
-          ]),
+              ]),
         ));
   }
 }

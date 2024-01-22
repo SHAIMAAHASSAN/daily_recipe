@@ -1,7 +1,7 @@
 import 'package:daily_recipe/widgets/card.recipe.dart';
 
 class Recipe {
-  int? id;
+  String? docId;
   String? mealType;
   String? title;
   String? description;
@@ -10,12 +10,14 @@ class Recipe {
   int? prepTime;
   int? serving;
   int? calories;
+  List<dynamic>?ingredients;
+  Map<String,dynamic>? directions;
 
   Recipe();
   //Recipe({required this.mealType,required this.title,required this.image
    // ,required this.calories,required this.prepTime,required this.serving});
-  Recipe.fromJson(Map<String, dynamic> data) {
-    id = data['id'];
+  Recipe.fromJson(Map<String, dynamic> data, [String? id]) {
+    docId = id;
     mealType = data['meal_type'];
     description = data['description'];
     title = data['title'];
@@ -24,11 +26,13 @@ class Recipe {
     prepTime = data['prep_time'];
     calories = data['calories'];
     rating = data['rating'];
+    ingredients = data['ingredients'];
+    directions= data['directions'];
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+
       'meal_type': mealType,
       "title": title,
       'description': description,
@@ -37,6 +41,8 @@ class Recipe {
       "calories": calories,
       "prep_time": prepTime,
       "serving": serving,
+      "ingredients":ingredients,
+      'directions':directions,
     };
   }
 

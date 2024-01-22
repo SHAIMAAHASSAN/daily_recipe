@@ -38,14 +38,11 @@ class RecentlyViewedPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                HeaderBar(title:  "Recently Viewed", titleRight:  "Clear"),
-
+                HeaderBar(title: "Recently Viewed", titleRight: "Clear"),
                 SizedBox(
                   height: 20,
                 ),
-                SearchBarEX(hintText:"Search Using Keywords"),
-
+                SearchBarEX(hintText: "Search Using Keywords"),
               ],
             ),
           ),

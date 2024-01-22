@@ -19,7 +19,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
- /* bool obscureText = true;
+  /* bool obscureText = true;
   final _formKey = GlobalKey<FormState>();
   late final emailController;
 
@@ -27,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    Provider.of<AuthProviderViewModel>(context,listen: false).initProvider();
-  /*  emailController = TextEditingController();
+    Provider.of<AuthProviderViewModel>(context, listen: false).initProvider();
+    /*  emailController = TextEditingController();
 
     passwordController = TextEditingController();*/
     // TODO: implement initState
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-        key: Provider.of<AuthProviderViewModel>(context,listen: false).formKey,
+        key: Provider.of<AuthProviderViewModel>(context, listen: false).formKey,
         child: Stack(
           children: [
             Container(
@@ -79,98 +79,106 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(fontSize: 24, color: Colors.white),
                   ),
                   SizedBox(height: 15),
-    Consumer<AuthProviderViewModel>(builder:(context,value,child){
-    return  Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: TextFormField(
-                        onChanged: (valid) => value.formKey?.currentState?.validate(),
-                        style: TextStyle(color: Colors.deepOrange, fontSize: 20),
-                        controller: value.emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email_outlined),
-                          labelText: 'Email',
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email address.';
-                          }
-                          if (!EmailValidator.validate(value)) {
-                            return 'Not Valid Email';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: TextFormField(
-                          onChanged: (valid) => value.formKey?.currentState?.validate(),
-                          obscureText: value.obscureText,
-                          style:
-                          TextStyle(color: Colors.deepOrange, fontSize: 20),
-                          controller:value. passwordController,
-                          decoration: InputDecoration(
-                              labelText: 'Password',
+                  Consumer<AuthProviderViewModel>(
+                      builder: (context, value, child) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: TextFormField(
+                            // onChanged: (valid) => value.formKey?.currentState?.validate(),
+                            style: TextStyle(
+                                color: Colors.deepOrange, fontSize: 20),
+                            controller: value.emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.email_outlined),
+                              labelText: 'Email',
                               labelStyle: TextStyle(
                                 color: Colors.white,
                               ),
-                              prefixIcon: Icon(Icons.lock_outline_sharp),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  value.obscureText
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
-                                ),
-                                onPressed: () {
-                                  Provider.of<AuthProviderViewModel>(context,listen: false).toggleObsecure();
-                                 /* setState(() {
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your email address.';
+                              }
+                              if (!EmailValidator.validate(value)) {
+                                return 'Not Valid Email';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: TextFormField(
+                              // onChanged: (valid) => value.formKey?.currentState?.validate(),
+                              obscureText: value.obscureText,
+                              style: TextStyle(
+                                  color: Colors.deepOrange, fontSize: 20),
+                              controller: value.passwordController,
+                              decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  prefixIcon: Icon(Icons.lock_outline_sharp),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      value.obscureText
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                    ),
+                                    onPressed: () {
+                                      Provider.of<AuthProviderViewModel>(
+                                              context,
+                                              listen: false)
+                                          .toggleObsecure();
+                                      /* setState(() {
                                     obscureText = !obscureText;
                                   });*/
-                                },
-                              )),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'password is required';
-                            }
+                                    },
+                                  )),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'password is required';
+                                }
 
-                            if (value.length < 6) {
-                              return 'password too short';
-                            }
-                            return null;
-                          }),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Forgot Password?",
-                            style: TextStyle(color: Colors.blue),
-                          ),
-                        )),
-                    SizedBox(height: 10),
-                    Container(
-                      width: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.deepOrange),
-                          ),
-                          onPressed: () async {
-    if (value.formKey?.currentState?.validate() ?? false) {
-                            value.signInUser(context);}
-                            // Handle button press
-                           /*
+                                if (value.length < 6) {
+                                  return 'password too short';
+                                }
+                                return null;
+                              }),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Align(
+                            alignment: Alignment.bottomRight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Forgot Password?",
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            )),
+                        SizedBox(height: 10),
+                        Container(
+                          width: 200,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.deepOrange),
+                              ),
+                              onPressed: () async {
+                                //  if (value.formKey?.currentState?.validate() ?? false) {
+                                value.signInUser(context);
+                                //}
+                                // Handle button press
+                                /*
                               // Sign up the user with Firebase Authentication.
                               // await PreferencService.prefs?.setBool('isLogin', true);
                               GetIt.I.get<SharedPreferences>().setBool("isLogin", true);
@@ -183,21 +191,26 @@ class _LoginPageState extends State<LoginPage> {
                               //emailController.clear();
                               //passwordController.clear();
                             }*/
-                          },
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                              },
+                              child: Text(
+                                'Sign In',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ],);}),
+                      ],
+                    );
+                  }),
 
                   //SizedBox(height: 60),
                 ],
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Positioned(
                 child: Padding(
               padding: const EdgeInsets.only(bottom: 5.0),
@@ -216,8 +229,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        NavigationUtils.push(context: context, page: RegisterPage());
-
+                        NavigationUtils.push(
+                            context: context, page: RegisterPage());
                       },
                       child: Text(
                         "Register",

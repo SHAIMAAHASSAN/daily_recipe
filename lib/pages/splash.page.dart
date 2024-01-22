@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/utils/images.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
@@ -18,6 +20,8 @@ class SplahScreen extends StatefulWidget {
 }
 
 class _SplahScreenState extends State<SplahScreen> {
+
+  StreamSubscription<User?>? listener;
   @override
   void initState() {
     initSplash();
@@ -28,7 +32,7 @@ class _SplahScreenState extends State<SplahScreen> {
     await Future.delayed(const Duration(seconds: 3));
     //if (PreferencService.isLoggedIn()) {
     // if (GetIt.I.get<SharedPreferences>().getBool("isLogin")?? false) {
-    FirebaseAuth.instance.authStateChanges().listen((user) {
+   listener= FirebaseAuth.instance.authStateChanges().listen((user) {
       print("===========================user=$user===========================");
       if (user!=null) {
         NavigationUtils.pushReplacement(context: context, page: PageViewPages());
@@ -40,6 +44,12 @@ class _SplahScreenState extends State<SplahScreen> {
 
       }
     });
+  }
+  @override
+  void dispose() {
+    listener?.cancel();
+    // TODO: implement dispose
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {

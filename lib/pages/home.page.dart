@@ -16,6 +16,7 @@ import 'package:daily_recipe/widgets/header.bar.dart';
 import 'package:daily_recipe/widgets/page.view.dart';
 import 'package:daily_recipe/widgets/recipes.widget.dart';
 import 'package:daily_recipe/widgets/search.bar.dart';
+import 'package:daily_recipe/widgets/test.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMixin{
-
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   // int currentIndex = 0;
   // var listItems =[1,2,3,4,5];
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
   ];
 
   // CarouselController carouselControllerEx = CarouselController();
- /* List<Recipe> recipeList = [];
+  /* List<Recipe> recipeList = [];
   void getRecipe() async {
     var recipeData = await rootBundle.loadString('assets/data/sample.json');
     var dataDecoded =
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
   @override
   void initState() {
     _tabController = TabController(length: 3, initialIndex: 0, vsync: this);
-   // getRecipe();
+    // getRecipe();
 
     // getAds();
     super.initState();
@@ -87,11 +88,10 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-     //   body: NestedScrollView(
-     // headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-     //   return <Widget>[
-          /*SliverAppBar(
+      //   body: NestedScrollView(
+      // headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+      //   return <Widget>[
+      /*SliverAppBar(
               pinned: false,
               floating: true,
               forceElevated: innerBoxIsScrolled,
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
               ),
               ),*/
       //  ];
-   //   },
+      //   },
 
       /* appBar: AppBar(
           leading: IconButton(
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
               },
               icon: const Icon(Icons.sort)),
           actions: [
-            *//* IconButton(
+            */ /* IconButton(
                 onPressed: () async {
                   PreferencService.logout();
                   Navigator.push(
@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
                   var email = await PreferencService.loginData();
                   print("output======> $email ========>");
                 },
-                icon: Icon(Icons.logout_rounded)),*//*
+                icon: Icon(Icons.logout_rounded)),*/ /*
 
             IconButton(
                 onPressed: () {
@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
             children: [
               Text(
                 " Good Morning, "
-                    "${FirebaseAuth.instance.currentUser!.displayName}",
+                "${FirebaseAuth.instance.currentUser!.displayName}",
 
                 //"${GetIt.I.get<SharedPreferences>().getString("name")}",
                 //"${PreferencService.prefs?.getString("username")}",
@@ -188,8 +188,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
                   //adsList.isEmpty
                   // ? const CircularProgressIndicator()
                   //  :
-                  Container(
-                      child: AdsCarousal()
+                  Container(child: AdsCarousal()
                       /*CarouselSlider(
                             carouselController: carouselControllerEx,
                             options: CarouselOptions(
@@ -295,8 +294,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
               const SizedBox(
                 height: 20,
               ),
-              HeaderBar(
-                  title: "Today's Fresh Recipes", titleRight: "See All"),
+              HeaderBar(title: "Today's Fresh Recipes", titleRight: "See All"),
               const SizedBox(
                 height: 10,
               ),
@@ -313,12 +311,12 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
                   ? const CircularProgressIndicator()
                   :*/
 
-                  Container(
-                      height: 300,
-                      // color: Colors.cyan,
-                      child: RecipesWidget(scrollDirection: Axis.horizontal),
+              Container(
+                height: 300,
+                // color: Colors.cyan,
+                child: RecipesWidget(scrollDirection: Axis.horizontal),
 
-                    /*ListView.builder(
+                /*ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: recipeList.length,
@@ -334,7 +332,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
                                   serving: recipeList[index].serving),
                             );
                           }),*/
-                    ),
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -342,7 +340,14 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
               SizedBox(
                 height: 20,
               ),
-             /* CardRecipeVertical(
+
+              ElevatedButton(
+                  onPressed: () {
+                    NavigationUtils.push(context: context, page: Test());
+                  },
+                  child: Text("Test"))
+
+              /* CardRecipeVertical(
                   mealType: recipeList[2].mealType,
                   title: recipeList[2].title,
                   image: recipeList[2].image,
@@ -363,7 +368,7 @@ class _HomePageState extends State<HomePage>   with SingleTickerProviderStateMix
           ),
         ),
       ),
-   // )
+      // )
     );
   }
 }

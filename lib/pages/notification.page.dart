@@ -13,7 +13,6 @@ class NotificationPage extends StatelessWidget {
         leading: IconButton(
             onPressed: () {
               NavigationUtils.push(context: context, page: SideMenuPage());
-
             },
             icon: const Icon(Icons.sort)),
       ),
@@ -32,8 +31,6 @@ class NotificationPage extends StatelessWidget {
                   height: 20,
                 ),
                 SearchBarEX(hintText: "Search Using Keywords"),
-
-
               ],
             ),
           ),
