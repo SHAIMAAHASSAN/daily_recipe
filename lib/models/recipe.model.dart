@@ -12,6 +12,10 @@ class Recipe {
   int? calories;
   List<dynamic>?ingredients;
   Map<String,dynamic>? directions;
+  List<dynamic>?user_ids;
+  List<dynamic>?viewed_ids;
+  bool? favorite;
+  bool? isRead;
 
   Recipe();
   //Recipe({required this.mealType,required this.title,required this.image
@@ -28,6 +32,16 @@ class Recipe {
     rating = data['rating'];
     ingredients = data['ingredients'];
     directions= data['directions'];
+    favorite=data['favorite'];
+    isRead=data['isRead'];
+    user_ids = data['user_ids'] != null
+
+        ? List<String>.from(data['user_ids'].map((e) => e.toString()))
+        : null;
+    viewed_ids = data['viewed_ids'] != null
+
+        ? List<String>.from(data['viewed_ids'].map((e) => e.toString()))
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +57,10 @@ class Recipe {
       "serving": serving,
       "ingredients":ingredients,
       'directions':directions,
+      'user_ids':user_ids,
+      'favorite':favorite,
+      'isRead':isRead,
+      'viewed_ids':viewed_ids,
     };
   }
 

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daily_recipe/models/recipe.model.dart';
 import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:daily_recipe/utils/toast.message.utils.dart';
 import 'package:daily_recipe/utils/toast.status.dart';
@@ -9,27 +10,30 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import '../services/ads.services.dart';
 import '../utils/toast.message.utils.dart';
+import '../widgets/toast.message.dart';
 
 class RecipesProvider extends ChangeNotifier {
   //List<Recipe>recipesList=[];
   List<Recipe> _recipesList = [];
   List<Recipe> get recipesList => _recipesList;
+  List<Recipe> _favoriteRecipesList = [];
+  List<Recipe> get favoriteRecipesList => _favoriteRecipesList;
+  List<Recipe> _viewedRecipesList = [];
+  List<Recipe> get viewedRecipesList => _viewedRecipesList;
+
   List<DocumentSnapshot> _cachedData = [];
 
   List<DocumentSnapshot> get cachedData => _cachedData;
 
   Future<void> fetchData() async {
-    final snapshot = await FirebaseFirestore.instance
-        .collection('recipes')
-        .get();
+    final snapshot =
+        await FirebaseFirestore.instance.collection('recipes').get();
 
     _cachedData = snapshot.docs;
     notifyListeners();
   }
 
 // Add methods for updating cached data based on Firestore changes
-
-
 
   Future<void> getRecipes(BuildContext context) async {
     try {
@@ -55,25 +59,37 @@ class RecipesProvider extends ChangeNotifier {
       notifyListeners();
 
       /*???????????????????? why write this Don't use 'BuildContext's across async gaps,how solve it ?????????*/
-
     } on StateError catch (e) {
       // Handle potential Firestore exceptions
       switch (e) {
         case 'PERMISSION_DENIED':
-          ToastMessageUtils.toastMessage(context, ToastStatus.failed,
-              'User does not have permission to access this data.');
+          if (context.mounted) {
+            ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+                'User does not have permission to access this data.');
+          }
           print('User does not have permission to access this data.');
           break;
         case 'NOT_FOUND':
-          ToastMessageUtils.toastMessage(context, ToastStatus.failed,'The document or collection does not exist.');
+          if (context.mounted) {
+            ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+                'The document or collection does not exist.');
+          }
           print('The document or collection does not exist.');
           break;
         case 'UNAVAILABLE':
           print('Firestore is currently unavailable.');
-          ToastMessageUtils.toastMessage(context, ToastStatus.failed,'Firestore is currently unavailable.');
+          //const ToastMessageWidget(toastStatus: ToastStatus.success,
+          // message:'Firestore is currently unavailable.');
+          if (context.mounted) {
+            ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+                'Firestore is currently unavailable.');
+          }
           break;
         default:
-              ToastMessageUtils.toastMessage(context, ToastStatus.failed,'An unknown error occurred: ${e}');
+          if (context.mounted) {
+            ToastMessageUtils.showToastMessage(
+                context, ToastStatus.failed, 'An unknown error occurred: ${e}');
+          }
           print('An unknown error occurred: ${e}');
           break;
       }
@@ -82,11 +98,194 @@ class RecipesProvider extends ChangeNotifier {
     }
   }
 
-  void initRecipes(BuildContext context) {
-    getRecipes(context);
-    notifyListeners();
+  Future<void> addFavoriteRecipesToUser(
+      String recipeId, bool isAdd, BuildContext context) async {
+    try {
+      OverlayLoadingProgress.start();
+      if (isAdd) {
+        await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({
+          "user_ids":
+              FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
+        });
+
+        await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({"favorite": true});
+
+
+      } else {
+        await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({"favorite": false});
+
+        await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({
+          "user_ids":
+              FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
+        });
+
+      }
+      OverlayLoadingProgress.stop();
+
+      getRecipes(context);
+
+      print(
+          "66666666666666666666favorite= ${getRecipes(context)}666666666666666666666666666666");
+    } catch (e) {
+      OverlayLoadingProgress.stop();
+      ToastMessageUtils.showToastMessage(
+          context, ToastStatus.failed, "Error : ${e.toString()}");
+    }
   }
 
+  Future<void> addViewedRecipesToUser(
+      String recipeId/*, bool isAdd,*/ ,BuildContext context) async {
+    try {
+     OverlayLoadingProgress.start();
+     // if (isAdd) {
+        await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({
+          "viewed_ids":
+          FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
+        });
+
+
+        await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({"isRead": true});
+     // }
+     /* else {
+
+        await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({
+          "viewed_ids":
+          FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
+        });*/
+
+       /* await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({"isRead": false});*/
+
+     // }
+      OverlayLoadingProgress.stop();
+
+      getRecipes(context);
+
+      print(
+          "66666666666666666666favorite= ${getRecipes(context)}666666666666666666666666666666");
+
+
+    } catch (e) {
+      OverlayLoadingProgress.stop();
+      ToastMessageUtils.showToastMessage(
+          context, ToastStatus.failed, "Error : ${e.toString()}");
+    }
+  }
+  Future<void> clearViewedRecipes( String recipeId) async {
+
+
+
+    await FirebaseFirestore.instance
+        .collection('recipes')
+        .doc(recipeId)
+        .update({
+      "viewed_ids":
+      FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
+    });
+
+     await FirebaseFirestore.instance
+            .collection('recipes')
+            .doc(recipeId)
+            .update({"isRead": false});
+
+     }
+
+
+  Future<void> getFavoriteRecipes() async {
+
+    try {
+    //  OverlayLoadingProgress.start();
+      var result = await FirebaseFirestore.instance
+          .collection('recipes')
+          .where('favorite', isEqualTo: true)
+      .get()
+          ;
+
+
+     if (result.docs.isNotEmpty) {
+
+        _favoriteRecipesList = List<Recipe>.from(
+            result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
+        print(
+            "ppppppppppppppppppppppp FavoriteRecipe=$_favoriteRecipesList pppppppppppppppppppppppppppp");
+
+        notifyListeners();
+      //  OverlayLoadingProgress.stop();
+      } else {
+
+        OverlayLoadingProgress.stop();
+        _favoriteRecipesList = [];
+      }
+      //notifyListeners();
+    } catch (e) {
+      OverlayLoadingProgress.stop();
+      _favoriteRecipesList = [];
+      notifyListeners();
+    }
+  }
+  Future<void> getViewedRecipes() async {
+
+    try {
+      //  OverlayLoadingProgress.start();
+      var result = await FirebaseFirestore.instance
+          .collection('recipes')
+          .where('isRead', isEqualTo: true)
+          .get()
+      ;
+
+
+      if (result.docs.isNotEmpty) {
+
+        _viewedRecipesList = List<Recipe>.from(
+            result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
+        print(
+            "5555555555555555555555555555555 viewedRecipesList=$_viewedRecipesList 55555555555555555555555555555");
+
+        notifyListeners();
+        //  OverlayLoadingProgress.stop();
+      } else {
+
+        OverlayLoadingProgress.stop();
+        _favoriteRecipesList = [];
+      }
+      //notifyListeners();
+    } catch (e) {
+      OverlayLoadingProgress.stop();
+      _favoriteRecipesList = [];
+      notifyListeners();
+    }
+  }
+
+
+  void initRecipes(BuildContext context) {
+    getRecipes(context);
+    getFavoriteRecipes();
+    getViewedRecipes();
+    notifyListeners();
+  }
 
   @override
   void dispose() {

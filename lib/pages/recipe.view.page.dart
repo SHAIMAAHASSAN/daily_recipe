@@ -2,6 +2,7 @@ import 'package:animated_rating_bar/widgets/animated_rating_bar.dart';
 import 'package:daily_recipe/provider/ads.provider.dart';
 import 'package:daily_recipe/provider/recipes.provider.dart';
 import 'package:daily_recipe/widgets/bottom.sheet.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,8 @@ class RecipeViewPage extends StatelessWidget {
       required this.prepTime,
       required this.serving,
       required this.ingredients,
-      required this.directions});
+      required this.directions,
+  required this.currentIndex});
   String? mealType;
   String? title;
   //String? description;
@@ -28,9 +30,21 @@ class RecipeViewPage extends StatelessWidget {
   int? calories;
   List<dynamic>? ingredients;
   Map<String, dynamic>? directions;
+  int currentIndex;
 
   @override
   Widget build(BuildContext context) {
+  /*  bool isRead;
+
+    isRead= Provider.of<RecipesProvider>(context, listen: false).
+    recipesList[currentIndex].viewed_ids!.
+    contains(FirebaseAuth.instance.currentUser?.uid);
+    print("==================isRead=$isRead %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    isRead = !isRead;
+    Provider.of<RecipesProvider>(context, listen: false).addViewedRecipesToUser(
+        Provider.of<RecipesProvider>(context, listen: false).recipesList[currentIndex].docId!,
+      *//*  isRead,*//*context) ;
+    Provider.of<RecipesProvider>(context, listen: false).getViewedRecipes();*/
     // final ScrollController scrollController = ScrollController();
     print("================$mealType===========================");
     print(
@@ -60,7 +74,7 @@ class RecipeViewPage extends StatelessWidget {
                         Text(title!,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 20)),
-                        FavoriteIcon(),
+                        FavoriteIcon(currentIndex: currentIndex,),
                       ]),
                   Text(" ${calories} Calories",
                       style: TextStyle(color: Colors.deepOrange, fontSize: 14)),

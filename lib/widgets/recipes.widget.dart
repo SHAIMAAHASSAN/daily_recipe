@@ -1,4 +1,6 @@
 import 'package:daily_recipe/provider/recipes.provider.dart';
+import 'package:daily_recipe/widgets/toast.message.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,30 +14,28 @@ import 'card.recipe.dart';
 class RecipesWidget extends StatefulWidget {
   const RecipesWidget({super.key, required this.scrollDirection});
   final Axis scrollDirection;
+ // int currentIndex;
 
   @override
   State<RecipesWidget> createState() => _RecipesWidgetState();
 }
 
 class _RecipesWidgetState extends State<RecipesWidget> {
-  /* @override
-  void initState() {
-    // TODO: implement initState
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<RecipesProvider>(context, listen: false).initRecipes();
-    });
-    super.initState();
-  }*/
+ late bool isRead;
+   @override
+
 
   @override
   Widget build(BuildContext context) {
     return Consumer<RecipesProvider>(builder: (context, value, child) {
-      print(
-          "==@@@@@@@@@@@@@@@@@@@@@@@@@2Recipes = ${value.recipesList}====================");
+      //print(
+         // "==@@@@@@@@@@@@@@@@@@@@@@@@@2Recipes = ${value.recipesList}====================");
 
       if (value.recipesList.isNotEmpty) {
-        ToastMessageUtils.toastMessage(
-            context, ToastStatus.success, "Enjoy with our recipes.");
+
+       ToastMessageUtils.showToastMessage(
+           context, ToastStatus.success, "Enjoy with our recipes.");
+
 
         return SizedBox(
           height: 300,
@@ -44,10 +44,22 @@ class _RecipesWidgetState extends State<RecipesWidget> {
               scrollDirection: Axis.horizontal,
               itemCount: value.recipesList.length,
               itemBuilder: (context, index) {
+                isRead= Provider.of<RecipesProvider>(context, listen: false).
+                recipesList[index].viewed_ids!.
+                contains(FirebaseAuth.instance.currentUser?.uid);
+                print("==================isRead=$isRead =============================");
                 return Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: GestureDetector(
-                    onTap: () {
+                    onDoubleTap: () {
+
+                      isRead = !isRead;
+                      value.addViewedRecipesToUser(
+                          value.recipesList[index].docId!,
+                          /*  isRead,*/context) ;
+                      value.getViewedRecipes();
+
+
                       print(
                           "&&&&&&&&&&&&&&&&&&&&&&&&&&&GestureDetector&&&&&&&&&&&&&&&&&&&&");
                       NavigationUtils.push(
@@ -61,7 +73,9 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                             serving: value.recipesList[index].serving,
                             ingredients: value.recipesList[index].ingredients,
                             directions: value.recipesList[index].directions,
+                            currentIndex: index,
                           ));
+
                     },
                     child: CardRecipe(
                         mealType: value.recipesList[index].mealType,
@@ -69,7 +83,9 @@ class _RecipesWidgetState extends State<RecipesWidget> {
                         image: value.recipesList[index].image,
                         calories: value.recipesList[index].calories,
                         prepTime: value.recipesList[index].prepTime,
-                        serving: value.recipesList[index].serving),
+                        serving: value.recipesList[index].serving,
+                         currentIndex: index,
+                         favorite: value.recipesList[index].favorite!,),
                   ),
                 );
               }),

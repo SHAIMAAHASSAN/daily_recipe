@@ -35,7 +35,7 @@ class _SplahScreenState extends State<SplahScreen> {
    listener= FirebaseAuth.instance.authStateChanges().listen((user) {
       print("===========================user=$user===========================");
       if (user!=null) {
-        NavigationUtils.pushReplacement(context: context, page: PageViewPages());
+        NavigationUtils.pushReplacement(context: context, page: HomePage());
 
       }
       else {

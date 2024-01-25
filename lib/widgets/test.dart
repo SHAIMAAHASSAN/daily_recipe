@@ -37,7 +37,9 @@ class Test extends StatelessWidget {
                                     image: value.recipesList[index].image,
                                     calories: value.recipesList[index].calories,
                                     prepTime: value.recipesList[index].prepTime,
-                                    serving: value.recipesList[index].serving),
+                                    serving: value.recipesList[index].serving,
+                                currentIndex: index,
+                                favorite: value.recipesList[index].favorite!,),
                               );
                             }),
                       ),
@@ -69,7 +71,8 @@ class Test extends StatelessWidget {
                           //height: 300,
                           child: CardRecipeVertical(mealType:value.recipesList[1].mealType, title: value.recipesList[1].title,
                               image: value.recipesList[1].image, calories: value.recipesList[1].calories,
-                              prepTime: value.recipesList[1].prepTime, serving:value.recipesList[1]. serving),
+                              prepTime: value.recipesList[1].prepTime, serving:value.recipesList[1]. serving,
+                            currentIndex: 1,),
                         ),
                       ),
                   ]

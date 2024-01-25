@@ -1,4 +1,5 @@
 import 'package:animated_rating_bar/widgets/animated_rating_bar.dart';
+import 'package:daily_recipe/widgets/favorite.icon.dart';
 import 'package:flutter/material.dart';
 
 class CardRecipeVertical extends StatefulWidget {
@@ -9,7 +10,7 @@ class CardRecipeVertical extends StatefulWidget {
       required this.image,
       required this.calories,
       required this.prepTime,
-      required this.serving});
+      required this.serving,required this.currentIndex});
   String? mealType;
   String? title;
   //String? description;
@@ -18,6 +19,7 @@ class CardRecipeVertical extends StatefulWidget {
   int? prepTime;
   int? serving;
   int? calories;
+  int currentIndex;
 
   @override
   State<CardRecipeVertical> createState() => _CardRecipeVerticalState();
@@ -118,7 +120,9 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                 ),
                 Align(
                   alignment: Alignment.topRight,
-                  child: GestureDetector(
+                  child:FavoriteIcon(currentIndex: widget.currentIndex),
+
+                  /*GestureDetector(
                     onTap: () {
                       setState(() {
                         // Rebuild widget with updated state
@@ -132,7 +136,7 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                         isfavorite ? Icons.favorite : Icons.favorite_border,
                         color: _color,
                         size: 24),
-                  ), // Use 'favorite_border' initially)
+                  ),*/ // Use 'favorite_border' initially)
                 )
               ]),
         ));

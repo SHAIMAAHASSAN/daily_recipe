@@ -2,15 +2,15 @@ import 'package:daily_recipe/utils/toast.status.dart';
 import 'package:flutter/material.dart';
 
 abstract class ToastMessageUtils {
-  static void toastMessage(
+  static void showToastMessage(
       BuildContext context, ToastStatus toastStatus, String message) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Row(
           children: [
             toastStatus == ToastStatus.success
-                ? Icon(Icons.check_circle_outline_outlined)
-                : Icon(Icons.dangerous_outlined),
+                ? Icon(Icons.check_circle_outline_outlined,color: Colors.green,)
+                : Icon(Icons.dangerous_outlined,color: Colors.red,),
             const SizedBox(
               width: 8,
             ),

@@ -7,6 +7,7 @@ import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/utils/toast.message.utils.dart';
 import 'package:daily_recipe/utils/toast.status.dart';
 import 'package:daily_recipe/widgets/page.view.dart';
+import 'package:daily_recipe/widgets/toast.message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -77,38 +78,40 @@ class AuthProviderViewModel extends ChangeNotifier {
       }
     } on FirebaseAuthException catch (e) {
       OverlayLoadingProgress.stop();
+      if(context.mounted){
       if (e.code == 'user-not-found') {
-        ToastMessageUtils.toastMessage(
+
+        ToastMessageUtils.showToastMessage(
             context, ToastStatus.failed, 'No user found for that email.');
         // print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        ToastMessageUtils.toastMessage(context, ToastStatus.failed,
+        ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
             'Wrong password provided for that user.');
         //  print('Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
-        ToastMessageUtils.toastMessage(
+        ToastMessageUtils.showToastMessage(
             context, ToastStatus.failed, 'Invalid email address.');
 
         // print('Invalid email address.');
       }
       if (e.code == 'network-errors') {
-        ToastMessageUtils.toastMessage(
+        ToastMessageUtils.showToastMessage(
             context, ToastStatus.failed, 'Network errors,Try again.');
 
         // print('Network errors.');
       }
       if (e.code == 'email-already-in-use') {
-        ToastMessageUtils.toastMessage(context, ToastStatus.failed,
+        ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
             'Email already exists by another user.');
 
         // print('Email already exists by another user.');
       } else {
-        ToastMessageUtils.toastMessage(context, ToastStatus.failed,
+        ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
             'Something went wrong with Firebase Auth.$e');
 
         //print('Something went wrong with Firebase Auth.$e');
       }
-    }
+    }}
   }
 
   Future<void> signInUser(BuildContext context) async {
@@ -130,11 +133,13 @@ class AuthProviderViewModel extends ChangeNotifier {
           providerDispose();
 
           if (context.mounted) {
-            ToastMessageUtils.toastMessage(context, ToastStatus.success,
-               'Successful login,Welcome ${"${FirebaseAuth.instance.currentUser!.displayName}"}');
+             ToastMessageWidget(toastStatus: ToastStatus.success,
+                message:'Successful login,Welcome ${"${FirebaseAuth.instance.currentUser!.displayName}"}');
+           // ToastMessageUtils.toastMessage(context, ToastStatus.success,
+             //  'Successful login,Welcome ${"${FirebaseAuth.instance.currentUser!.displayName}"}');
 
             NavigationUtils.pushReplacement(
-                context: context, page: PageViewPages());
+                context: context, page: HomePage());
           }
         }
         OverlayLoadingProgress.stop();
@@ -142,33 +147,39 @@ class AuthProviderViewModel extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       OverlayLoadingProgress.stop();
       if (e.code == 'user-not-found') {
-        ToastMessageUtils.toastMessage(
-           context,ToastStatus.failed, 'No user found for that email.');
+        const ToastMessageWidget(toastStatus: ToastStatus.failed, message: 'No user found for that email.');
+      //  ToastMessageUtils.toastMessage(
+          // context,ToastStatus.failed, 'No user found for that email.');
         // print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        ToastMessageUtils.toastMessage(context, ToastStatus.failed,
-            'Wrong password provided for that user.');
+        if(context.mounted){
+        ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+            'Wrong password provided for that user.');}
         //  print('Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
-        ToastMessageUtils.toastMessage(
-            context, ToastStatus.failed, 'Invalid email address.');
+        if(context.mounted){
+        ToastMessageUtils.showToastMessage(
+            context, ToastStatus.failed, 'Invalid email address.');}
 
         // print('Invalid email address.');
       }
       if (e.code == 'network-errors') {
-        ToastMessageUtils.toastMessage(
-            context, ToastStatus.failed, 'Network errors,Try again.');
+        if(context.mounted){
+        ToastMessageUtils.showToastMessage(
+            context, ToastStatus.failed, 'Network errors,Try again.');}
 
         // print('Network errors.');
       }
       if (e.code == 'email-already-in-use') {
-        ToastMessageUtils.toastMessage(context, ToastStatus.failed,
-            'Email already exists by another user.');
+        if(context.mounted){
+        ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+            'Email already exists by another user.');}
 
         // print('Email already exists by another user.');
       } else {
-        ToastMessageUtils.toastMessage(context, ToastStatus.failed,
-            'Something went wrong with Firebase Auth.$e');
+        if(context.mounted){
+        ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+            'Something went wrong with Firebase Auth.$e');}
 
         //print('Something went wrong with Firebase Auth.$e');
       }

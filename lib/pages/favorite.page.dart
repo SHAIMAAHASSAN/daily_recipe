@@ -21,7 +21,7 @@ class FavoritePage extends StatefulWidget {
 
 class _FavoritePageState extends State<FavoritePage> {
   List<Recipe> searchedRecipes = [];
-  List<Recipe> recipelist = [];
+  List<Recipe> favoriteRecipeList = [];
   final searchController = TextEditingController();
   String searchedRecipe = '';
   bool _isSearching = false;
@@ -35,10 +35,10 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   void searchedForRecipe(String searchedRecipeLetter) async {
-    recipelist =
-        Provider.of<RecipesProvider>(context, listen: false).recipesList;
+    favoriteRecipeList =
+        Provider.of<RecipesProvider>(context, listen: false).favoriteRecipesList;
 
-    searchedRecipes = recipelist
+    searchedRecipes = favoriteRecipeList
         .where((recipe) =>
             recipe.title!.toLowerCase().startsWith(searchedRecipeLetter))
         .toList();
@@ -51,28 +51,30 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        /*appBar: AppBar(
+        appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-               NavigationUtils.push(context: context, page: SideMenuPage()),
+               NavigationUtils.push(context: context, page: SideMenuPage());
 
               },
               icon: Icon(Icons.sort)),
           actions: [
             IconButton(
                 onPressed: () {
-                 NavigationUtils.push(context: context, page: NotificationPage()),
+                 NavigationUtils.push(context: context, page: NotificationPage());
                 },
                 icon: Icon(Icons.notifications)),
-          ]),*/
+          ]),
         body: Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(15.0),
       child: SafeArea(
         child: Consumer<RecipesProvider>(builder: (context, value, child) {
-          print(
-              "==@@@@@@@@@@@@@@@@@@@@@@@@@2Recipes = ${value.recipesList}====================");
 
-          if (value.recipesList.isNotEmpty) {
+
+         /* print(
+              "==@@@@@@@@@@@@@@@@@@@@@@@@@2Recipes = ${value.recipesList}====================");*/
+
+          if (value.favoriteRecipesList.isNotEmpty) {
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +137,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: searchController.text.isEmpty
-                            ? value.recipesList.length
+                            ? value.favoriteRecipesList.length
                             : searchedRecipes.length,
                         itemBuilder: (context, index) {
                           return Padding(
@@ -146,33 +148,38 @@ class _FavoritePageState extends State<FavoritePage> {
 
                                   CardRecipeVertical(
                                       mealType: searchController.text.isEmpty
-                                          ? value.recipesList[index].mealType
+                                          ? value.favoriteRecipesList[index].mealType
                                           : searchedRecipes[index].mealType,
                                       title: searchController.text.isEmpty
-                                          ? value.recipesList[index].title
+                                          ? value.favoriteRecipesList[index].title
                                           : searchedRecipes[index].title,
                                       image: searchController.text.isEmpty
-                                          ? value.recipesList[index].image
+                                          ? value.favoriteRecipesList[index].image
                                           : searchedRecipes[index].image,
                                       calories: searchController.text.isEmpty
-                                          ? value.recipesList[index].calories
+                                          ? value.favoriteRecipesList[index].calories
                                           : searchedRecipes[index].calories,
                                       prepTime: searchController.text.isEmpty
-                                          ? value.recipesList[index].prepTime
+                                          ? value.favoriteRecipesList[index].prepTime
                                           : searchedRecipes[index].prepTime,
+                                      currentIndex: index,
                                       serving: searchController.text.isEmpty
-                                          ? value.recipesList[index].serving
-                                          : searchedRecipes[index].serving));
+                                          ? value.favoriteRecipesList[index].serving
+                                          : searchedRecipes[index].serving),
+                                                      );
                         }),
                   ),
                 ],
               ),
             );
           }
-          return Container(
+
+           else if(value.favoriteRecipesList.isEmpty){ return Text("No selected Recipes");}
+          else return Container(
             child: Image.asset("assets/images/loading.gif"),
           );
-        }),
+        }
+        ),
       ),
     ));
   }
