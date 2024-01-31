@@ -1,7 +1,9 @@
+import 'package:daily_recipe/pages/forget.password.pages.dart';
 import 'package:daily_recipe/pages/home.page.dart';
 import 'package:daily_recipe/pages/register.page.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -157,9 +159,16 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.bottomRight,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Forgot Password?",
-                                style: TextStyle(color: Colors.blue),
+                              child: InkWell(
+                                child: Text(
+                                  "Forgot Password?",
+                                  style: TextStyle(color: Colors.blue),
+                                ),
+                                onTap: (){
+                                  print("FFFFFFFFFFFFFFFFFFFFFFFFFffpressonforget Password FFFFFFFFFFFFF");
+                                  NavigationUtils.push(context: context, page: ForgetPasswordPage());
+
+                                },
                               ),
                             )),
                         SizedBox(height: 10),

@@ -1,4 +1,5 @@
 import 'package:animated_rating_bar/widgets/animated_rating_bar.dart';
+import 'package:daily_recipe/models/recipe.model.dart';
 import 'package:daily_recipe/pages/recipe.view.page.dart';
 import 'package:daily_recipe/utils/images.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
@@ -7,17 +8,19 @@ import 'package:flutter/material.dart';
 
 class CardRecipe extends StatefulWidget {
   CardRecipe({
-    super.key,
-    required this.mealType,
+    super.key,required this.recipe
+   /* required this.mealType,
     required this.title,
     required this.image,
     required this.calories,
     required this.prepTime,
     required this.serving,
-    required this.favorite,
-    required this.currentIndex,
+    //required this.favorite,
+    required this.currentIndex*/,
   });
-  String? mealType;
+
+  Recipe recipe;
+ /* String? mealType;
   String? title;
   //String? description;
   String? image;
@@ -26,8 +29,8 @@ class CardRecipe extends StatefulWidget {
   int? serving;
   int? calories;
   List<dynamic> ingredients = [];
-  int currentIndex;
-  bool favorite;
+  int currentIndex ;*/
+  //bool favorite = false;
 
   @override
   State<CardRecipe> createState() => _CardRecipeState();
@@ -39,8 +42,8 @@ class _CardRecipeState extends State<CardRecipe> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
-      //height: 300,
+      width: 180,
+      //height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(20), // Adjust radius as needed
@@ -56,7 +59,7 @@ class _CardRecipeState extends State<CardRecipe> {
               children: [
 
 
-                FavoriteIcon(currentIndex: widget.currentIndex,),
+                FavoriteIcon(recipe: widget.recipe),
               /*  GestureDetector(
                   onTap: () {
                     setState(() {
@@ -79,15 +82,15 @@ class _CardRecipeState extends State<CardRecipe> {
                     // color: Colors.cyan,
 
                     child: Transform.translate(
-                  offset: Offset(10, 0),
+                  offset: Offset(2, 0),
                   child: FadeInImage(
                     fadeInDuration: Duration(seconds: 3),
                     fadeInCurve: Curves.easeIn, // Apply the ease-in curve
 
-                    image: NetworkImage(widget.image!),
+                    image: NetworkImage(widget.recipe.image!),
                     fit: BoxFit.fitHeight,
-                    width: 200,
-                    height: 130,
+                    width: 118,
+                    height: 100,
                     placeholder: AssetImage("assets/images/loading.gif"),
                   ),
 
@@ -114,12 +117,15 @@ class _CardRecipeState extends State<CardRecipe> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.mealType!,
+                  widget.recipe.mealType!,
                   style: TextStyle(color: Colors.cyan[600], fontSize: 16),
                 ),
-                Text(widget.title!,
-                    style:
-                        TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
+                Container(width: 180,
+                  child: Text(widget.recipe.title!,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
+                ),
                 //const Text("description"),
                 AnimatedRatingBar(
                   //height: 35,
@@ -132,33 +138,33 @@ class _CardRecipeState extends State<CardRecipe> {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Text(" ${widget.calories} Calories",
-                      style: TextStyle(color: Colors.deepOrange, fontSize: 14)),
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text(" ${widget.recipe.calories} Calories",
+                      style: TextStyle(color: Colors.deepOrange, fontSize: 12)),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.access_time_outlined),
+                        Icon(Icons.access_time_outlined,size: 14,),
                         Padding(
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(" ${widget.prepTime!} mins",
+                          padding: EdgeInsets.all(2.0),
+                          child: Text(" ${widget.recipe.prepTime!} mins",
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 14)),
+                                  TextStyle(color: Colors.grey, fontSize: 12)),
                         ),
                       ],
                     ),
                     //SizedBox(width: 20,),
                     Row(
                       children: [
-                        Icon(Icons.dinner_dining),
+                        Icon(Icons.dinner_dining,size: 14,),
                         Padding(
-                          padding: EdgeInsets.all(3.0),
-                          child: Text(" ${widget.serving} serving",
+                          padding: EdgeInsets.all(2.0),
+                          child: Text(" ${widget.recipe.serving} serving",
                               style:
-                                  TextStyle(color: Colors.grey, fontSize: 14)),
+                                  TextStyle(color: Colors.grey, fontSize: 12)),
                         ),
                       ],
                     )

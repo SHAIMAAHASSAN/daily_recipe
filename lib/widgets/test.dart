@@ -31,15 +31,18 @@ class Test extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.only(right: 20),
-                                child: CardRecipe(
+                                child:CardRecipe(recipe: value.recipesList[index])
+
+                                /* CardRecipe(
                                     mealType: value.recipesList[index].mealType,
                                     title: value.recipesList[index].title,
                                     image: value.recipesList[index].image,
                                     calories: value.recipesList[index].calories,
                                     prepTime: value.recipesList[index].prepTime,
                                     serving: value.recipesList[index].serving,
-                                currentIndex: index,
-                                favorite: value.recipesList[index].favorite!,),
+                               currentIndex: index,
+                               // favorite: value.recipesList[index].favorite!,
+                              ),*/
                               );
                             }),
                       ),
@@ -69,10 +72,12 @@ class Test extends StatelessWidget {
                       Card(
                         child: SizedBox(
                           //height: 300,
-                          child: CardRecipeVertical(mealType:value.recipesList[1].mealType, title: value.recipesList[1].title,
+                          child: CardRecipeVertical(recipe: value.recipesList[1])
+
+                          /*CardRecipeVertical(mealType:value.recipesList[1].mealType, title: value.recipesList[1].title,
                               image: value.recipesList[1].image, calories: value.recipesList[1].calories,
                               prepTime: value.recipesList[1].prepTime, serving:value.recipesList[1]. serving,
-                            currentIndex: 1,),
+                            currentIndex: 1),*/
                         ),
                       ),
                   ]

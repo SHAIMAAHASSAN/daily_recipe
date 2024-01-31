@@ -1,4 +1,5 @@
 import 'package:animated_rating_bar/widgets/animated_rating_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daily_recipe/provider/ads.provider.dart';
 import 'package:daily_recipe/provider/recipes.provider.dart';
 import 'package:daily_recipe/widgets/bottom.sheet.dart';
@@ -6,21 +7,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/ingredients.dart';
+import '../models/recipe.model.dart';
 import '../widgets/favorite.icon.dart';
 
-class RecipeViewPage extends StatelessWidget {
-  RecipeViewPage(
-      {super.key,
-      required this.mealType,
-      required this.title,
-      required this.image,
-      required this.calories,
-      required this.prepTime,
-      required this.serving,
-      required this.ingredients,
-      required this.directions,
-  required this.currentIndex});
-  String? mealType;
+class RecipeViewPage extends StatefulWidget {
+  RecipeViewPage({
+    super.key,
+    required this.recipe
+   /* required this.mealType,
+    required this.title,
+    required this.image,
+    required this.calories,
+    required this.prepTime,
+    required this.serving,
+    required this.ingredients,
+    required this.directions,*/
+    /* required this.currentIndex*/
+  });
+  Recipe recipe;
+
+  @override
+  State<RecipeViewPage> createState() => _RecipeViewPageState();
+}
+
+class _RecipeViewPageState extends State<RecipeViewPage> {
+ /* String? mealType;
   String? title;
   //String? description;
   String? image;
@@ -30,11 +42,22 @@ class RecipeViewPage extends StatelessWidget {
   int? calories;
   List<dynamic>? ingredients;
   Map<String, dynamic>? directions;
-  int currentIndex;
+  int currentIndex = 0;*/
+
+ @override
+  void initState() {
+   Provider.of<RecipesProvider>(context, listen: false).addViewedRecipesToUser(widget.recipe.docId!, context);
+   Provider.of<RecipesProvider>(context, listen: false).addFavoriteRecipesToUser(widget.recipe.docId!,
+       widget.recipe.user_ids
+           ?.contains(FirebaseAuth.instance.currentUser?.uid) ??
+           false,context);
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-  /*  bool isRead;
+    /*  bool isRead;
 
     isRead= Provider.of<RecipesProvider>(context, listen: false).
     recipesList[currentIndex].viewed_ids!.
@@ -43,13 +66,13 @@ class RecipeViewPage extends StatelessWidget {
     isRead = !isRead;
     Provider.of<RecipesProvider>(context, listen: false).addViewedRecipesToUser(
         Provider.of<RecipesProvider>(context, listen: false).recipesList[currentIndex].docId!,
-      *//*  isRead,*//*context) ;
+      */ /*  isRead,*/ /*context) ;
     Provider.of<RecipesProvider>(context, listen: false).getViewedRecipes();*/
     // final ScrollController scrollController = ScrollController();
-    print("================$mealType===========================");
+    print("================${widget.recipe.mealType}===========================");
     print(
-        "000000000000000000000000000000000000$directions 0000000000000000000000000000000");
-    print("77777777777777777777777777$ingredients 777777777777777777777777777");
+        "000000000000000000000000000000000000${widget.recipe}.directions 0000000000000000000000000000000");
+    print("77777777777777777777777777${widget.recipe}.ingredients 777777777777777777777777777");
     return Scaffold(
         body: SafeArea(
             child: SingleChildScrollView(
@@ -65,18 +88,19 @@ class RecipeViewPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    mealType!,
+                   widget.recipe. mealType!,
                     style: TextStyle(color: Colors.cyan[600], fontSize: 16),
                   ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(title!,
+                        Text( widget.recipe.title!,
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 20)),
-                        FavoriteIcon(currentIndex: currentIndex,),
+                         FavoriteIcon(recipe: widget.recipe),
+
                       ]),
-                  Text(" ${calories} Calories",
+                  Text(" ${ widget.recipe.calories} Calories",
                       style: TextStyle(color: Colors.deepOrange, fontSize: 14)),
                   AnimatedRatingBar(
                     //height: 35,
@@ -98,7 +122,7 @@ class RecipeViewPage extends StatelessWidget {
                               Icon(Icons.access_time_outlined),
                               Padding(
                                 padding: EdgeInsets.all(5.0),
-                                child: Text(" ${prepTime!} mins",
+                                child: Text(" ${ widget.recipe.prepTime!} mins",
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 14)),
                               ),
@@ -112,7 +136,7 @@ class RecipeViewPage extends StatelessWidget {
                               Icon(Icons.dinner_dining),
                               Padding(
                                 padding: EdgeInsets.all(5.0),
-                                child: Text(" ${serving} serving",
+                                child: Text(" ${ widget.recipe.serving} serving",
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 14)),
                               ),
@@ -135,7 +159,7 @@ class RecipeViewPage extends StatelessWidget {
                               fadeInCurve: Curves.easeIn,
                               width: 200,
                               height: 120,
-                              image: NetworkImage(image!),
+                              image: NetworkImage( widget.recipe.image!),
                               fit: BoxFit.cover,
                             ),
                           ) // Use 'favorite_border' initially)
@@ -150,7 +174,85 @@ class RecipeViewPage extends StatelessWidget {
                     color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Column(
+                      child: FutureBuilder(
+                          future: FirebaseFirestore.instance
+                              .collection('userIngredients')
+                              .where('usersIng_ids',
+                                  arrayContains:
+                                      FirebaseAuth.instance.currentUser!.uid)
+                              .get(),
+                          builder: (context, snapShot) {
+                            if (snapShot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              var userIngredients = List<Ingredient>.from(
+                                  snapShot.data!.docs
+                                      .map((e) =>
+                                          Ingredient.fromJson(e.data(), e.id))
+                                      .toList());
+
+                              var userIngredientsTitles =
+                                  userIngredients.map((e) => e).toList();
+
+                              Widget checkIngredientWidget(
+                                  String recipeIngredient) {
+                                bool isExsist = false;
+                                for (var userIngredientsTitle
+                                    in userIngredientsTitles) {
+                                  if (recipeIngredient
+                                      .contains(userIngredientsTitle.name!)) {
+                                    isExsist = true;
+                                    break;
+                                  } else {
+                                    isExsist = false;
+                                  }
+                                }
+
+                                if (isExsist) {
+                                  return Icon( Icons.add_circle_outline_sharp,
+                                    color: Colors.deepOrange,);
+                                } else {
+                                  return Icon( Icons.add_circle_outline_sharp,
+                                    color: Colors.grey,);
+                                }
+                              }
+
+                              return Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    ...widget.recipe.ingredients
+                                            ?.map((e) => Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                    children: [
+                                                      checkIngredientWidget(e),
+                                                      SizedBox(
+                                                          width:
+                                                          10),
+                                                      Flexible(
+                                                        child: Text(
+                                                          e,
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                          ),
+                                                          maxLines: 2,
+                                                        ),
+                                                      ),
+
+                                                    ],
+                                                  ),
+                                            ))
+                                            .toList() ??
+                                        [],
+                                  ] // ...ingredients!.map((e)
+
+                                  );
+                            }
+                          }),
+
+                      /*Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ...ingredients!.map((e) {
@@ -181,7 +283,7 @@ class RecipeViewPage extends StatelessWidget {
                             );
                           }).toList()
                         ],
-                      ),
+                      ),*/
                     ),
                   ),
 
@@ -204,7 +306,7 @@ class RecipeViewPage extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: BuildBottomSheet(
                     directions:
-                        directions /*,scrollController: scrollController,*/)),
+                    widget.recipe.directions /*,scrollController: scrollController,*/)),
           ],
         ),
       ),

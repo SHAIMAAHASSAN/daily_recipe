@@ -1,4 +1,6 @@
 
+import 'package:daily_recipe/pages/view.all.recipes.dart';
+import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +24,7 @@ class HeaderBar extends StatelessWidget {
           GestureDetector(
 
               onTap: (){
+                NavigationUtils.push(context: context, page: ViewAllRecipes());
                 print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhi");
               //  Provider.of<RecipesProvider>(context, listen: false).clearViewedRecipes();
               },

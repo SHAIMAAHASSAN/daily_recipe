@@ -7,6 +7,7 @@ import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/provider/auth.Provider.dart';
 import 'package:daily_recipe/provider/ads.provider.dart';
 import 'package:daily_recipe/provider/favorite.provider.dart';
+import 'package:daily_recipe/provider/ingredients.provider.dart';
 import 'package:daily_recipe/provider/recipes.provider.dart';
 import 'package:daily_recipe/services/preference.services.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -52,6 +53,9 @@ Future<void> main() async {
           create: (context) => FavoriteProvider()..init(context)),
       ChangeNotifierProvider(
         create: (context) => AuthProviderViewModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => IngredientsProvider(),
       ),
     ], child: const MyApp()),
   );

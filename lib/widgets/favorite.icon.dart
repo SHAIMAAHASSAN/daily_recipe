@@ -10,15 +10,17 @@ import '../provider/recipes.provider.dart';
 import '../utils/toast.message.utils.dart';
 
 class FavoriteIcon extends StatefulWidget {
-  const FavoriteIcon({super.key, required this.currentIndex});
-  final int currentIndex;
+  const FavoriteIcon({super.key, required this.recipe});
+  final Recipe? recipe;
 
   @override
   State<FavoriteIcon> createState() => _FavoriteIconState();
 }
 
 class _FavoriteIconState extends State<FavoriteIcon> {
-  late bool isfavorite;
+  bool get isInList => (widget.recipe?.user_ids
+      ?.contains(FirebaseAuth.instance.currentUser?.uid) ??
+      false);
 
   @override
   void initState() {
@@ -40,40 +42,72 @@ class _FavoriteIconState extends State<FavoriteIcon> {
 
       if (value.recipesList.isNotEmpty) {
 
-        isfavorite= Provider.of<RecipesProvider>(context, listen: false).
+       /* isfavorite= Provider.of<RecipesProvider>(context, listen: false).
         recipesList[widget.currentIndex].user_ids!.
         contains(FirebaseAuth.instance.currentUser?.uid);
 
-        print("////////////////////////////isfavorite=$isfavorite");
+        print("////////////////////////////isfavorite=$isfavorite");*/
         /*ToastMessageUtils.showToastMessage(
             context, ToastStatus.success, "Enjoy with our recipes.");*/
 
         return InkWell(
           onTap: () {
-            String recipeId= value.recipesList[widget.currentIndex].docId!;
+
+               value.addFavoriteRecipesToUser(widget.recipe!.docId!,
+                   !isInList, context);
+
+
+
+               if (isInList) {
+                 widget.recipe?.user_ids
+                     ?.remove(FirebaseAuth.instance.currentUser?.uid);
+               } else {
+                 widget.recipe?.user_ids
+                     ?.add(FirebaseAuth.instance.currentUser!.uid);
+               }
+
+               setState(() {});
+
+
+
+
+           /* String recipeId= value.recipesList[widget.currentIndex].docId!;
             isfavorite = !isfavorite;
           value.addFavoriteRecipesToUser(
               value.recipesList[widget.currentIndex].docId!,
                isfavorite,
                context) ;
-            print("=================recipeId=${recipeId}========================");
+            print("=================recipeId=${recipeId}========================");*/
 
             /*  ==============================Using FavoriteProvider I have problem get null values of Recipe ======================*/
             /*Provider.of<FavoriteProvider>(context, listen: false)
                 .getFavoriteRecipes( context,value.recipesList[widget.currentIndex].docId!);*/
             //==========================================================================================
 
-            value.getFavoriteRecipes();
+            //value.getFavoriteRecipes();
 
 
           },
           child: Padding(
             padding: const EdgeInsets.all(2.0),
-            child: Icon(isfavorite ? Icons.favorite : Icons.favorite_border,
+            child: ( isInList
+                ? const Icon(
+              Icons.favorite,
+              size: 25,
+              color: Colors.deepOrange,
+            )
+                : const Icon(
+              Icons.favorite_border,
+              size: 25,
+              color: Colors.grey,
+            ))),
+
+
+            /*Icon(isfavorite ? Icons.favorite : Icons.favorite_border,
                 color: isfavorite ? Colors.deepOrange : Colors.grey,
                 //color: _color,
-                size: 25),
-          ),
+                size: 25),*/
+         // ),
         );
       }
       return Container(

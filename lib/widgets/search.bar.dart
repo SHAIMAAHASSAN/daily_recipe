@@ -1,5 +1,7 @@
 import 'package:daily_recipe/models/recipe.model.dart';
+import 'package:daily_recipe/pages/filtter.page.dart';
 import 'package:daily_recipe/services/ads.services.dart';
+import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:flutter/material.dart';
 class SearchBarEX extends StatefulWidget {
   const SearchBarEX({super.key, required this.hintText});

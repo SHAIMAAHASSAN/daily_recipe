@@ -14,7 +14,8 @@ import 'package:daily_recipe/widgets/card.recipe.dart';
 import 'package:daily_recipe/widgets/card.recipe.vertical.dart';
 import 'package:daily_recipe/widgets/header.bar.dart';
 import 'package:daily_recipe/widgets/page.view.dart';
-import 'package:daily_recipe/widgets/recipes.widget.dart';
+import 'package:daily_recipe/widgets/fresh.recipes.widget.dart';
+import 'package:daily_recipe/widgets/recommended.recipes.widget.dart';
 import 'package:daily_recipe/widgets/search.bar.dart';
 import 'package:daily_recipe/widgets/test.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -30,6 +31,7 @@ import '../models/ad.model.dart';
 import '../services/ads.services.dart';
 import '../services/preference.services.dart';
 import '../utils/navigation.utils.dart';
+import 'filtter.page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -92,7 +94,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return ZoomDrawer(
-      slideWidth: MediaQuery.of(context).size.width * 0.65,
+      slideWidth: MediaQuery.of(context).size.width * 0.75,
       menuBackgroundColor: Colors.white,
       boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 5)],
       disableDragGesture: true,
@@ -309,7 +311,9 @@ class _HomePageState extends State<HomePage>
                 const SizedBox(
                   height: 10,
                 ),
-                SearchBarEX(hintText: "Search for recipes"),
+                GestureDetector(
+                    onTap: ()=>NavigationUtils.push(context: context, page: FiltterPage()),
+                    child: SearchBarEX(hintText: "Search for recipes")),
                 const SizedBox(
                   height: 25,
                 ),
@@ -322,41 +326,21 @@ class _HomePageState extends State<HomePage>
                     ? const CircularProgressIndicator()
                     :*/
 
-                Container(
-                  height: 300,
-                  // color: Colors.cyan,
-                  child: RecipesWidget(scrollDirection: Axis.horizontal),
-
-                  /*ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: recipeList.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 20),
-                                child: CardRecipe(
-                                    mealType: recipeList[index].mealType,
-                                    title: recipeList[index].title,
-                                    image: recipeList[index].image,
-                                    calories: recipeList[index].calories,
-                                    prepTime: recipeList[index].prepTime,
-                                    serving: recipeList[index].serving),
-                              );
-                            }),*/
-                ),
+                const FreshRecipesWidget(),
                 SizedBox(
                   height: 20,
                 ),
                 HeaderBar(title: "Recommended", titleRight: "See All"),
-                SizedBox(
-                  height: 20,
-                ),
-
-                ElevatedButton(
+               //Text("hello"),
+               /* SizedBox(
+                  height: 10,
+                ),*/
+                 const RecommendedRecipesWidget(),
+                /*ElevatedButton(
                     onPressed: () {
                       NavigationUtils.push(context: context, page: Test());
                     },
-                    child: Text("Test"))
+                    child: Text("Test"))*/
 
                 /* CardRecipeVertical(
                     mealType: recipeList[2].mealType,

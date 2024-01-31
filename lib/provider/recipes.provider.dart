@@ -16,6 +16,12 @@ class RecipesProvider extends ChangeNotifier {
   //List<Recipe>recipesList=[];
   List<Recipe> _recipesList = [];
   List<Recipe> get recipesList => _recipesList;
+  List<Recipe> _filtterRecipesList = [];
+  List<Recipe> get filtterRecipesList => _filtterRecipesList;
+  List<Recipe> _freshrecipesList = [];
+  List<Recipe> get freshrecipesList => _freshrecipesList;
+  List<Recipe> _recommendrecipesList = [];
+  List<Recipe> get recommendrecipesList => _recommendrecipesList;
   List<Recipe> _favoriteRecipesList = [];
   List<Recipe> get favoriteRecipesList => _favoriteRecipesList;
   List<Recipe> _viewedRecipesList = [];
@@ -24,6 +30,58 @@ class RecipesProvider extends ChangeNotifier {
   List<DocumentSnapshot> _cachedData = [];
 
   List<DocumentSnapshot> get cachedData => _cachedData;
+
+
+ // var value = {};
+
+  void getFilteredResult( Map<String,dynamic> value) async {
+
+    var ref = FirebaseFirestore.instance.collection('recipes');
+
+
+    for (var entry in value.entries) {
+      ref.where(entry.key, isEqualTo: entry.value);
+    }
+    try {
+      var result = await ref.get();
+
+      if (result.docs.isNotEmpty) {
+        _filtterRecipesList = List<Recipe>.from(
+            result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
+
+        print(
+            "============================filtterRecipesList=${(_filtterRecipesList)}==============");
+      } else {
+        print("No recipes matched the filter criteria.");
+        // Handle the empty list appropriately
+      }
+
+      notifyListeners();
+    } catch (error) {
+      print("Error fetching filtered recipes: $error");
+      // Handle the error appropriately
+    }
+    /*var ref = FirebaseFirestore.instance.collection('recipes');
+
+    for (var entry in value.entries) {
+      ref.where(entry.key, isEqualTo: entry.value);
+    }
+
+    var result = await ref.get();
+
+    print("======================filtterdResult= $result ======================");
+
+    if (result.docs.isNotEmpty) {
+      _filtterRecipesList = List<Recipe>.from(
+          result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
+
+      print(
+          "============================filtterRecipesList=${(_filtterRecipesList)}==============");
+    }
+
+    notifyListeners();*/
+  }
+
 
   Future<void> fetchData() async {
     final snapshot =
@@ -97,7 +155,46 @@ class RecipesProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  Future<void> getFreshRecipes() async {
+    try {
+      var result = await FirebaseFirestore.instance
+          .collection('recipes')
+          .where('isFresh', isEqualTo: true)
+          .limit(5)
+          .get();
 
+      if (result.docs.isNotEmpty) {
+        _freshrecipesList = List<Recipe>.from(
+            result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
+      } else {
+        _freshrecipesList = [];
+      }
+      notifyListeners();
+    } catch (e) {
+      _freshrecipesList = [];
+      notifyListeners();
+    }
+  }
+
+  Future<void> getRecommandedRecipes() async {
+    try {
+      var result = await FirebaseFirestore.instance
+          .collection('recipes')
+          .where('isFresh', isEqualTo: false)
+          .limit(3)
+          .get();
+      if (result.docs.isNotEmpty) {
+        _recommendrecipesList = List<Recipe>.from(
+            result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
+      } else {
+        _recommendrecipesList = [];
+      }
+      notifyListeners();
+    } catch (e) {
+      _recommendrecipesList = [];
+      notifyListeners();
+    }
+  }
   Future<void> addFavoriteRecipesToUser(
       String recipeId, bool isAdd, BuildContext context) async {
     try {
@@ -111,17 +208,17 @@ class RecipesProvider extends ChangeNotifier {
               FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
         });
 
-        await FirebaseFirestore.instance
+       /* await FirebaseFirestore.instance
             .collection('recipes')
             .doc(recipeId)
-            .update({"favorite": true});
+            .update({"favorite": true});*/
 
 
       } else {
-        await FirebaseFirestore.instance
+      /*  await FirebaseFirestore.instance
             .collection('recipes')
             .doc(recipeId)
-            .update({"favorite": false});
+            .update({"favorite": false});*/
 
         await FirebaseFirestore.instance
             .collection('recipes')
@@ -132,16 +229,62 @@ class RecipesProvider extends ChangeNotifier {
         });
 
       }
+      await _updateRecipe(recipeId);
       OverlayLoadingProgress.stop();
 
-      getRecipes(context);
+    //  getRecipes(context);
 
       print(
-          "66666666666666666666favorite= ${getRecipes(context)}666666666666666666666666666666");
+          "66666666666666666666favorite= ${ _updateRecipe(recipeId)}666666666666666666666666666666");
     } catch (e) {
       OverlayLoadingProgress.stop();
       ToastMessageUtils.showToastMessage(
           context, ToastStatus.failed, "Error : ${e.toString()}");
+    }
+  }
+
+
+  Future<void> _updateRecipe(String recipeId) async {
+    try {
+      var result = await FirebaseFirestore.instance
+          .collection('recipes')
+          .doc(recipeId)
+          .get();
+      Recipe? updatedRecipe;
+      if (result.data() != null) {
+        updatedRecipe = Recipe.fromJson(result.data()!, result.id);
+      } else {
+        return;
+      }
+
+      var recipesListIndex =
+      recipesList.indexWhere((recipe) => recipe.docId == recipeId);
+
+      if (recipesListIndex != -1) {
+        recipesList.removeAt(recipesListIndex);
+        recipesList.insert(recipesListIndex, updatedRecipe);
+      }
+
+      var freshRecipesListIndex =
+      freshrecipesList?.indexWhere((recipe) => recipe.docId == recipeId);
+
+      if (freshRecipesListIndex != -1) {
+        freshrecipesList?.removeAt(freshRecipesListIndex!);
+        freshrecipesList?.insert(freshRecipesListIndex!, updatedRecipe);
+      }
+
+      var recommandedRecipesListIndex = recommendrecipesList
+          ?.indexWhere((recipe) => recipe.docId == recipeId);
+
+      if (recommandedRecipesListIndex != -1) {
+        recommendrecipesList?.removeAt(recommandedRecipesListIndex!);
+        recommendrecipesList?.insert(
+            recommandedRecipesListIndex!, updatedRecipe);
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print('>>>>>error in update recipe');
     }
   }
 
@@ -159,10 +302,10 @@ class RecipesProvider extends ChangeNotifier {
         });
 
 
-        await FirebaseFirestore.instance
+        /*await FirebaseFirestore.instance
             .collection('recipes')
             .doc(recipeId)
-            .update({"isRead": true});
+            .update({"isRead": true});*/
      // }
      /* else {
 
@@ -182,7 +325,7 @@ class RecipesProvider extends ChangeNotifier {
      // }
       OverlayLoadingProgress.stop();
 
-      getRecipes(context);
+     // getRecipes(context);
 
       print(
           "66666666666666666666favorite= ${getRecipes(context)}666666666666666666666666666666");
@@ -206,10 +349,10 @@ class RecipesProvider extends ChangeNotifier {
       FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
     });
 
-     await FirebaseFirestore.instance
+    /* await FirebaseFirestore.instance
             .collection('recipes')
             .doc(recipeId)
-            .update({"isRead": false});
+            .update({"isRead": false});*/
 
      }
 
@@ -282,8 +425,11 @@ class RecipesProvider extends ChangeNotifier {
 
   void initRecipes(BuildContext context) {
     getRecipes(context);
-    getFavoriteRecipes();
-    getViewedRecipes();
+    //getFavoriteRecipes();
+  //  getViewedRecipes();
+    getFreshRecipes();
+    getRecommandedRecipes();
+    //getFilteredResult();
     notifyListeners();
   }
 

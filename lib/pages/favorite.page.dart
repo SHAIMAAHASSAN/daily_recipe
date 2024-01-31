@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daily_recipe/pages/notification.page.dart';
 import 'package:daily_recipe/pages/side.menu.page.dart';
 import 'package:daily_recipe/provider/recipes.provider.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/widgets/card.recipe.vertical.dart';
 import 'package:daily_recipe/widgets/search.bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +23,8 @@ class FavoritePage extends StatefulWidget {
 
 class _FavoritePageState extends State<FavoritePage> {
   List<Recipe> searchedRecipes = [];
-  List<Recipe> favoriteRecipeList = [];
+  List<Recipe> recipesList=[];
+ // List<Recipe> favoriteRecipeList = [];
   final searchController = TextEditingController();
   String searchedRecipe = '';
   bool _isSearching = false;
@@ -35,10 +38,10 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   void searchedForRecipe(String searchedRecipeLetter) async {
-    favoriteRecipeList =
-        Provider.of<RecipesProvider>(context, listen: false).favoriteRecipesList;
+   /* favoriteRecipeList = Provider.of<RecipesProvider>(context, listen: false)
+        .favoriteRecipesList;*/
 
-    searchedRecipes = favoriteRecipeList
+    searchedRecipes = recipesList
         .where((recipe) =>
             recipe.title!.toLowerCase().startsWith(searchedRecipeLetter))
         .toList();
@@ -52,87 +55,137 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-               NavigationUtils.push(context: context, page: SideMenuPage());
-
-              },
-              icon: Icon(Icons.sort)),
-          actions: [
-            IconButton(
+            leading: IconButton(
                 onPressed: () {
-                 NavigationUtils.push(context: context, page: NotificationPage());
+                  NavigationUtils.push(context: context, page: SideMenuPage());
                 },
-                icon: Icon(Icons.notifications)),
-          ]),
+                icon: Icon(Icons.sort)),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    NavigationUtils.push(
+                        context: context, page: NotificationPage());
+                  },
+                  icon: Icon(Icons.notifications)),
+            ]),
         body: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: SafeArea(
-        child: Consumer<RecipesProvider>(builder: (context, value, child) {
+          padding: const EdgeInsets.all(15.0),
+          child: SafeArea(
+            child: /*Consumer<RecipesProvider>(builder: (context, value, child) {
+              *//* print(
+              "==@@@@@@@@@@@@@@@@@@@@@@@@@2Recipes = ${value.recipesList}====================");*//*
 
+              if (value.favoriteRecipesList.isNotEmpty) {
+                return*/ SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HeaderBar(title: "Favorites", titleRight: ""),
 
-         /* print(
-              "==@@@@@@@@@@@@@@@@@@@@@@@@@2Recipes = ${value.recipesList}====================");*/
+                      SizedBox(
+                        height: 20,
+                      ),
 
-          if (value.favoriteRecipesList.isNotEmpty) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HeaderBar(title: "Favorites", titleRight: ""),
+                      //SearchBarEX(hintText: "Search Using Keywords",),
 
-                  SizedBox(
-                    height: 20,
-                  ),
-
-                  //SearchBarEX(hintText: "Search Using Keywords",),
-
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: TextField(
-                            controller: searchController,
-                            onChanged: searchedForRecipe,
-                            decoration: InputDecoration(
-                              hintText: "searching",
-                              hintStyle: TextStyle(color: Colors.grey.shade600),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: Colors.grey.shade600,
-                                size: 20,
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                controller: searchController,
+                                onChanged: searchedForRecipe,
+                                decoration: InputDecoration(
+                                  hintText: "searching",
+                                  hintStyle:
+                                      TextStyle(color: Colors.grey.shade600),
+                                  prefixIcon: Icon(
+                                    Icons.search,
+                                    color: Colors.grey.shade600,
+                                    size: 20,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey.shade100,
+                                  contentPadding: EdgeInsets.all(10),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: BorderSide(
+                                          color: Colors.grey.shade100)),
+                                ),
                               ),
-                              filled: true,
-                              fillColor: Colors.grey.shade100,
-                              contentPadding: EdgeInsets.all(10),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade100)),
                             ),
-                          ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.grey.shade100,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(Icons.tune_sharp),
+                              ),
+                            )
+                          ],
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.grey.shade100,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.tune_sharp),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
+                      ),
+                      StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('recipes')
+                              .where("user_ids",
+                                  arrayContains:
+                                      FirebaseAuth.instance.currentUser!.uid)
+                              .snapshots(),
+                          builder: (context, snapshots) {
+                            if (snapshots.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              if (snapshots.hasError) {
+                                return const Text('ERROR WHEN GET DATA');
+                              } else {
+                                if (snapshots.hasData) {
+                                   recipesList = snapshots
+                                          .data?.docs
+                                          .map((e) =>
+                                              Recipe.fromJson(e.data(), e.id))
+                                          .toList() ??
+                                      [];
+                                  return SizedBox(
+                                      height: 570,
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: searchController
+                                                  .text.isEmpty
+                                              ? recipesList.length
+                                              : searchedRecipes.length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10, bottom: 10),
+                                                child: CardRecipeVertical(
+                                                    recipe: searchController
+                                                            .text.isEmpty
+                                                        ? recipesList[
+                                                            index]
+                                                        : searchedRecipes[
+                                                            index]));
+                                          }));
+
+
+                                } else {
+                                  return const Text('No Selected Recipes');
+                                }
+                              }
+                            }
+                          }),
+
+                      /*SizedBox(
                     height: 570,
                     child: ListView.builder(
                         shrinkWrap: true,
@@ -143,10 +196,13 @@ class _FavoritePageState extends State<FavoritePage> {
                           return Padding(
                               padding:
                                   const EdgeInsets.only(top: 10, bottom: 10),
-                              child:
+                              child:CardRecipeVertical(recipe: searchController.text.isEmpty?value.favoriteRecipesList[index
+                              ]:searchedRecipes[index])
+
+
                                   //
 
-                                  CardRecipeVertical(
+                                  */ /*CardRecipeVertical(
                                       mealType: searchController.text.isEmpty
                                           ? value.favoriteRecipesList[index].mealType
                                           : searchedRecipes[index].mealType,
@@ -165,22 +221,22 @@ class _FavoritePageState extends State<FavoritePage> {
                                       currentIndex: index,
                                       serving: searchController.text.isEmpty
                                           ? value.favoriteRecipesList[index].serving
-                                          : searchedRecipes[index].serving),
+                                          : searchedRecipes[index].serving),*/ /*
                                                       );
                         }),
+                  ),*/
+                    ],
                   ),
-                ],
-              ),
-            );
-          }
-
-           else if(value.favoriteRecipesList.isEmpty){ return Text("No selected Recipes");}
-          else return Container(
-            child: Image.asset("assets/images/loading.gif"),
-          );
-        }
-        ),
-      ),
-    ));
+                )
+            /*  } else if (value.favoriteRecipesList.isEmpty) {
+                return Text(" No selected Recipes");
+              } else
+                return Container(
+                  child: Image.asset("assets/images/loading.gif"),
+                );*/
+           // }
+           // ),
+          ),
+        ));
   }
 }

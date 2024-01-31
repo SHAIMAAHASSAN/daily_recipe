@@ -8,7 +8,9 @@ import 'package:daily_recipe/utils/toast.message.utils.dart';
 import 'package:daily_recipe/utils/toast.status.dart';
 import 'package:daily_recipe/widgets/page.view.dart';
 import 'package:daily_recipe/widgets/toast.message.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,22 +19,46 @@ import 'package:overlay_kit/overlay_kit.dart';
 class AuthProviderViewModel extends ChangeNotifier {
   bool obscureText = true;
   GlobalKey<FormState>? formKey;
+  GlobalKey<FormState>? resetPasswordFormKey;
+  GlobalKey<FormState>? updateProfileFormKey;
 
   TextEditingController? emailController;
   TextEditingController? usernameController;
   TextEditingController? passwordController;
+  TextEditingController? updateUsernameController;
+  TextEditingController? phoneController;
+
+
   String username ="";
 
-  late AnimationController animationController;
+  final _formKey = GlobalKey<FormState>();
+ /* User? user;
+ TextEditingController displayNameController = TextEditingController();
+  TextEditingController emailControllerUpdate = TextEditingController();*/
+ // File? imageFile;
+  String? downloadURL;
+
+ // late AnimationController animationController;
 
   void initProvider() {
     formKey = GlobalKey<FormState>();
+    updateProfileFormKey=GlobalKey<FormState>();
+  /*  user = FirebaseAuth.instance.currentUser;
+    displayNameController.text = user?.displayName ?? "";
+    emailControllerUpdate!.text = user?.email ?? "";*/
     emailController = TextEditingController();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+     updateUsernameController = TextEditingController();
+   phoneController=TextEditingController();
+    resetPasswordFormKey = GlobalKey<FormState>();
   }
 
   void providerDispose() {
+    updateProfileFormKey=null;
+    updateUsernameController=null;
+    phoneController=null;
+    passwordController=null;
     emailController = null;
     passwordController = null;
     formKey = null;
@@ -126,7 +152,7 @@ class AuthProviderViewModel extends ChangeNotifier {
 
         if (userCredential.user != null) {
           await userCredential.user!
-              .updateDisplayName(FirebaseAuth.instance.currentUser!.displayName!);
+             .updateDisplayName(FirebaseAuth.instance.currentUser!.displayName!);
         /* username =
               FirebaseAuth.instance.currentUser!.displayName!;*/
           OverlayLoadingProgress.stop();
@@ -194,6 +220,119 @@ class AuthProviderViewModel extends ChangeNotifier {
       NavigationUtils.pushAndRemoveUntil(context: context, page: StartPage());
     }
     OverlayLoadingProgress.stop();
+  }
+
+  Future<void> forgetPassword(BuildContext context,String email) async {
+    OverlayLoadingProgress.start();
+      try {
+        if (resetPasswordFormKey?.currentState?.validate() ?? false) {
+          await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+          if(context.mounted){
+          ToastMessageUtils.showToastMessage(context, ToastStatus.success,
+              'welcome endPasswordResetEmail .');
+          NavigationUtils.push(context: context, page: LoginPage());}
+        }
+        // Display a success message to the user
+        OverlayLoadingProgress.stop();
+      }
+
+
+
+      on FirebaseAuthException catch (e) {
+        OverlayLoadingProgress.stop();
+        if (context.mounted) {
+          // Handle errors, such as invalid email or network errors
+          if (e.code == 'user-not-found') {
+            ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+                'user-not-found .');
+            // Display a message that the user does not exist
+          } else {
+            ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+                '$e');
+            // Display a generic error message
+          }
+        }
+      }
+  }
+  Future<void> updateProfile() async {
+    OverlayLoadingProgress.start();
+    var imageResult = await FilePicker.platform
+        .pickFiles(type: FileType.image, withData: true);
+
+    var refresnce = FirebaseStorage.instance
+        .ref('imageProfile/${imageResult?.files.first.name}');
+
+    if (imageResult?.files.first.bytes != null) {
+      var uploadResult = await refresnce.putData(
+          imageResult!.files.first.bytes!,
+          SettableMetadata(contentType: 'image/png'));
+
+      if (uploadResult.state == TaskState.success) {
+        downloadURL=await refresnce.getDownloadURL();
+        print(
+            '?????image upload successfully $downloadURL/*{await refresnce.getDownloadURL()}*/');
+       FirebaseAuth.instance.currentUser!.updatePhotoURL(downloadURL);
+
+          OverlayLoadingProgress.stop();
+
+      }
+
+    }
+
+    OverlayLoadingProgress.stop();
+    notifyListeners();
+
+
+   /* if (_formKey.currentState!.validate()) {
+      try {
+        UserUpdateInfo updateInfo = UserUpdateInfo();
+        updateInfo.displayName = displayNameController.text;
+        if (emailControllerUpdate.text != user!.email) {
+          await user!.updateEmail(emailControllerUpdate.text);
+        }
+        if (imageFile != null) {
+          // Upload profile picture to Firebase Storage
+          FirebaseStorage storage = FirebaseStorage.instance;
+          Reference ref = storage.ref().child("profile_images/${user!.uid}.jpg");
+          UploadTask uploadTask = ref.putFile(imageFile!);
+          await uploadTask;
+          downloadURL = await ref.getDownloadURL();
+          updateInfo.photoURL = downloadURL;
+        }
+        await user!.updateProfile(updateInfo);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Profile updated successfully!"),
+        ));
+      } catch (e) {
+        // Handle errors
+        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Error updating profile: $e"),
+        ));
+      }*/
+    }
+
+  Future<void> updatePhoneNumber() async {
+    try {
+      // Get verification code from the user
+      String verificationCode = '...';
+      String verificationId = '';// Replace with actual code
+
+      // Create PhoneAuthCredential
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: verificationCode,
+      );
+
+      // Link phone authentication
+      await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
+
+      // Handle successful linking
+      // ...
+    } on FirebaseAuthException catch (e) {
+      // Handle linking error
+      // ...
+    }
   }
 
   @override
