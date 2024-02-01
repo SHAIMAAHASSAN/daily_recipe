@@ -30,56 +30,46 @@ class RecipesProvider extends ChangeNotifier {
   List<DocumentSnapshot> _cachedData = [];
 
   List<DocumentSnapshot> get cachedData => _cachedData;
+  Map<String,dynamic> valueSelected={"meal_type": "SALAD", "serving": 4, "prep_time": 45, "calories": 230};
 
 
- // var value = {};
-
-  void getFilteredResult( Map<String,dynamic> value) async {
-
+  void getFilteredResult(Map<String,dynamic> value,BuildContext context) async {
     var ref = FirebaseFirestore.instance.collection('recipes');
 
-
+    Query<Map<String, dynamic>> query = ref;
     for (var entry in value.entries) {
-      ref.where(entry.key, isEqualTo: entry.value);
+      query = query.where(entry.key, isEqualTo: entry.value);
     }
-    try {
-      var result = await ref.get();
+     try{
+      OverlayLoadingProgress.start();
+       var result = await query.get();
 
-      if (result.docs.isNotEmpty) {
-        _filtterRecipesList = List<Recipe>.from(
-            result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
+       print("===========value=${value}========================");
+       print("===========resultofQuery=${result.docs}========================");
 
-        print(
-            "============================filtterRecipesList=${(_filtterRecipesList)}==============");
-      } else {
-        print("No recipes matched the filter criteria.");
-        // Handle the empty list appropriately
-      }
+       //if (result.docs.isNotEmpty) {
 
-      notifyListeners();
-    } catch (error) {
-      print("Error fetching filtered recipes: $error");
-      // Handle the error appropriately
-    }
-    /*var ref = FirebaseFirestore.instance.collection('recipes');
+       _filtterRecipesList = List<Recipe>.from(
+           result.docs.map((doc) => Recipe.fromJson(doc.data() , doc.id)));
+   // }
 
-    for (var entry in value.entries) {
-      ref.where(entry.key, isEqualTo: entry.value);
-    }
+      /* else {
+         ToastMessageUtils.showToastMessage(context, ToastStatus.failed, "No recipes matched the filter criteria.");
+         print("No recipes matched the filter criteria.");
+         // Handle the empty list appropriately
+       }*/
+      OverlayLoadingProgress.stop();
+       notifyListeners();
 
-    var result = await ref.get();
 
-    print("======================filtterdResult= $result ======================");
+     }
+     catch (error) {
+        OverlayLoadingProgress.stop();
+       ToastMessageUtils.showToastMessage(context, ToastStatus.failed, "Error fetching filtered recipes: $error");
+       print("Error fetching filtered recipes: $error");
+       // Handle the error appropriately
+     }
 
-    if (result.docs.isNotEmpty) {
-      _filtterRecipesList = List<Recipe>.from(
-          result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
-
-      print(
-          "============================filtterRecipesList=${(_filtterRecipesList)}==============");
-    }
-
-    notifyListeners();*/
   }
 
 
@@ -429,12 +419,14 @@ class RecipesProvider extends ChangeNotifier {
   //  getViewedRecipes();
     getFreshRecipes();
     getRecommandedRecipes();
-    //getFilteredResult();
+
+    //getFilteredResult(valueSelected);
     notifyListeners();
   }
 
   @override
   void dispose() {
+    _filtterRecipesList=[];
     // TODO: implement dispose
     super.dispose();
   }

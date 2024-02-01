@@ -90,7 +90,7 @@ class _CardRecipeState extends State<CardRecipe> {
                     image: NetworkImage(widget.recipe.image!),
                     fit: BoxFit.fitHeight,
                     width: 118,
-                    height: 100,
+                    height: 90,
                     placeholder: AssetImage("assets/images/loading.gif"),
                   ),
 

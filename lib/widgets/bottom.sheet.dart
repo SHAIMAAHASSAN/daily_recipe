@@ -8,6 +8,14 @@ class BuildBottomSheet extends StatelessWidget {
   //final ScrollController scrollController ;
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> printOrderedMap(Map<String, dynamic> data) {
+      var sortedKeys = data.keys.toList()..sort();
+      for (var key in sortedKeys) {
+        print('$key: ${data[key]}');
+      }
+      return data;
+    }
+
     print(
         "%%%%%%%%%%%%%%%%%%%%%%%%%%Directions=$directions%%%%%%%%%%%%%%%%%%%%%%%%%");
     return /*LayoutBuilder(
@@ -34,7 +42,7 @@ class BuildBottomSheet extends StatelessWidget {
                   const Text("Directions",
                       style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 20)),
-                  //SizedBox(height: 10,),
+                  SizedBox(height: 10,),
                   Column(
                     children: directions!.entries.map((entry) {
                       return Padding(
@@ -42,9 +50,15 @@ class BuildBottomSheet extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "${entry.key}:",
-                              style: TextStyle(fontWeight: FontWeight.w600),
+
+                            Row(
+                              children: [
+                                Text("Step ",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                Text(
+                                  "${entry.key}:",
+                                  style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 5,
@@ -53,6 +67,11 @@ class BuildBottomSheet extends StatelessWidget {
                               " ${entry.value}",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w400),
+                            ),
+                            SizedBox(height: 5,),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 15.0,left: 15),
+                              child: Divider(),
                             ),
                           ],
                         ),

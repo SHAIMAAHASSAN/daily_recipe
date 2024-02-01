@@ -71,16 +71,16 @@ class _SideMenuPageState extends State<SideMenuPage> {
             page:HomePage(),),
           ListItem(title: "Favorites", leadingIcon: Icons.favorite_outline_sharp,
             page:FavoritePage(),),
-          ListItem(title: "RecentlyViewed", leadingIcon: Icons.play_arrow_outlined,
+          const ListItem(title: "RecentlyViewed", leadingIcon: Icons.play_arrow_outlined,
               page:RecentlyViewedPage( )),
 
-          ListItem(title: "My Kitchen", leadingIcon: Icons.kitchen,
+          const ListItem(title: "My Kitchen", leadingIcon: Icons.kitchen,
               page:MyKitchenPage()),
-                  ListItem(title: "Filtter", leadingIcon: Icons.tune_sharp,
+                  const ListItem(title: "Filter", leadingIcon: Icons.tune_sharp,
                       page:FiltterPage()),
-                  ListItem(title: "Setting", leadingIcon: Icons.settings,
+                  const ListItem(title: "Setting", leadingIcon: Icons.settings,
                       page:SettingsPage()),
-                  ListItem(title: "Profile", leadingIcon: Icons.person,
+                  const ListItem(title: "Profile", leadingIcon: Icons.person,
                       page:ProfilePage()),
           GestureDetector(
             onTap: () {

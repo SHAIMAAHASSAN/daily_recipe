@@ -43,7 +43,7 @@ class _FavoritePageState extends State<FavoritePage> {
 
     searchedRecipes = recipesList
         .where((recipe) =>
-            recipe.title!.toLowerCase().startsWith(searchedRecipeLetter))
+            recipe.title!.toLowerCase().contains(searchedRecipeLetter))
         .toList();
 
     print("=================searched=$searchedRecipes");

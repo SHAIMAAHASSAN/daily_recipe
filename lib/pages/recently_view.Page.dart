@@ -32,7 +32,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
 
     searchedRecipes = recipeList
         .where((recipe) =>
-            recipe.title!.toLowerCase().startsWith(searchedRecipeLetter))
+            recipe.title!.toLowerCase().contains(searchedRecipeLetter))
         .toList();
 
     print("=================searched=$searchedRecipes");
