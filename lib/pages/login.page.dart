@@ -40,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Form(
         key: Provider.of<AuthProviderViewModel>(context, listen: false).formKey,
         child: Stack(

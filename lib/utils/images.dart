@@ -16,4 +16,5 @@ abstract class ImagesPath {
   static String strawberry = '${(_path)}strawberry.jpg';
   static String flour = '${(_path)}flour.jpg';
   static String water = '${(_path)}water.jpg';
+  String image ="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg";
 }

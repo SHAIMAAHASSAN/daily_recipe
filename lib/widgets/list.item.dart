@@ -1,4 +1,5 @@
 import 'package:daily_recipe/utils/navigation.utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 class ListItem extends StatefulWidget {
@@ -33,7 +34,7 @@ class _ListItemState extends State<ListItem> {
         child: ListTile(
           leading: Icon(widget.leadingIcon, color: isSelected ? Colors.deepOrange : Colors.grey),
           title: Text(widget.title, style: TextStyle(color: isSelected ? Colors.deepOrange
-              : Colors.grey,fontSize: 18)),
+              : Colors.grey,fontSize: 18)).tr(),
          // tileColor: Colors.blue,
           focusColor: Colors.deepOrange,
          // autofocus: true,

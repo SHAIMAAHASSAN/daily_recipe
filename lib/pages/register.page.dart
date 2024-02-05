@@ -37,6 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
         body: Consumer<AuthProviderViewModel>(builder: (context, value, child) {
       return Form(
         key: value.formKey,

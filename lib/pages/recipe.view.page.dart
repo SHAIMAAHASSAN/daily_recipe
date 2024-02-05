@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daily_recipe/provider/ads.provider.dart';
 import 'package:daily_recipe/provider/recipes.provider.dart';
 import 'package:daily_recipe/widgets/bottom.sheet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,14 +47,20 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
 
  @override
   void initState() {
-   Provider.of<RecipesProvider>(context, listen: false).addViewedRecipesToUser(widget.recipe.docId!, context);
-   Provider.of<RecipesProvider>(context, listen: false).addFavoriteRecipesToUser(widget.recipe.docId!,
-       widget.recipe.user_ids
-           ?.contains(FirebaseAuth.instance.currentUser?.uid) ??
-           false,context);
+   addRecipes();
+
     // TODO: implement initState
     super.initState();
   }
+   Future<void> addRecipes() async {
+     await Future.delayed(const Duration(milliseconds: 80));
+     Provider.of<RecipesProvider>(context, listen: false).addViewedRecipesToUser(widget.recipe.docId!, context);
+     Provider.of<RecipesProvider>(context, listen: false).addFavoriteRecipesToUser(widget.recipe.docId!,
+         widget.recipe.user_ids
+             ?.contains(FirebaseAuth.instance.currentUser?.uid) ??
+             false,context);
+
+}
 
   @override
   Widget build(BuildContext context) {
@@ -90,18 +97,28 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                   Text(
                    widget.recipe. mealType!,
                     style: TextStyle(color: Colors.cyan[600], fontSize: 16),
-                  ),
+                  ).tr(),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text( widget.recipe.title!,
                             style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 20)),
+                                fontWeight: FontWeight.w600, fontSize: 20)).tr(),
                          FavoriteIcon(recipe: widget.recipe),
 
                       ]),
-                  Text(" ${ widget.recipe.calories} Calories",
-                      style: TextStyle(color: Colors.deepOrange, fontSize: 14)),
+                  Row(
+                    children: [
+                      Text(" ${ widget.recipe.calories}",
+                          style: TextStyle(
+                              color: Colors.deepOrange, fontSize: 14)),
+                      SizedBox(width: 3,),
+                      Text(" Calories",
+                          style: TextStyle(color: Colors.deepOrange, fontSize: 14)).tr(),
+                    ],
+                  ),
+                 /* Text(" ${ widget.recipe.calories} Calories",
+                      style: TextStyle(color: Colors.deepOrange, fontSize: 14)).tr(),*/
                   AnimatedRatingBar(
                     //height: 35,
                     initialRating: 0,
@@ -122,9 +139,17 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                               Icon(Icons.access_time_outlined),
                               Padding(
                                 padding: EdgeInsets.all(5.0),
-                                child: Text(" ${ widget.recipe.prepTime!} mins",
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 14)),
+                                child: Row(
+                                  children: [
+                                    Text(" ${ widget.recipe.prepTime!}",
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 14)),
+                                    SizedBox(width: 3,),
+                                    Text(" mins",
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 14)).tr()
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -136,9 +161,17 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                               Icon(Icons.dinner_dining),
                               Padding(
                                 padding: EdgeInsets.all(5.0),
-                                child: Text(" ${ widget.recipe.serving} serving",
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 14)),
+                                child: Row(
+                                  children: [
+                                    Text(" ${ widget.recipe.serving}",
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 14)),
+                                    SizedBox(width: 3,),
+                                    Text(" serving",
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 14)).tr()
+                                  ],
+                                ),
                               ),
                             ],
                           )
@@ -169,7 +202,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                   ),
                   Text("Ingredients",
                       style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20)),
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20)).tr(),
                   Card(
                     color: Colors.white,
                     child: Padding(
@@ -238,7 +271,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                                                             fontSize: 16,
                                                           ),
                                                           maxLines: 2,
-                                                        ),
+                                                        ).tr(),
                                                       ),
 
                                                     ],

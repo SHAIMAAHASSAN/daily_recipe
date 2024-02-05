@@ -3,6 +3,8 @@ import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/widgets/chip.widget.dart';
 import 'package:daily_recipe/widgets/filtter.recipes.dart';
 import 'package:daily_recipe/widgets/header.bar.dart';
+import 'package:daily_recipe/widgets/slider.widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,15 +19,22 @@ class FiltterPage extends StatefulWidget {
 
 class _FiltterPageState extends State<FiltterPage> {
   Map<String,dynamic> selectedUserValue = {};
-  late final servingController;
+ // late final servingController;
   late final prepTimeController;
   late final caloriesController;
+ late double servingValue;
+  late double prepTimeValue;
+  late double caloriesValue;
 
   @override
   void initState() {
-    servingController=TextEditingController();
-    prepTimeController=TextEditingController();
-    caloriesController=TextEditingController();
+    //servingController=TextEditingController();
+    //prepTimeController=TextEditingController();
+    //caloriesController=TextEditingController();
+
+    servingValue=0;
+    prepTimeValue=0;
+    caloriesValue=0;
     onSelect(selectedUserValue);
     // TODO: implement initState
     super.initState();
@@ -60,7 +69,37 @@ class _FiltterPageState extends State<FiltterPage> {
           child: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HeaderBar(title:"Filter", titleRight:"" ),
+          Container(
+          child:   Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Filter"
+                ,
+                style:
+                TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ).tr(),
+              InkWell(
+                onTap: (){
+                  print("(((((((((((((((((Reset)))))))))))))))))");
+                  selectedUserValue={};
+                  servingValue=0;
+                  prepTimeValue=0;
+                  caloriesValue=0;
+                  setState(() {
+
+                  });
+                },
+                child: Text("Reset"
+                  ,
+                  style: TextStyle(color: Colors.deepOrange, fontSize: 18,fontWeight: FontWeight.w500),
+                ),
+              )
+            ],
+          ),
+
+
+        ),
+              //HeaderBar(title:"Filter", titleRight:"Reset " ),
               SizedBox(height: 10,),
               Text("Meal",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
               SizedBox(height: 10,),
@@ -96,6 +135,11 @@ class _FiltterPageState extends State<FiltterPage> {
                       });
                     }*/,),
                     ChipWidget(mealType: "QUICK&EASY",selectedUserValue: selectedUserValue,onSelect: onSelect /*(newValue) {
+                      setState(() {
+                        selectedUserValue = newValue;
+                      });
+                    }*/,),
+                    ChipWidget(mealType: "VEGETARIAN",selectedUserValue: selectedUserValue,onSelect: onSelect /*(newValue) {
                       setState(() {
                         selectedUserValue = newValue;
                       });
@@ -216,7 +260,10 @@ class _FiltterPageState extends State<FiltterPage> {
                 children: [
                   Text("Enter number of serving :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
                   SizedBox(width: 20,),
-                  SizedBox(
+
+                  Text(servingValue.round().toString()),
+
+                  /*SizedBox(
                     height: 10,
                     width: 30,
                     child: TextFormField(
@@ -231,8 +278,22 @@ class _FiltterPageState extends State<FiltterPage> {
                       ),
           
                     ),
-                  ),
+                  ),*/
                 ],),
+         //SliderWidget(sliderValue: servingValue, min: 0, max: 10, division: 4),
+          Slider(
+            value: servingValue.roundToDouble(),
+            min: 0,
+            max: 10,
+            divisions: 10,
+            activeColor: Colors.deepOrange,
+            label: servingValue.round().toString(),
+            onChanged: (double value) {
+              setState(() {
+                servingValue = value;
+              });
+            },
+          ),
               SizedBox(height: 5,),
               Divider(),
               SizedBox(height: 10,),
@@ -242,7 +303,8 @@ class _FiltterPageState extends State<FiltterPage> {
                 children: [
                   Text("Enter Preparation Time :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
                   SizedBox(width: 20,),
-                  SizedBox(
+                  Text(prepTimeValue.round().toString()+" mins"),
+                  /*SizedBox(
                     height: 10,
                     width: 30,
                     child: TextFormField(
@@ -257,8 +319,22 @@ class _FiltterPageState extends State<FiltterPage> {
                       ),
           
                     ),
-                  ),
+                  ),*/
                 ],),
+             // SliderWidget(sliderValue: prepTimeValue, min: 0, max: 100, division: 4),
+              Slider(
+                value: prepTimeValue.roundToDouble(),
+                min: 0,
+                max: 100,
+                divisions: 20,
+                activeColor: Colors.deepOrange,
+                label: prepTimeValue.round().toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    prepTimeValue = value;
+                  });
+                },
+              ),
               SizedBox(height: 5,),
               Divider(),
               SizedBox(height: 10,),
@@ -266,9 +342,10 @@ class _FiltterPageState extends State<FiltterPage> {
               SizedBox(height: 10,),
               Row(
                 children: [
-                  Text("Enter Calories numbers :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
+                  Text("Select Calories numbers :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
                   SizedBox(width: 20,),
-                  SizedBox(
+                 Text(caloriesValue.round().toString()+" Cal."),
+                 /* SizedBox(
                     height: 10,
                     width: 40,
                     child: TextFormField(
@@ -283,8 +360,22 @@ class _FiltterPageState extends State<FiltterPage> {
                       ),
           
                     ),
-                  ),
+                  ),*/
                 ],),
+             // SliderWidget(sliderValue: caloriesValue, min: 0, max: 1000, division: 4),
+              Slider(
+                value: caloriesValue.roundToDouble(),
+                min: 0,
+                max: 800,
+                divisions: 400,
+                activeColor: Colors.deepOrange,
+                label:caloriesValue.round().toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    caloriesValue = value;
+                  });
+                },
+              ),
               SizedBox(height: 5,),
               Divider(),
           
@@ -302,18 +393,21 @@ class _FiltterPageState extends State<FiltterPage> {
                       ),
                       onPressed: () async {
 
-                        int serving= int.parse(servingController.text);
-                        int? time= int.parse(prepTimeController.text);
+                      //  int serving= int.parse(servingController.text);
+                       /* int? time= int.parse(prepTimeController.text);
                         time.runtimeType;
-
-                        print("""""""""""""""""""time=${time.runtimeType}""""""""""""""""""");
+*/
+                       // print("""""""""""""""""""time=${time.runtimeType}""""""""""""""""""");
                         print("""""""""""""""""""'meal_type'=${selectedUserValue['meal_type'].runtimeType}""""""""""""""""""");
-                        print("""""""""""""""""""serving=${int?.parse(servingController.text).runtimeType}""""""""""""""""""");
-                        print("""""""""""""""""""calories=${int?.parse(caloriesController.text).runtimeType}""""""""""""""""""");
+                       // print("""""""""""""""""""serving=${int?.parse(servingController.text).runtimeType}""""""""""""""""""");
+                     //   print("""""""""""""""""""calories=${int?.parse(caloriesController.text).runtimeType}""""""""""""""""""");
 
-                        selectedUserValue['serving'] = int?.parse(servingController.text);
-                        selectedUserValue['prep_time'] =int?.parse(prepTimeController.text);
-                        selectedUserValue['calories']=int?.parse(caloriesController.text);
+                        //selectedUserValue['serving'] = int?.parse(servingController.text);
+                        //selectedUserValue['prep_time'] =int?.parse(prepTimeController.text);
+                        //selectedUserValue['calories']=int?.parse(caloriesController.text);
+                        selectedUserValue['serving'] = servingValue.round().toInt();
+                        selectedUserValue['prep_time'] = prepTimeValue.round().toInt();
+                        selectedUserValue['calories'] = caloriesValue.round().toInt();
 
                         NavigationUtils.push(context: context, page: FiltterRecipes(valueselected: selectedUserValue));
           
@@ -346,9 +440,12 @@ class _FiltterPageState extends State<FiltterPage> {
 
   @override
   void dispose() {
-    servingController =null;
-    prepTimeController=null;
-    caloriesController=null;
+    servingValue =0;
+    prepTimeValue=0;
+    caloriesValue=0;
+   // servingController =null;
+   // prepTimeController=null;
+  //  caloriesController=null;
     // TODO: implement dispose
     super.dispose();
   }

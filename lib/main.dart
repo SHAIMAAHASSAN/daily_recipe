@@ -8,8 +8,10 @@ import 'package:daily_recipe/provider/auth.Provider.dart';
 import 'package:daily_recipe/provider/ads.provider.dart';
 import 'package:daily_recipe/provider/favorite.provider.dart';
 import 'package:daily_recipe/provider/ingredients.provider.dart';
+import 'package:daily_recipe/provider/local.model.provider.dart';
 import 'package:daily_recipe/provider/recipes.provider.dart';
 import 'package:daily_recipe/services/preference.services.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +24,9 @@ import 'firebase_options.dart';
 
 //request.time < timestamp.date(2024, 2, 17)
 Future<void> main() async {
+ // WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   try {
     await Firebase.initializeApp(
@@ -43,6 +47,8 @@ Future<void> main() async {
   }
 
   runApp(
+
+
     MultiProvider(providers: [
       ChangeNotifierProvider(
         create: (context) => AdsProvider()..initHomePage(),
@@ -52,17 +58,45 @@ Future<void> main() async {
       ChangeNotifierProvider(
           create: (context) => FavoriteProvider()..init(context)),
       ChangeNotifierProvider(
-        create: (context) => AuthProviderViewModel(),
+        create: (context) => AuthProviderViewModel()..initProvider(),
       ),
       ChangeNotifierProvider(
         create: (context) => IngredientsProvider(),
       ),
-    ], child: const MyApp()),
+      ChangeNotifierProvider(
+        create: (context) => LocaleModel(),
+
+        ),
+
+    ],
+        child: EasyLocalization(
+            supportedLocales: const [Locale('en', 'US'), Locale('ar', 'EG')],
+            path: 'assets/translations',
+           /* supportedLocales: [Locale('en', 'US'), Locale('ar', 'EG')],
+            path: 'assets/translations', // <-- change the path of the translation files
+            fallbackLocale: Locale('en', 'US'),*/
+
+            child: const MyApp())),
   );
 }
 
-class MyApp extends StatelessWidget {
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  /*Locale? _locale;
+
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }*/
 
   // This widget is the root of your application.
   @override
@@ -73,7 +107,14 @@ class MyApp extends StatelessWidget {
 
             //value: AdsCubit()..fetchAds(),
             // child:
-            MaterialApp(
+            Consumer<LocaleModel>(
+            builder: (context, model, child) =>
+        MaterialApp(
+
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale:model.locale,
+              debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'Hellix',
@@ -97,6 +138,6 @@ class MyApp extends StatelessWidget {
       ),
       home: const SplahScreen(),
       // ),
-    ));
+    )));
   }
 }

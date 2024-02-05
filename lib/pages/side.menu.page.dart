@@ -10,6 +10,7 @@ import 'package:daily_recipe/services/preference.services.dart';
 import 'package:daily_recipe/utils/images.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/widgets/list.item.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -31,6 +32,9 @@ class SideMenuPage extends StatefulWidget {
 class _SideMenuPageState extends State<SideMenuPage> {
 
   bool  isSelected = false;
+  String image ="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg";
+  String? photo= FirebaseAuth.instance.currentUser!.photoURL;
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +56,23 @@ class _SideMenuPageState extends State<SideMenuPage> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL! ),
-                      ),
+                      leading:   photo !=null
+                      // _profileImage != null
+                          ? CircleAvatar( backgroundImage:NetworkImage( FirebaseAuth.instance.currentUser!.photoURL!))
+                         :CircleAvatar( backgroundImage:NetworkImage( image)),
+
+
+                      /*CircleAvatar(
+                       // child:Image(image:NetworkImage("https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"))
+                       // backgroundImage: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL! ),
+
+
+                      ),*/
                       title: Text(
                           "${FirebaseAuth.instance.currentUser!.displayName}"),
                       // "${FirebaseAuth.instance.currentUser!.displayName}"),
                       //${GetIt.I.get<SharedPreferences>().getString("name")}
-                      subtitle: Text("View Profile"),
+                      subtitle: Text("View Profile").tr(),
                       /*trailing: IconButton(
                           onPressed: () {}, icon: Icon(Icons.notifications)),*/
                     ),
@@ -78,7 +91,7 @@ class _SideMenuPageState extends State<SideMenuPage> {
               page:MyKitchenPage()),
                   const ListItem(title: "Filter", leadingIcon: Icons.tune_sharp,
                       page:FiltterPage()),
-                  const ListItem(title: "Setting", leadingIcon: Icons.settings,
+                  const ListItem(title: "Settings", leadingIcon: Icons.settings,
                       page:SettingsPage()),
                   const ListItem(title: "Profile", leadingIcon: Icons.person,
                       page:ProfilePage()),
@@ -94,7 +107,7 @@ class _SideMenuPageState extends State<SideMenuPage> {
               child: ListTile(
                 leading: Icon(Icons.exit_to_app_outlined, color: isSelected ? Colors.deepOrange : Colors.grey),
                 title: Text("SignOut", style: TextStyle(color: isSelected ? Colors.deepOrange
-                    : Colors.grey,fontSize: 18)),
+                    : Colors.grey,fontSize: 18)).tr(),
               ),
             ),
           ),

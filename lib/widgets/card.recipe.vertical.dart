@@ -1,6 +1,7 @@
 import 'package:animated_rating_bar/widgets/animated_rating_bar.dart';
 import 'package:daily_recipe/models/recipe.model.dart';
 import 'package:daily_recipe/widgets/favorite.icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CardRecipeVertical extends StatefulWidget {
@@ -53,10 +54,13 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                       BoxDecoration(borderRadius: BorderRadius.circular(10)),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20),
-                    child: Image(
-                      image: NetworkImage(widget.recipe.image!),
-                      alignment: Alignment.center,
-                      width: 90,
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Image(
+                        image: NetworkImage(widget.recipe.image!),
+                        alignment: Alignment.center,
+                        width: 85,
+                      ),
                     ),
                   ),
                 ),
@@ -69,17 +73,17 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                     Text(
                       widget.recipe.mealType!,
                       style: TextStyle(color: Colors.cyan[600], fontSize: 16),
-                    ),
+                    ).tr(),
                     SizedBox(width: 170,
                       child: Text(
                         widget.recipe.title ?? "",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
-                      ),
+                      ).tr(),
                     ),
 //const Text("description"),
                     Row(
@@ -95,9 +99,16 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                           },
                         ),
                         SizedBox(width: 10,),
-                        Text(" ${widget.recipe.calories} Calories",
-                            style: TextStyle(
-                                color: Colors.deepOrange, fontSize: 14)),
+                        Row(
+                          children: [
+                            Text(" ${ widget.recipe.calories}",
+                                style: TextStyle(
+                                    color: Colors.deepOrange, fontSize: 12)),
+                            SizedBox(width: 3,),
+                            Text(" Calories",
+                                style: TextStyle(color: Colors.deepOrange, fontSize: 12)).tr(),
+                          ],
+                        ),
                       ],
                     ),
 
@@ -106,26 +117,39 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.access_time_outlined),
-                            Padding(
-                              padding: EdgeInsets.all(2.0),
-                              child: Text(" ${widget.recipe.prepTime!} mins",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12)),
+                            Icon(Icons.access_time_outlined,size: 14,),
+                            Row(
+                              children: [
+                                Text(" ${ widget.recipe.prepTime!}",
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12)),
+                                SizedBox(width: 3,),
+                                Text(" mins",
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12)).tr()
+                              ],
                             ),
                           ],
                         ),
                         SizedBox(
-                          width:10,
+                          width:22,
                         ),
                         Row(
                           children: [
-                            Icon(Icons.dinner_dining),
+                            Icon(Icons.dinner_dining,size: 14,),
                             Padding(
                               padding: EdgeInsets.all(2.0),
-                              child: Text(" ${widget.recipe.serving} serving",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12)),
+                              child: Row(
+                                children: [
+                                  Text(" ${ widget.recipe.serving}",
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 12)),
+                                  SizedBox(width: 3,),
+                                  Text(" serving",
+                                      style: TextStyle(
+                                          color: Colors.grey, fontSize: 12)).tr()
+                                ],
+                              ),
                             ),
                           ],
                         )

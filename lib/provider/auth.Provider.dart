@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daily_recipe/pages/home.page.dart';
 import 'package:daily_recipe/pages/login.page.dart';
 import 'package:daily_recipe/pages/register.page.dart';
+import 'package:daily_recipe/pages/side.menu.page.dart';
 import 'package:daily_recipe/pages/start.page.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/utils/toast.message.utils.dart';
@@ -36,13 +37,14 @@ class AuthProviderViewModel extends ChangeNotifier {
  TextEditingController displayNameController = TextEditingController();
   TextEditingController emailControllerUpdate = TextEditingController();*/
  // File? imageFile;
-  String? downloadURL;
+   String? downloadURL;
+  String? photo ;
 
  // late AnimationController animationController;
 
   void initProvider() {
     formKey = GlobalKey<FormState>();
-    updateProfileFormKey=GlobalKey<FormState>();
+
   /*  user = FirebaseAuth.instance.currentUser;
     displayNameController.text = user?.displayName ?? "";
     emailControllerUpdate!.text = user?.email ?? "";*/
@@ -52,6 +54,11 @@ class AuthProviderViewModel extends ChangeNotifier {
      updateUsernameController = TextEditingController();
    phoneController=TextEditingController();
     resetPasswordFormKey = GlobalKey<FormState>();
+  }
+  void initUpdate(){
+    updateProfileFormKey=GlobalKey<FormState>();
+    usernameController = TextEditingController();
+
   }
 
   void providerDispose() {
@@ -153,6 +160,7 @@ class AuthProviderViewModel extends ChangeNotifier {
         if (userCredential.user != null) {
           await userCredential.user!
              .updateDisplayName(FirebaseAuth.instance.currentUser!.displayName!);
+          photo=FirebaseAuth.instance.currentUser!.photoURL;
         /* username =
               FirebaseAuth.instance.currentUser!.displayName!;*/
           OverlayLoadingProgress.stop();
@@ -254,33 +262,50 @@ class AuthProviderViewModel extends ChangeNotifier {
         }
       }
   }
-  Future<void> updateProfile() async {
+
+  void updateName(BuildContext context) {
+    if (updateProfileFormKey?.currentState?.validate() ?? false) {
+
+        FirebaseAuth.instance.currentUser!
+            .updateDisplayName(
+           usernameController!.text);
+    ToastMessageUtils.showToastMessage(context, ToastStatus.success, "Successful Update Profile.");
+
+    }
+    notifyListeners();
+  }
+
+
+  Future<void> updateImageProfile() async {
     OverlayLoadingProgress.start();
     var imageResult = await FilePicker.platform
         .pickFiles(type: FileType.image, withData: true);
 
-    var refresnce = FirebaseStorage.instance
+    var reference = FirebaseStorage.instance
         .ref('imageProfile/${imageResult?.files.first.name}');
 
     if (imageResult?.files.first.bytes != null) {
-      var uploadResult = await refresnce.putData(
+      var uploadResult = await reference.putData(
           imageResult!.files.first.bytes!,
           SettableMetadata(contentType: 'image/png'));
 
       if (uploadResult.state == TaskState.success) {
-        downloadURL=await refresnce.getDownloadURL();
+        downloadURL=await reference.getDownloadURL();
         print(
-            '?????image upload successfully $downloadURL/*{await refresnce.getDownloadURL()}*/');
+            '?????image upload successfully $downloadURL/*{await reference.getDownloadURL()}*/');
        FirebaseAuth.instance.currentUser!.updatePhotoURL(downloadURL);
+       print("-----------------photo after update provider ==${FirebaseAuth.instance.currentUser!.photoURL}--------------");
+       photo = downloadURL;
+        notifyListeners();
 
-          OverlayLoadingProgress.stop();
+        OverlayLoadingProgress.stop();
 
       }
 
     }
 
     OverlayLoadingProgress.stop();
-    notifyListeners();
+   // notifyListeners();
 
 
    /* if (_formKey.currentState!.validate()) {

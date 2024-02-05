@@ -19,6 +19,7 @@ import 'package:daily_recipe/widgets/recommended.recipes.widget.dart';
 import 'package:daily_recipe/widgets/search.bar.dart';
 import 'package:daily_recipe/widgets/test.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -176,7 +177,7 @@ class _HomePageState extends State<HomePage>
                   //"${GetIt.I.get<SharedPreferences>().getString("name")}",
                   //"${PreferencService.prefs?.getString("username")}",
                   style: const TextStyle(color: Colors.grey),
-                ),
+                ).tr(),
                 const SizedBox(
                   height: 10,
                 ),
@@ -187,7 +188,7 @@ class _HomePageState extends State<HomePage>
                       fontSize: 24,
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.italic),
-                ),
+                ).tr(),
                 /*const SizedBox(
                   height: 10,
                 ),
@@ -313,7 +314,7 @@ class _HomePageState extends State<HomePage>
                 ),
                 GestureDetector(
                     onTap: ()=>NavigationUtils.push(context: context, page: FiltterPage()),
-                    child: SearchBarEX(hintText: "Search for recipes")),
+                    child: SearchBarEX(hintText: "Search for recipes".tr())),
                 const SizedBox(
                   height: 25,
                 ),

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daily_recipe/models/recipe.model.dart';
 import 'package:daily_recipe/pages/notification.page.dart';
+import 'package:daily_recipe/pages/recipe.view.page.dart';
 import 'package:daily_recipe/pages/side.menu.page.dart';
+import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/widgets/header.bar.dart';
 import 'package:daily_recipe/widgets/fresh.recipes.widget.dart';
 import 'package:daily_recipe/widgets/search.bar.dart';
@@ -173,14 +175,19 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                                               top: 10, bottom: 10),
                                           child: Stack(
                                             children: [
-                                              CardRecipeVertical(
-                                                  recipe: searchController
-                                                          .text.isEmpty
-                                                      ? recipeList[index]
-                                                      : searchedRecipes[index]),
+                                              InkWell(
+                                                onTap:(){
+                                                  NavigationUtils.push(context: context, page: RecipeViewPage(recipe:recipeList[index] ));
+                                                },
+                                                child: CardRecipeVertical(
+                                                    recipe: searchController
+                                                            .text.isEmpty
+                                                        ? recipeList[index]
+                                                        : searchedRecipes[index]),
+                                              ),
                                               Positioned(
                                                  top: 8,
-                                                  right: 18,
+                                                  right: 20,
                                                   child: GestureDetector(
                                                       onTap: () => Provider.of<
                                                                   RecipesProvider>(
@@ -191,7 +198,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                                                                   .docId!),
                                                       child: Container(
                                                           color: Colors.grey[200],
-                                                          child: Icon(Icons.clear,color: Colors.grey,size: 25,))))
+                                                          child: Icon(Icons.delete,color: Colors.grey,size: 25,))))
                                             ],
                                           ));
                                     }));

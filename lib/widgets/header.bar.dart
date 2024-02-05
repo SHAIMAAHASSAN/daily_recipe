@@ -1,6 +1,7 @@
 
 import 'package:daily_recipe/pages/view.all.recipes.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,7 @@ class HeaderBar extends StatelessWidget {
             ,
             style:
             TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-          ),
+          ).tr(),
           GestureDetector(
 
               onTap: (){
@@ -31,7 +32,7 @@ class HeaderBar extends StatelessWidget {
               child:  Text(titleRight
               ,
                 style: TextStyle(color: Colors.deepOrange, fontSize: 18,fontWeight: FontWeight.w500),
-              )),
+              ).tr()),
         ],
       ),
 

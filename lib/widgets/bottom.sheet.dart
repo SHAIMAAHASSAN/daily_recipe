@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class BuildBottomSheet extends StatelessWidget {
@@ -41,7 +42,7 @@ class BuildBottomSheet extends StatelessWidget {
                 children: [
                   const Text("Directions",
                       style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20)),
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20)).tr(),
                   SizedBox(height: 10,),
                   Column(
                     children: directions!.entries.map((entry) {
@@ -53,24 +54,23 @@ class BuildBottomSheet extends StatelessWidget {
 
                             Row(
                               children: [
-                                Text("Step ",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),),
+                                Text("Step ",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),).tr(),
                                 Text(
                                   "${entry.key}:",
                                   style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18),
-                                ),
+                                ).tr(),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              " ${entry.value}",
-                              style: TextStyle(
+                            Text(tr("${entry.value}"),
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
-                            SizedBox(height: 5,),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 15.0,left: 15),
+                            const SizedBox(height: 5,),
+                            const Padding(
+                              padding: EdgeInsets.only(right: 15.0,left: 15),
                               child: Divider(),
                             ),
                           ],

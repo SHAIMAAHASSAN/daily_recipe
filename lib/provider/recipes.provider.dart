@@ -171,7 +171,7 @@ class RecipesProvider extends ChangeNotifier {
       var result = await FirebaseFirestore.instance
           .collection('recipes')
           .where('isFresh', isEqualTo: false)
-          .limit(3)
+          .limit(5)
           .get();
       if (result.docs.isNotEmpty) {
         _recommendrecipesList = List<Recipe>.from(

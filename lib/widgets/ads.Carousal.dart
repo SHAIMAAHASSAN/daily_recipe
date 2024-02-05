@@ -41,8 +41,8 @@ class AdsCarousal extends StatelessWidget {
                         color: Colors.white70,
                       ),
                       child: FadeInImage(
-                        fadeInDuration: Duration(seconds: 3),
-                        fadeInCurve: Curves.easeIn,
+                       /* fadeInDuration: Duration(seconds: 3),
+                        fadeInCurve: Curves.easeIn,*/
                         image: NetworkImage(ad.image!),
                         fit: BoxFit.fitHeight,
                         width: 200,

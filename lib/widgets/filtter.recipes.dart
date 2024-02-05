@@ -43,7 +43,7 @@ class _FiltterRecipesState extends State<FiltterRecipes> {
                 icon: Icon(Icons.notifications)),
           ]),
       body: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -71,7 +71,7 @@ class _FiltterRecipesState extends State<FiltterRecipes> {
                         itemBuilder: (context, index) {
 
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 10,right: 10,left: 10),
+                            padding: const EdgeInsets.only(bottom: 5,right: 5,left: 10),
                             child: GestureDetector(
                                 onDoubleTap: () {
 

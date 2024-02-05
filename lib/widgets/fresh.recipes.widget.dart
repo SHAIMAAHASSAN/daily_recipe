@@ -98,7 +98,7 @@ class _FreshRecipesWidgetState extends State<FreshRecipesWidget> {
       }
 
       return Container(
-        child: Image.asset("assets/images/loading.gif",width: 50,height: 50,),
+        child: Center(child: Image.asset("assets/images/loading.gif",width: 200,height: 200,)),
       );
     });
   }
