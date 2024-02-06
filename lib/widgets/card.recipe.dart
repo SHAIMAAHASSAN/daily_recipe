@@ -79,41 +79,41 @@ class _CardRecipeState extends State<CardRecipe> {
                         size: 25),
                   ),
                 ),*/
-                Container(
-                    // color: Colors.cyan,
+                Expanded(
+                  child:  Transform.translate(
+                    offset: Offset(4, 0),
+                    child: FadeInImage(
+                     /* fadeInDuration: Duration(seconds: 3),
+                      fadeInCurve: Curves.easeIn, */// Apply the ease-in curve
+                  
+                      image: NetworkImage(widget.recipe.image!),
+                      fit: BoxFit.fitHeight,
+                      width: 115,
+                      height: 90,
+                      placeholder: AssetImage("assets/images/loading.gif"),
+                    ),
+                  
+                    // ),
+                  
+                    /*Image(
+                         width:200,
+                        height: 130,
+                  
+                        image:  NetworkImage(
+                            widget.image!),
+                          fit: BoxFit.fitHeight
+                  
+                      ),*/
+                  ) // Use 'favorite_border' initially)
+                  
 
-                    child: Transform.translate(
-                  offset: Offset(4, 0),
-                  child: FadeInImage(
-                   /* fadeInDuration: Duration(seconds: 3),
-                    fadeInCurve: Curves.easeIn, */// Apply the ease-in curve
-
-                    image: NetworkImage(widget.recipe.image!),
-                    fit: BoxFit.fitHeight,
-                    width: 115,
-                    height: 90,
-                    placeholder: AssetImage("assets/images/loading.gif"),
-                  ),
-
-                  // ),
-
-                  /*Image(
-                       width:200,
-                      height: 130,
-
-                      image:  NetworkImage(
-                          widget.image!),
-                        fit: BoxFit.fitHeight
-
-                    ),*/
-                ) // Use 'favorite_border' initially)
-
-                    )
+                )
               ],
             ),
             // SizedBox(
             //  height: 100,
             // ),
+            SizedBox(height: 3),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

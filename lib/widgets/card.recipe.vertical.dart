@@ -8,64 +8,50 @@ class CardRecipeVertical extends StatefulWidget {
   CardRecipeVertical(
       {super.key,
         required this.recipe
-      /*required this.mealType,
-      required this.title,
-      required this.image,
-      required this.calories,
-      required this.prepTime,
-      required this.serving,required this.currentIndex*/});
+      });
 
   Recipe recipe;
- /* String? mealType;
-  String? title;
-  //String? description;
-  String? image;
-  // int? rating;
-  int? prepTime;
-  int? serving;
-  int? calories;
-  int currentIndex;*/
+
 
   @override
   State<CardRecipeVertical> createState() => _CardRecipeVerticalState();
 }
 
 class _CardRecipeVerticalState extends State<CardRecipeVertical> {
-  Color _color = Colors.grey;
-  bool isfavorite = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
           color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(20), // Adjust radius as needed
-          // border: Border.all(color: Colors.black, width: 2), // Optional border
+          borderRadius: BorderRadius.circular(20),
+
         ),
         child: Padding(
           padding:
-              const EdgeInsets.only(right: 4.0, left: 4, top: 8, bottom: 8),
+              const EdgeInsets.only(right: 8.0, left: 4, top: 8, bottom: 8),
           child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-             // mainAxisSize: MainAxisSize.max,
+             mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  //color: Colors.cyan,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20),
+
+                Expanded(
+                  child: SizedBox(width: 90,
+                   height: 90,
                     child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Image(
-                        image: NetworkImage(widget.recipe.image!),
-                        alignment: Alignment.center,
-                        width: 85,
-                      ),
-                    ),
+                          padding: const EdgeInsets.only(top:10.0,right: 4,),
+                          child: FadeInImage(
+                            placeholder:const AssetImage("assets/images/loading.gif"),
+                            image: NetworkImage(widget.recipe.image!),
+
+                           // width: 90,
+                          ),
+                        ),
                   ),
                 ),
-                SizedBox(
-                  width: 10,
+
+                const SizedBox(
+                 // width: 10,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +71,7 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                         ),
                       ).tr(),
                     ),
-//const Text("description"),
+
                     Row(
                       children: [
                         AnimatedRatingBar(
@@ -98,14 +84,14 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                             setState(() {});
                           },
                         ),
-                        SizedBox(width: 10,),
+                        const SizedBox(width: 10,),
                         Row(
                           children: [
                             Text(" ${ widget.recipe.calories}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.deepOrange, fontSize: 12)),
-                            SizedBox(width: 3,),
-                            Text(" Calories",
+                            const SizedBox(width: 3,),
+                            const Text(" Calories",
                                 style: TextStyle(color: Colors.deepOrange, fontSize: 12)).tr(),
                           ],
                         ),
@@ -117,35 +103,35 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.access_time_outlined,size: 14,),
+                            const Icon(Icons.access_time_outlined,size: 14,),
                             Row(
                               children: [
                                 Text(" ${ widget.recipe.prepTime!}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.grey, fontSize: 12)),
-                                SizedBox(width: 3,),
-                                Text(" mins",
+                                const SizedBox(width: 3,),
+                                const Text(" mins",
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 12)).tr()
                               ],
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width:22,
                         ),
                         Row(
                           children: [
-                            Icon(Icons.dinner_dining,size: 14,),
+                            const Icon(Icons.dinner_dining,size: 14,),
                             Padding(
-                              padding: EdgeInsets.all(2.0),
+                              padding: const EdgeInsets.all(2.0),
                               child: Row(
                                 children: [
                                   Text(" ${ widget.recipe.serving}",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.grey, fontSize: 12)),
-                                  SizedBox(width: 3,),
-                                  Text(" serving",
+                                  const SizedBox(width: 3,),
+                                  const Text(" serving",
                                       style: TextStyle(
                                           color: Colors.grey, fontSize: 12)).tr()
                                 ],
@@ -157,105 +143,9 @@ class _CardRecipeVerticalState extends State<CardRecipeVertical> {
                     )
                   ],
                 ),
-                SizedBox(width: 8,),
-                Align(
-                  alignment: Alignment.topRight,
-                  child:FavoriteIcon(recipe: widget.recipe),
+               FavoriteIcon(recipe: widget.recipe),
 
-                  /*GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        // Rebuild widget with updated state
-                        isfavorite = !isfavorite; // Toggle favorite state
-                        _color = isfavorite
-                            ? Colors.deepOrange
-                            : Colors.grey; // Change color based on state
-                      });
-                    },
-                    child: Icon(
-                        isfavorite ? Icons.favorite : Icons.favorite_border,
-                        color: _color,
-                        size: 24),
-                  ),*/ // Use 'favorite_border' initially)
-                )
               ]),
         ));
   }
 }
-/*ListTile(
-leading: Image(image: AssetImage(widget.image!),),
-title: Column(
-crossAxisAlignment: CrossAxisAlignment.start,
-children: [
-
-Text(
-widget.mealType!,
-style: TextStyle(color: Colors.cyan[600], fontSize: 18),
-),
-Text(widget.title!, style: TextStyle(fontSize: 18)),
-//const Text("description"),
-Row(children: [
-Padding(
-padding: const EdgeInsets.all(5.0),
-child: AnimatedRatingBar(
-width: 80,
-initialRating: 0,
-animationColor: Colors.yellow,
-strokeColor: Colors.grey,
-activeFillColor: Colors.deepOrange,
-onRatingUpdate: (double value) {
-setState(() {});
-},
-),
-),
-Text(" ${widget.calories} Calories",
-style: TextStyle(
-color: Colors.deepOrange, fontSize: 12)),
-],),
-
-Row(
-mainAxisAlignment: MainAxisAlignment.spaceBetween,
-children: [
-Row(
-children: [
-Icon(Icons.access_time_outlined),
-Padding(
-padding: EdgeInsets.all(3.0),
-child: Text(" ${widget.prepTime!} mins",
-style: TextStyle(
-color: Colors.grey, fontSize: 14)),
-),
-],
-),
-//SizedBox(width: 20,),
-Row(
-children: [
-Icon(Icons.dinner_dining),
-Padding(
-padding: EdgeInsets.all(3.0),
-child: Text(" ${widget.serving} serving",
-style: TextStyle(
-color: Colors.grey, fontSize: 14)),
-),
-],
-)
-],
-)
-],
-),
-
-trailing: IconButton(
-icon: Icon(Icons.favorite,
-color: _color,
-size: 24), // Use 'favorite_border' initially
-onPressed: () {
-setState(() {
-// Rebuild widget with updated state
-isfavorite = !isfavorite; // Toggle favorite state
-_color = isfavorite
-? Colors.orange
-    : Colors.grey; // Change color based on state
-});
-},
-),
-)*/

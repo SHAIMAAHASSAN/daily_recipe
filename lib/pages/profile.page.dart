@@ -41,6 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
     print("====================photo=${Provider.of<AuthProviderViewModel>(context, listen: false).photo}=============================");
     return Scaffold(
         appBar: AppBar(
+          title: Text("Profile",style: TextStyle(fontWeight: FontWeight.w500),),
+            backgroundColor: Colors.brown[100],
             leading: IconButton(
                 onPressed: () {
                   Navigator.push(

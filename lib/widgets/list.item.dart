@@ -32,7 +32,7 @@ class _ListItemState extends State<ListItem> {
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0,bottom: 10),
         child: ListTile(
-          leading: Icon(widget.leadingIcon, color: isSelected ? Colors.deepOrange : Colors.grey),
+          leading: Icon(widget.leadingIcon, color: isSelected ? Colors.deepOrange : Colors.black54),
           title: Text(widget.title, style: TextStyle(color: isSelected ? Colors.deepOrange
               : Colors.grey,fontSize: 18)).tr(),
          // tileColor: Colors.blue,

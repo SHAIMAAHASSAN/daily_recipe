@@ -21,7 +21,7 @@ class RecipesProvider extends ChangeNotifier {
   List<Recipe> _freshrecipesList = [];
   List<Recipe> get freshrecipesList => _freshrecipesList;
   List<Recipe> _recommendrecipesList = [];
-  List<Recipe> get recommendrecipesList => _recommendrecipesList;
+  List<Recipe> get recommendRecipesList => _recommendrecipesList;
   List<Recipe> _favoriteRecipesList = [];
   List<Recipe> get favoriteRecipesList => _favoriteRecipesList;
   List<Recipe> _viewedRecipesList = [];
@@ -263,12 +263,12 @@ class RecipesProvider extends ChangeNotifier {
         freshrecipesList?.insert(freshRecipesListIndex!, updatedRecipe);
       }
 
-      var recommandedRecipesListIndex = recommendrecipesList
+      var recommandedRecipesListIndex = recommendRecipesList
           ?.indexWhere((recipe) => recipe.docId == recipeId);
 
       if (recommandedRecipesListIndex != -1) {
-        recommendrecipesList?.removeAt(recommandedRecipesListIndex!);
-        recommendrecipesList?.insert(
+        recommendRecipesList?.removeAt(recommandedRecipesListIndex!);
+        recommendRecipesList?.insert(
             recommandedRecipesListIndex!, updatedRecipe);
       }
 

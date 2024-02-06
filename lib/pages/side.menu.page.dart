@@ -1,5 +1,5 @@
 import 'package:daily_recipe/pages/favorite.page.dart';
-import 'package:daily_recipe/pages/filtter.page.dart';
+import 'package:daily_recipe/pages/filter.page.dart';
 import 'package:daily_recipe/pages/home.page.dart';
 import 'package:daily_recipe/pages/profile.page.dart';
 import 'package:daily_recipe/pages/recently_view.Page.dart';
@@ -72,7 +72,9 @@ class _SideMenuPageState extends State<SideMenuPage> {
                           "${FirebaseAuth.instance.currentUser!.displayName}"),
                       // "${FirebaseAuth.instance.currentUser!.displayName}"),
                       //${GetIt.I.get<SharedPreferences>().getString("name")}
-                      subtitle: Text("View Profile").tr(),
+                      subtitle: InkWell(
+                          onTap:()=> NavigationUtils.push(context: context, page: ProfilePage()) ,
+                          child: Text("View Profile").tr()),
                       /*trailing: IconButton(
                           onPressed: () {}, icon: Icon(Icons.notifications)),*/
                     ),
@@ -105,7 +107,7 @@ class _SideMenuPageState extends State<SideMenuPage> {
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: ListTile(
-                leading: Icon(Icons.exit_to_app_outlined, color: isSelected ? Colors.deepOrange : Colors.grey),
+                leading: Icon(Icons.exit_to_app_outlined, color: isSelected ? Colors.deepOrange : Colors.black54),
                 title: Text("SignOut", style: TextStyle(color: isSelected ? Colors.deepOrange
                     : Colors.grey,fontSize: 18)).tr(),
               ),

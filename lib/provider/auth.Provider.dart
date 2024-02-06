@@ -152,70 +152,75 @@ class AuthProviderViewModel extends ChangeNotifier {
       if (formKey?.currentState?.validate() ?? false) {
         OverlayLoadingProgress.start();
         UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController!.text,
           password: passwordController!.text,
         );
 
         if (userCredential.user != null) {
           await userCredential.user!
-             .updateDisplayName(FirebaseAuth.instance.currentUser!.displayName!);
-          photo=FirebaseAuth.instance.currentUser!.photoURL;
-        /* username =
+              .updateDisplayName(
+              FirebaseAuth.instance.currentUser!.displayName!);
+          photo = FirebaseAuth.instance.currentUser!.photoURL;
+          /* username =
               FirebaseAuth.instance.currentUser!.displayName!;*/
           OverlayLoadingProgress.stop();
           providerDispose();
-
           if (context.mounted) {
-             ToastMessageWidget(toastStatus: ToastStatus.success,
-                message:'Successful login,Welcome ${"${FirebaseAuth.instance.currentUser!.displayName}"}');
-           // ToastMessageUtils.toastMessage(context, ToastStatus.success,
-             //  'Successful login,Welcome ${"${FirebaseAuth.instance.currentUser!.displayName}"}');
+            ToastMessageUtils.showToastMessage(context, ToastStatus.success,
+                'Successful login,Welcome ${"${FirebaseAuth.instance
+                    .currentUser!.displayName}"}');
 
             NavigationUtils.pushReplacement(
                 context: context, page: HomePage());
+            ToastMessageUtils.showToastMessage(
+                context, ToastStatus.success, "Enjoy with our recipes.");
           }
         }
         OverlayLoadingProgress.stop();
       }
     } on FirebaseAuthException catch (e) {
       OverlayLoadingProgress.stop();
-      if (e.code == 'user-not-found') {
-        const ToastMessageWidget(toastStatus: ToastStatus.failed, message: 'No user found for that email.');
-      //  ToastMessageUtils.toastMessage(
-          // context,ToastStatus.failed, 'No user found for that email.');
-        // print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        if(context.mounted){
-        ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
-            'Wrong password provided for that user.');}
+      if (context.mounted) {
+        if (e.code == 'user-not-found') {
+          // const ToastMessageWidget(toastStatus: ToastStatus.failed, message: 'No user found for that email.');
+          ToastMessageUtils.showToastMessage(
+              context, ToastStatus.failed, 'No user found for that email.');
+          // print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+              'Wrong password provided for that user.');
+        }
         //  print('Wrong password provided for that user.');
-      } else if (e.code == 'invalid-email') {
-        if(context.mounted){
-        ToastMessageUtils.showToastMessage(
-            context, ToastStatus.failed, 'Invalid email address.');}
+        else if (e.code == 'invalid-email') {
+          ToastMessageUtils.showToastMessage(
+              context, ToastStatus.failed, 'Invalid email address.');
 
-        // print('Invalid email address.');
-      }
-      if (e.code == 'network-errors') {
-        if(context.mounted){
-        ToastMessageUtils.showToastMessage(
-            context, ToastStatus.failed, 'Network errors,Try again.');}
 
-        // print('Network errors.');
-      }
-      if (e.code == 'email-already-in-use') {
-        if(context.mounted){
-        ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
-            'Email already exists by another user.');}
+          // print('Invalid email address.');
+        }
+        if (e.code == 'network-errors') {
+          ToastMessageUtils.showToastMessage(
+              context, ToastStatus.failed, 'Network errors,Try again.');
 
-        // print('Email already exists by another user.');
-      } else {
-        if(context.mounted){
-        ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
-            'Something went wrong with Firebase Auth.$e');}
 
-        //print('Something went wrong with Firebase Auth.$e');
+          // print('Network errors.');
+        }
+        if (e.code == 'email-already-in-use') {
+          ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+              'Email already exists by another user.');
+
+          if (e.code == 'invalid-credential') {
+            ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+                ' The supplied auth credential is incorrect.');
+            // print('The supplied auth credential is incorrect.');
+          } else {
+            ToastMessageUtils.showToastMessage(context, ToastStatus.failed,
+                'Something went wrong with Firebase Auth.$e');
+
+            print('Something went wrong with Firebase Auth.$e');
+          }
+        }
       }
     }
   }
@@ -237,7 +242,7 @@ class AuthProviderViewModel extends ChangeNotifier {
           await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
           if(context.mounted){
           ToastMessageUtils.showToastMessage(context, ToastStatus.success,
-              'welcome endPasswordResetEmail .');
+              'Check your Email to reset password .');
           NavigationUtils.push(context: context, page: LoginPage());}
         }
         // Display a success message to the user

@@ -6,6 +6,7 @@ import 'package:daily_recipe/pages/side.menu.page.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/widgets/header.bar.dart';
 import 'package:daily_recipe/widgets/fresh.recipes.widget.dart';
+import 'package:daily_recipe/widgets/recommended.recipes.widget.dart';
 import 'package:daily_recipe/widgets/search.bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,6 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
   String searchedRecipe = '';
 
   void searchedForRecipe(String searchedRecipeLetter) async {
-    /* favoriteRecipeList = Provider.of<RecipesProvider>(context, listen: false)
-        .favoriteRecipesList;*/
-
     searchedRecipes = recipeList
         .where((recipe) =>
             recipe.title!.toLowerCase().contains(searchedRecipeLetter))
@@ -89,7 +87,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                 SizedBox(
                   height: 20,
                 ),
-                // SearchBarEX(hintText: "Search Using Keywords"),
+
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: Row(
@@ -150,7 +148,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                     builder: (context, snapshots) {
                       if (snapshots.connectionState ==
                           ConnectionState.waiting) {
-                        return  Container(
+                        return Container(
                           child: Image.asset("assets/images/loading.gif"),
                         );
                       } else {
@@ -176,18 +174,23 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                                           child: Stack(
                                             children: [
                                               InkWell(
-                                                onTap:(){
-                                                  NavigationUtils.push(context: context, page: RecipeViewPage(recipe:recipeList[index] ));
+                                                onTap: () {
+                                                  NavigationUtils.push(
+                                                      context: context,
+                                                      page: RecipeViewPage(
+                                                          recipe: recipeList[
+                                                              index]));
                                                 },
                                                 child: CardRecipeVertical(
                                                     recipe: searchController
                                                             .text.isEmpty
                                                         ? recipeList[index]
-                                                        : searchedRecipes[index]),
+                                                        : searchedRecipes[
+                                                            index]),
                                               ),
                                               Positioned(
-                                                 top: 8,
-                                                  right: 20,
+                                                  top: 8,
+                                                  right: 10,
                                                   child: GestureDetector(
                                                       onTap: () => Provider.of<
                                                                   RecipesProvider>(
@@ -197,8 +200,13 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                                                               recipeList[index]
                                                                   .docId!),
                                                       child: Container(
-                                                          color: Colors.grey[200],
-                                                          child: Icon(Icons.delete,color: Colors.grey,size: 25,))))
+                                                          color:
+                                                              Colors.grey[200],
+                                                          child: Icon(
+                                                            Icons.delete,
+                                                            color: Colors.grey,
+                                                            size: 25,
+                                                          ))))
                                             ],
                                           ));
                                     }));

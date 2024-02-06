@@ -1,55 +1,41 @@
 import 'package:daily_recipe/models/recipe.model.dart';
-import 'package:daily_recipe/pages/filtter.page.dart';
+import 'package:daily_recipe/pages/filter.page.dart';
 import 'package:daily_recipe/services/ads.services.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:flutter/material.dart';
 class SearchBarEX extends StatefulWidget {
   const SearchBarEX({super.key, required this.hintText});
  final String hintText;
-// final bool textControllerEmpty ;
 
   @override
   State<SearchBarEX> createState() => _SearchBarEXState();
 }
 
 class _SearchBarEXState extends State<SearchBarEX> {
-  late List<Recipe> searchedRecipes;
-  List<Recipe> recipes =[];
-  final searchController =TextEditingController();
 
-  void searchedForRecipe (String searchedRecipe){
-    FetchData.fetchRecipesFromJson().then((value) {
-      value =recipes;
-    });
-    searchedRecipes= recipes.where((recipe) => recipe.title!.toLowerCase().startsWith(searchedRecipe)).toList();
-
-    print("=================searched=$searchedRecipes");
-    setState(() {
-
-    });
-
-  }
 
   @override
   Widget build(BuildContext context) {
 
 
-    return   Container(
+    return   SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Row(
         children: [
           Expanded(
             flex: 2,
             child: TextField(
-             controller: searchController,
-              onChanged: searchedForRecipe,
               decoration: InputDecoration(
                 hintText: widget.hintText,
                 hintStyle: TextStyle(color: Colors.grey.shade600),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey.shade600,
-                  size: 20,
+                prefixIcon: InkWell(
+                  onTap: () => NavigationUtils.push(
+                      context: context, page: const FiltterPage()),
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.grey.shade600,
+                    size: 20,
+                  ),
                 ),
                 filled: true,
                 fillColor: Colors.grey.shade100,
@@ -73,7 +59,10 @@ class _SearchBarEXState extends State<SearchBarEX> {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.tune_sharp),
+              child: InkWell(
+                  onTap: () => NavigationUtils.push(
+                      context: context, page: const FiltterPage()),
+                  child: Icon(Icons.tune_sharp)),
             ),
           )
         ],

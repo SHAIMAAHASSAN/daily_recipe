@@ -52,19 +52,19 @@ class _FiltterPageState extends State<FiltterPage> {
       appBar:AppBar(
           leading: IconButton(
               onPressed: () {
-                NavigationUtils.push(context: context, page: SideMenuPage());
+                NavigationUtils.push(context: context, page: const SideMenuPage());
               },
-              icon: Icon(Icons.sort)),
+              icon: const Icon(Icons.sort)),
           actions: [
             IconButton(
                 onPressed: () {
                   NavigationUtils.push(
-                      context: context, page: NotificationPage());
+                      context: context, page: const NotificationPage());
                 },
-                icon: Icon(Icons.notifications)),
+                icon: const Icon(Icons.notifications)),
           ]),
       body:  Padding(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         child: SingleChildScrollView(
           child: Column(
            crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +73,7 @@ class _FiltterPageState extends State<FiltterPage> {
           child:   Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Filter"
+              const Text("Filter"
                 ,
                 style:
                 TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -89,7 +89,7 @@ class _FiltterPageState extends State<FiltterPage> {
 
                   });
                 },
-                child: Text("Reset"
+                child: const Text("Reset"
                   ,
                   style: TextStyle(color: Colors.deepOrange, fontSize: 18,fontWeight: FontWeight.w500),
                 ),
@@ -100,166 +100,33 @@ class _FiltterPageState extends State<FiltterPage> {
 
         ),
               //HeaderBar(title:"Filter", titleRight:"Reset " ),
-              SizedBox(height: 10,),
-              Text("Meal",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
+              const Text("Meal",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
+              const SizedBox(height: 10,),
               Wrap(
                 // space between chips
                   spacing: 20,
                   // list of chips
                   children: [
-                    ChipWidget(mealType: "BREAKFAST",selectedUserValue: selectedUserValue,onSelect:onSelect /*(newValue) {
-                      setState(() {
-                        selectedUserValue = newValue;
-                      });
-                    }*/,),
+                    ChipWidget(mealType: "BREAKFAST",selectedUserValue: selectedUserValue,onSelect:onSelect ,),
                     ChipWidget(mealType: "DINNER",selectedUserValue: selectedUserValue,onSelect: onSelect,),
-                    ChipWidget(mealType: "SOUP",selectedUserValue: selectedUserValue,onSelect: (newValue) {
-                      setState(() {
-                        selectedUserValue = newValue;
-                      });
-                    },),
-                    ChipWidget(mealType: "SALAD",selectedUserValue: selectedUserValue,onSelect: onSelect/*(newValue) {
-                      setState(() {
-                        selectedUserValue = newValue;
-                      });
-                    },*/),
-                    ChipWidget(mealType: "HEALTHY",selectedUserValue: selectedUserValue,onSelect: onSelect/*(newValue) {
-                      setState(() {
-                        selectedUserValue = newValue;
-                      });
-                    },*/),
-                    ChipWidget(mealType: "DESSERT",selectedUserValue: selectedUserValue,onSelect:onSelect /*(newValue) {
-                      setState(() {
-                        selectedUserValue = newValue;
-                      });
-                    }*/,),
-                    ChipWidget(mealType: "QUICK&EASY",selectedUserValue: selectedUserValue,onSelect: onSelect /*(newValue) {
-                      setState(() {
-                        selectedUserValue = newValue;
-                      });
-                    }*/,),
-                    ChipWidget(mealType: "VEGETARIAN",selectedUserValue: selectedUserValue,onSelect: onSelect /*(newValue) {
-                      setState(() {
-                        selectedUserValue = newValue;
-                      });
-                    }*/,),
-                    /*InkWell(
-                      onTap: () {
-                        selectedUserValue['meal_type'] = "BREAKFAST";
-                        setState(() {});
-                      },
-                      child: Chip(
-                        label: Text('BREAKFAST',style: TextStyle(color:*//*selectedUserValue['type'] == "BREAKFAST"
-                            ? Colors.white
-                            :*//* Colors.black54, ),),
-                        backgroundColor: selectedUserValue['meal_type'] == "BREAKFAST"
-                            ? Colors.deepOrange
-                            : Colors.grey[200],
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        selectedUserValue['meal_type'] = "DINNER";
-                        setState(() {});
-                      },
-                      child: Chip(
-                        label: Text('DINNER',style: TextStyle(color:*//*selectedUserValue['type'] == "BREAKFAST"
-                            ? Colors.white
-                            :*//* Colors.black54, )),
-                        backgroundColor: selectedUserValue['meal_type'] == "DINNER"
-                            ? Colors.deepOrange
-                            : Colors.grey[200],
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        selectedUserValue['meal_type'] = "SOUP";
-                        setState(() {});
-                      },
-                      child: Chip(
-                        label: Text('SOUP',style: TextStyle(color:*//*selectedUserValue['type'] == "BREAKFAST"
-                            ? Colors.white
-                            :*//* Colors.black54, )),
-                        backgroundColor: selectedUserValue['meal_type'] == "SOUP"
-                            ? Colors.deepOrange
-                            : Colors.grey[200],
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        selectedUserValue['meal_type'] = "SALAD";
-                        setState(() {});
-                      },
-                      child: Chip(
-                        label: Text('SALAD',style: TextStyle(color:*//*selectedUserValue['type'] == "BREAKFAST"
-                            ? Colors.white
-                            :*//* Colors.black54, )),
-                        backgroundColor: selectedUserValue['meal_type'] == "SALAD"
-                            ? Colors.deepOrange
-                            : Colors.grey[200],
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        selectedUserValue['meal_type'] = "DESSERT";
-                        setState(() {});
-                      },
-                      child: Chip(
-                        label: Text('DESSERT',style: TextStyle(color:*//*selectedUserValue['type'] == "BREAKFAST"
-                            ? Colors.white
-                            : *//*Colors.black54, )),
-                        backgroundColor: selectedUserValue['meal_type'] == "DESSERT"
-                            ? Colors.deepOrange
-                            : Colors.grey[200],
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        selectedUserValue['meal_type'] = "HEALTHY";
-                        setState(() {});
-                      },
-                      child: Chip(
-                        label: Text('HEALTHY',style: TextStyle(color:*//*selectedUserValue['type'] == "BREAKFAST"
-                            ? Colors.white
-                            :*//* Colors.black54, )),
-                        backgroundColor: selectedUserValue['meal_type'] == "HEALTHY"
-                            ? Colors.deepOrange
-                            : Colors.grey[200],
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        selectedUserValue['meal_type'] = "QUICK&EASY";
-                        setState(() {});
-                      },
-                      child: Chip(
-                        label: Text('QUICK&EASY',style: TextStyle(color:*//*selectedUserValue['type'] == "BREAKFAST"
-                            ? Colors.white
-                            :*//* Colors.black54, )),
-                        backgroundColor: selectedUserValue['meal_type'] == "QUICK&EASY"
-                            ? Colors.deepOrange
-                            : Colors.grey[200],
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      ),
-                    ),*/
-          
+                    ChipWidget(mealType: "SOUP",selectedUserValue: selectedUserValue,onSelect: onSelect),
+                    ChipWidget(mealType: "SALAD",selectedUserValue: selectedUserValue,onSelect: onSelect),
+                    ChipWidget(mealType: "HEALTHY",selectedUserValue: selectedUserValue,onSelect: onSelect),
+                    ChipWidget(mealType: "DESSERT",selectedUserValue: selectedUserValue,onSelect:onSelect ,),
+                    ChipWidget(mealType: "QUICK&EASY",selectedUserValue: selectedUserValue,onSelect: onSelect ,),
+                    ChipWidget(mealType: "VEGETARIAN",selectedUserValue: selectedUserValue,onSelect: onSelect ,),
+
           
                   ]),
-              Divider(),
-              SizedBox(height: 10,),
-              Text("Serving",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
-              SizedBox(height: 10,),
+              const Divider(),
+              const SizedBox(height: 10,),
+              const Text("Serving",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
+              const SizedBox(height: 10,),
               Row(
                 children: [
-                  Text("Enter number of serving :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
-                  SizedBox(width: 20,),
+                  const Text("Enter number of serving :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
+                  const SizedBox(width: 20,),
 
                   Text(servingValue.round().toString()),
 
@@ -294,15 +161,15 @@ class _FiltterPageState extends State<FiltterPage> {
               });
             },
           ),
-              SizedBox(height: 5,),
-              Divider(),
-              SizedBox(height: 10,),
-              Text("Preparation Time",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
-              SizedBox(height: 10,),
+              const SizedBox(height: 5,),
+              const Divider(),
+              const SizedBox(height: 10,),
+              const Text("Preparation Time",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
+              const SizedBox(height: 10,),
               Row(
                 children: [
-                  Text("Enter Preparation Time :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
-                  SizedBox(width: 20,),
+                  const Text("Enter Preparation Time :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
+                  const SizedBox(width: 20,),
                   Text(prepTimeValue.round().toString()+" mins"),
                   /*SizedBox(
                     height: 10,
@@ -335,15 +202,15 @@ class _FiltterPageState extends State<FiltterPage> {
                   });
                 },
               ),
-              SizedBox(height: 5,),
-              Divider(),
-              SizedBox(height: 10,),
-              Text("Calories",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
-              SizedBox(height: 10,),
+              const SizedBox(height: 5,),
+              const Divider(),
+              const SizedBox(height: 10,),
+              const Text("Calories",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
+              const SizedBox(height: 10,),
               Row(
                 children: [
-                  Text("Select Calories numbers :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
-                  SizedBox(width: 20,),
+                  const Text("Select Calories numbers :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
+                  const SizedBox(width: 20,),
                  Text(caloriesValue.round().toString()+" Cal."),
                  /* SizedBox(
                     height: 10,
@@ -376,10 +243,10 @@ class _FiltterPageState extends State<FiltterPage> {
                   });
                 },
               ),
-              SizedBox(height: 5,),
-              Divider(),
+              const SizedBox(height: 5,),
+              const Divider(),
           
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Center(
                 child: Container(
                   width: 250,
@@ -393,10 +260,6 @@ class _FiltterPageState extends State<FiltterPage> {
                       ),
                       onPressed: () async {
 
-                      //  int serving= int.parse(servingController.text);
-                       /* int? time= int.parse(prepTimeController.text);
-                        time.runtimeType;
-*/
                        // print("""""""""""""""""""time=${time.runtimeType}""""""""""""""""""");
                         print("""""""""""""""""""'meal_type'=${selectedUserValue['meal_type'].runtimeType}""""""""""""""""""");
                        // print("""""""""""""""""""serving=${int?.parse(servingController.text).runtimeType}""""""""""""""""""");
@@ -422,7 +285,7 @@ class _FiltterPageState extends State<FiltterPage> {
                         //  }
           
                       },
-                      child: Text(
+                      child: const Text(
                         'Apply' ,
                         style: TextStyle(
                             fontSize: 20, color: Colors.white),

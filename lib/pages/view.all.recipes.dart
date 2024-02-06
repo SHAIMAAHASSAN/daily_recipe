@@ -1,12 +1,16 @@
 import 'package:daily_recipe/pages/recipe.view.page.dart';
+import 'package:daily_recipe/pages/side.menu.page.dart';
 import 'package:daily_recipe/provider/recipes.provider.dart';
 import 'package:daily_recipe/widgets/card.recipe.dart';
 import 'package:daily_recipe/widgets/fresh.recipes.widget.dart';
+import 'package:daily_recipe/widgets/header.bar.dart';
 import 'package:flexible_grid_view/flexible_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/navigation.utils.dart';
+import 'notification.page.dart';
 class ViewAllRecipes extends StatefulWidget {
   const ViewAllRecipes({super.key});
 
@@ -15,20 +19,59 @@ class ViewAllRecipes extends StatefulWidget {
 }
 
 class _ViewAllRecipesState extends State<ViewAllRecipes> {
+  late ZoomDrawerController controller;
+
   @override
   void initState() {
+    controller = ZoomDrawerController();
     Provider.of<RecipesProvider>(context, listen: false).getRecipes(context);
     // TODO: implement initState
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
+    return /*ZoomDrawer(
+        slideWidth: MediaQuery.of(context).size.width * 0.75,
+        menuBackgroundColor: Colors.white,
+        boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 5)],
+        disableDragGesture: true,
+        mainScreenTapClose: true,
+        showShadow: true,
+        controller: controller,
+        drawerShadowsBackgroundColor: Colors.grey,
+        menuScreen: const SideMenuPage(),
+        mainScreen:*/
+      Scaffold(
+        appBar: AppBar(title: Text("Our Recipes"),
+        backgroundColor: Colors.brown[50],),
+      /*  body: NestedScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+      return <Widget>[
+        SliverAppBar(
+          pinned: false,
+          floating: true,
+          forceElevated: innerBoxIsScrolled,
+          leading: IconButton(
+              onPressed: () {
+                controller.toggle!();
+              },
+              icon: const Icon(Icons.sort)),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  NavigationUtils.push(
+                      context: context, page: const NotificationPage());
+                },
+                icon: const Icon(Icons.notifications)),
+          ],
+        ),
+      ];
+    },*/
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10),
           child: Consumer<RecipesProvider>(
-              builder: (context, value, _) =>
+              builder: (context, value, child) =>
               value.recipesList == null
                   ? const CircularProgressIndicator()
                   : (value.recipesList?.isEmpty ?? false)
@@ -44,6 +87,9 @@ class _ViewAllRecipesState extends State<ViewAllRecipes> {
                     ))
                     .toList(),
               )),
-        ));
+        ))
+    //)
+   // )
+    ;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:daily_recipe/models/ad.model.dart';
+import 'package:daily_recipe/pages/view.all.recipes.dart';
 import 'package:daily_recipe/provider/ads.provider.dart';
 import 'package:daily_recipe/services/ads.services.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../cubit/ads_cubit.dart';
+import '../utils/navigation.utils.dart';
 
 class AdsCarousal extends StatelessWidget {
   const AdsCarousal({super.key});
@@ -33,27 +35,31 @@ class AdsCarousal extends StatelessWidget {
                 //  items: context.read<AdsCubit>().ads.map(
                 items: value.adsList.map(
                   (ad) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        // borderRadius: BorderRadius.circular(30),
-                        color: Colors.white70,
+                    return InkWell(
+                      onDoubleTap: ()=> NavigationUtils.push(context: context, page: const ViewAllRecipes()),
+
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          // borderRadius: BorderRadius.circular(30),
+                          color: Colors.white70,
+                        ),
+                        child: FadeInImage(
+                         /* fadeInDuration: Duration(seconds: 3),
+                          fadeInCurve: Curves.easeIn,*/
+                          image: NetworkImage(ad.image!),
+                          fit: BoxFit.fitHeight,
+                          width: 200,
+                          height: 130,
+                          placeholder: AssetImage("assets/images/loading.gif"),
+                        ),
+                        //  Text("${i}")
+                        /* Image(
+                                image: NetworkImage(ad.image!),
+                                fit: BoxFit.fitWidth,
+                              )*/
                       ),
-                      child: FadeInImage(
-                       /* fadeInDuration: Duration(seconds: 3),
-                        fadeInCurve: Curves.easeIn,*/
-                        image: NetworkImage(ad.image!),
-                        fit: BoxFit.fitHeight,
-                        width: 200,
-                        height: 130,
-                        placeholder: AssetImage("assets/images/loading.gif"),
-                      ),
-                      //  Text("${i}")
-                      /* Image(
-                              image: NetworkImage(ad.image!),
-                              fit: BoxFit.fitWidth,
-                            )*/
                     );
                   },
                 ).toList(),

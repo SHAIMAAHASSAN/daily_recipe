@@ -51,7 +51,7 @@ class _FreshRecipesWidgetState extends State<FreshRecipesWidget> {
                 return Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: GestureDetector(
-                    onDoubleTap: () {
+                    onTap: () {
 
                      /* isRead = !isRead;
                       value.addViewedRecipesToUser(

@@ -4,6 +4,9 @@ import 'package:daily_recipe/utils/localization.checker.utils.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:material_dialogs/dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/local.model.provider.dart';
@@ -67,7 +70,35 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text("Language"),
                 trailing:  InkWell(
                     onTap: (){
-                      showModalBottomSheet(
+
+                      Dialogs.materialDialog(
+                          msg: 'Select your favorites language',
+                          title: "Set language",
+                          color: Colors.white,
+                          context: context,
+                          actions: [
+                            IconsOutlineButton(
+                              onPressed: () {
+                                Provider.of<LocaleModel>(context,listen: false).setLocale(Locale('ar', 'EG'),context);
+                              },
+                              text: 'Arabic',
+
+                              //iconData: Icons.cancel_outlined,
+                              textStyle: TextStyle(color: Colors.grey),
+                              iconColor: Colors.grey,
+                            ),
+                            IconsButton(
+                              onPressed: () {
+                                Provider.of<LocaleModel>(context,listen: false).setLocale(Locale('en', 'US'),context);
+                              },
+                              text: 'English',
+                              //iconData: Icons.delete,
+                              color: Colors.red,
+                              textStyle: TextStyle(color: Colors.white),
+                              iconColor: Colors.white,
+                            ),
+                          ]);
+                      /*showModalBottomSheet(
                         context: context,
                         constraints: BoxConstraints.expand(
                           width: MediaQuery.of(context).size.width * .5, // 80% width
@@ -80,9 +111,9 @@ class _SettingsPageState extends State<SettingsPage> {
                               InkWell(
                                 onTap: (){
                                   Provider.of<LocaleModel>(context,listen: false).setLocale(Locale('en', 'US'),context);
-                                 /* setState(() {
+                                 *//* setState(() {
                                     EasyLocalization.of(context)!.setLocale(const Locale('en', 'US'));
-                                  });*/
+                                  });*//*
 
 
                                 },
@@ -95,9 +126,9 @@ class _SettingsPageState extends State<SettingsPage> {
                               InkWell(
                                 onTap: (){
                                   Provider.of<LocaleModel>(context,listen: false).setLocale(Locale('ar', 'EG'),context);
-                                /* setState(() {
+                                *//* setState(() {
                                    EasyLocalization.of(context)!.setLocale(const Locale('ar', 'EG'));
-                                 });*/
+                                 });*//*
                                 },
                                 child: Text(
                                   'العربية',
@@ -107,7 +138,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             ],
                           ),
                         ),
-                      );
+                      );*/
                      /*setState(() {
                        LocalizationChecker.changeLanguge(context);
 
