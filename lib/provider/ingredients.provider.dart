@@ -9,7 +9,6 @@ import '../models/ingredients.dart';
 
 class IngredientsProvider extends ChangeNotifier {
   List<Ingredient>? _ingredientsList;
-
   List<Ingredient>? get ingredientsList => _ingredientsList;
 
   Future<void> getIngredients() async {
@@ -54,13 +53,10 @@ class IngredientsProvider extends ChangeNotifier {
       getIngredients();
     } catch (e) {
       OverlayLoadingProgress.stop();
-      ToastMessageUtils.showToastMessage(context, ToastStatus.failed, 'Error : ${e.toString()}');
+      if(context.mounted){
+      ToastMessageUtils.showToastMessage(context, ToastStatus.failed, 'Error : ${e.toString()}');}
 
     }
   }
 
-  void checkIngredients(){
-
-
-  }
 }

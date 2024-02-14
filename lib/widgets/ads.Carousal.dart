@@ -1,15 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:daily_recipe/models/ad.model.dart';
 import 'package:daily_recipe/pages/view.all.recipes.dart';
 import 'package:daily_recipe/provider/ads.provider.dart';
-import 'package:daily_recipe/services/ads.services.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../cubit/ads_cubit.dart';
 import '../utils/navigation.utils.dart';
 
 class AdsCarousal extends StatelessWidget {
@@ -19,20 +13,12 @@ class AdsCarousal extends StatelessWidget {
   Widget build(BuildContext context) {
     final CarouselController carouselControllerEx = CarouselController();
     return Consumer<AdsProvider>(builder: (context, value, child) {
-      /* BlocConsumer<AdsCubit, AdsState>(
-        listener: (_, __) {},
-        builder: (context, state) {*/
-      //  print(
-      //   "============================ Ads ${value.adsList}");
-      // if (context.read<AdsCubit>().ads.isNotEmpty) {
       if (value.adsList.isNotEmpty) {
         return Column(
           children: [
             Stack(children: [
               CarouselSlider(
                 carouselController: carouselControllerEx,
-                //context.read<AdsCubit>().carouselControllerEx,
-                //  items: context.read<AdsCubit>().ads.map(
                 items: value.adsList.map(
                   (ad) {
                     return InkWell(
@@ -41,24 +27,17 @@ class AdsCarousal extends StatelessWidget {
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                          // borderRadius: BorderRadius.circular(30),
+                        decoration: const BoxDecoration(
                           color: Colors.white70,
                         ),
                         child: FadeInImage(
-                         /* fadeInDuration: Duration(seconds: 3),
-                          fadeInCurve: Curves.easeIn,*/
                           image: NetworkImage(ad.image!),
                           fit: BoxFit.fitHeight,
                           width: 200,
                           height: 130,
-                          placeholder: AssetImage("assets/images/loading.gif"),
+                          placeholder: const AssetImage("assets/images/loading.gif"),
                         ),
-                        //  Text("${i}")
-                        /* Image(
-                                image: NetworkImage(ad.image!),
-                                fit: BoxFit.fitWidth,
-                              )*/
+
                       ),
                     );
                   },
@@ -74,8 +53,6 @@ class AdsCarousal extends StatelessWidget {
                       Provider.of<AdsProvider>(context, listen: false)
                           .changeIndex(index);
 
-                      //   print(
-                      //  "============${value.currentIndex}=============");
                     }),
               ),
               Positioned(
@@ -115,9 +92,6 @@ class AdsCarousal extends StatelessWidget {
 
                   Provider.of<AdsProvider>(context, listen: false)
                       .changeIndex(position);
-
-                  // print(
-                  //   "===========position  new = $position=================");
                 },
                 decorator: DotsDecorator(
                   size: const Size.square(9.0),
@@ -130,9 +104,7 @@ class AdsCarousal extends StatelessWidget {
           ],
         );
       }
-      return Container(
-        child: CircularProgressIndicator(),
-      );
+      return Image.asset("assets/images/loading.gif");
     });
   }
 }

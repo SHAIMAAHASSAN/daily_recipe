@@ -1,16 +1,10 @@
 import 'package:daily_recipe/pages/forget.password.pages.dart';
-import 'package:daily_recipe/pages/home.page.dart';
 import 'package:daily_recipe/pages/register.page.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../provider/auth.Provider.dart';
-import '../services/preference.services.dart';
 import '../utils/images.dart';
 
 class LoginPage extends StatefulWidget {
@@ -21,18 +15,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  /* bool obscureText = true;
-  final _formKey = GlobalKey<FormState>();
-  late final emailController;
-
-  late final passwordController;*/
 
   @override
   void initState() {
-    Provider.of<AuthProviderViewModel>(context, listen: false).initProvider();
-    /*  emailController = TextEditingController();
+    Provider.of<AuthProviderViewModel>(context, listen: false).initAuth();
 
-    passwordController = TextEditingController();*/
     // TODO: implement initState
     super.initState();
   }
@@ -57,31 +44,16 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // SizedBox(height: 20),
                   Image(
                     width: 250, image: AssetImage(ImagesPath.logo),
-                    //   alignment: Alignment.center,
                   ),
 
-                  /*Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          "Daily Recipe",
-                          style: TextStyle(fontSize: 28, color: Colors.white),
-                          textDirection: TextDirection.ltr,
-                        ),
-                      ),
-                    ],
-                  ),*/
-                  SizedBox(height: 10),
-                  Text(
+                  const SizedBox(height: 10),
+                  const Text(
                     'Sign In',
                     style: TextStyle(fontSize: 24, color: Colors.white),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Consumer<AuthProviderViewModel>(
                       builder: (context, value, child) {
                     return Column(
@@ -90,11 +62,11 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: TextFormField(
                             // onChanged: (valid) => value.formKey?.currentState?.validate(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.deepOrange, fontSize: 20),
                             controller: value.emailController,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.email_outlined),
                               labelText: 'Email',
                               labelStyle: TextStyle(
@@ -117,15 +89,15 @@ class _LoginPageState extends State<LoginPage> {
                           child: TextFormField(
                               // onChanged: (valid) => value.formKey?.currentState?.validate(),
                               obscureText: value.obscureText,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.deepOrange, fontSize: 20),
                               controller: value.passwordController,
                               decoration: InputDecoration(
                                   labelText: 'Password',
-                                  labelStyle: TextStyle(
+                                  labelStyle: const TextStyle(
                                     color: Colors.white,
                                   ),
-                                  prefixIcon: Icon(Icons.lock_outline_sharp),
+                                  prefixIcon: const Icon(Icons.lock_outline_sharp),
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       value.obscureText
@@ -136,10 +108,8 @@ class _LoginPageState extends State<LoginPage> {
                                       Provider.of<AuthProviderViewModel>(
                                               context,
                                               listen: false)
-                                          .toggleObsecure();
-                                      /* setState(() {
-                                    obscureText = !obscureText;
-                                  });*/
+                                          .toggleObscure();
+
                                     },
                                   )),
                               validator: (value) {
@@ -147,13 +117,14 @@ class _LoginPageState extends State<LoginPage> {
                                   return 'password is required';
                                 }
 
-                                if (value.length < 6) {
-                                  return 'password too short';
+                              //  if (value.length < 6) {
+                              if( !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$').hasMatch(value)){
+                                  return 'Invalid Password must contain capital&small letter&num,';
                                 }
                                 return null;
                               }),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Align(
@@ -161,20 +132,19 @@ class _LoginPageState extends State<LoginPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: InkWell(
-                                child: Text(
+                                child: const Text(
                                   "Forgot Password?",
                                   style: TextStyle(color: Colors.blue),
                                 ),
                                 onTap: (){
-                                  print("FFFFFFFFFFFFFFFFFFFFFFFFFffpressonforget Password FFFFFFFFFFFFF");
-                                  NavigationUtils.push(context: context, page: ForgetPasswordPage());
+                                  NavigationUtils.push(context: context, page: const ForgetPasswordPage());
 
                                 },
                               ),
                             )),
-                        SizedBox(height: 10),
-                        Container(
-                          width: 200,
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width*.60,
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: ElevatedButton(
@@ -184,25 +154,11 @@ class _LoginPageState extends State<LoginPage> {
                                         Colors.deepOrange),
                               ),
                               onPressed: () async {
-                                //  if (value.formKey?.currentState?.validate() ?? false) {
+
                                 value.signInUser(context);
-                                //}
-                                // Handle button press
-                                /*
-                              // Sign up the user with Firebase Authentication.
-                              // await PreferencService.prefs?.setBool('isLogin', true);
-                              GetIt.I.get<SharedPreferences>().setBool("isLogin", true);
-                              // await PreferencService.saveLoginData(
-                              //   emailController.text, passwordController.text);
-                              // Navigate to the next screen.
 
-                              NavigationUtils.push(context: context, page: HomePage());
-
-                              //emailController.clear();
-                              //passwordController.clear();
-                            }*/
                               },
-                              child: Text(
+                              child: const Text(
                                 'Sign In',
                                 style: TextStyle(
                                     fontSize: 20, color: Colors.white),
@@ -214,11 +170,10 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   }),
 
-                  //SizedBox(height: 60),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Positioned(
@@ -228,21 +183,21 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.bottomCenter,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  //crossAxisAlignment: CrossAxisAlignment.end,
+
                   children: [
-                    Text(
+                    const Text(
                       "Don't have an account?",
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     GestureDetector(
                       onTap: () {
                         NavigationUtils.push(
-                            context: context, page: RegisterPage());
+                            context: context, page: const RegisterPage());
                       },
-                      child: Text(
+                      child: const Text(
                         "Register",
                         style:
                             TextStyle(color: Colors.deepOrange, fontSize: 20),

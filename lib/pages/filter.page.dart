@@ -2,57 +2,50 @@ import 'package:daily_recipe/pages/side.menu.page.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/widgets/chip.widget.dart';
 import 'package:daily_recipe/widgets/filtter.recipes.dart';
-import 'package:daily_recipe/widgets/header.bar.dart';
-import 'package:daily_recipe/widgets/slider.widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/recipes.provider.dart';
 import 'notification.page.dart';
-class FiltterPage extends StatefulWidget {
-  const FiltterPage({super.key});
+
+class FilterPage extends StatefulWidget {
+  const FilterPage({super.key});
 
   @override
-  State<FiltterPage> createState() => _FiltterPageState();
+  State<FilterPage> createState() => _FilterPageState();
 }
 
-class _FiltterPageState extends State<FiltterPage> {
-  Map<String,dynamic> selectedUserValue = {};
- // late final servingController;
-  late final prepTimeController;
-  late final caloriesController;
- late double servingValue;
+class _FilterPageState extends State<FilterPage> {
+  Map<String, dynamic> selectedUserValue = {};
+  // late final servingController;
+  // late final prepTimeController;
+  // late final caloriesController;
+  late double servingValue;
   late double prepTimeValue;
   late double caloriesValue;
 
   @override
   void initState() {
-    //servingController=TextEditingController();
-    //prepTimeController=TextEditingController();
-    //caloriesController=TextEditingController();
-
-    servingValue=0;
-    prepTimeValue=0;
-    caloriesValue=0;
+    servingValue = 0;
+    prepTimeValue = 0;
+    caloriesValue = 0;
     onSelect(selectedUserValue);
     // TODO: implement initState
     super.initState();
   }
 
-   void onSelect(newValue) {
-  setState(() {
-  selectedUserValue = newValue;
-  });
+  void onSelect(newValue) {
+    setState(() {
+      selectedUserValue = newValue;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                NavigationUtils.push(context: context, page: const SideMenuPage());
+                NavigationUtils.push(
+                    context: context, page: const SideMenuPage());
               },
               icon: const Icon(Icons.sort)),
           actions: [
@@ -63,71 +56,113 @@ class _FiltterPageState extends State<FiltterPage> {
                 },
                 icon: const Icon(Icons.notifications)),
           ]),
-      body:  Padding(
+      body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         child: SingleChildScrollView(
           child: Column(
-           crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-          Container(
-          child:   Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("Filter"
-                ,
-                style:
-                TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ).tr(),
-              InkWell(
-                onTap: (){
-                  print("(((((((((((((((((Reset)))))))))))))))))");
-                  selectedUserValue={};
-                  servingValue=0;
-                  prepTimeValue=0;
-                  caloriesValue=0;
-                  setState(() {
-
-                  });
-                },
-                child: const Text("Reset"
-                  ,
-                  style: TextStyle(color: Colors.deepOrange, fontSize: 18,fontWeight: FontWeight.w500),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Filter",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    ).tr(),
+                    InkWell(
+                      onTap: () {
+                        selectedUserValue = {};
+                        servingValue = 0;
+                        prepTimeValue = 0;
+                        caloriesValue = 0;
+                        setState(() {});
+                      },
+                      child: const Text(
+                        "Reset",
+                        style: TextStyle(
+                            color: Colors.deepOrange,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                      ).tr(),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-
-
-        ),
-              //HeaderBar(title:"Filter", titleRight:"Reset " ),
-              const SizedBox(height: 10,),
-              const Text("Meal",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
-              const SizedBox(height: 10,),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                "Meal",
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+              ).tr(),
+              const SizedBox(
+                height: 10,
+              ),
               Wrap(
-                // space between chips
+                  // space between chips
                   spacing: 20,
                   // list of chips
                   children: [
-                    ChipWidget(mealType: "BREAKFAST",selectedUserValue: selectedUserValue,onSelect:onSelect ,),
-                    ChipWidget(mealType: "DINNER",selectedUserValue: selectedUserValue,onSelect: onSelect,),
-                    ChipWidget(mealType: "SOUP",selectedUserValue: selectedUserValue,onSelect: onSelect),
-                    ChipWidget(mealType: "SALAD",selectedUserValue: selectedUserValue,onSelect: onSelect),
-                    ChipWidget(mealType: "HEALTHY",selectedUserValue: selectedUserValue,onSelect: onSelect),
-                    ChipWidget(mealType: "DESSERT",selectedUserValue: selectedUserValue,onSelect:onSelect ,),
-                    ChipWidget(mealType: "QUICK&EASY",selectedUserValue: selectedUserValue,onSelect: onSelect ,),
-                    ChipWidget(mealType: "VEGETARIAN",selectedUserValue: selectedUserValue,onSelect: onSelect ,),
-
-          
+                    ChipWidget(
+                      mealType: "BREAKFAST".tr(),
+                      selectedUserValue: selectedUserValue,
+                      onSelect: onSelect,
+                    ),
+                    ChipWidget(
+                      mealType: "DINNER".tr(),
+                      selectedUserValue: selectedUserValue,
+                      onSelect: onSelect,
+                    ),
+                    ChipWidget(
+                        mealType: "SOUP".tr(),
+                        selectedUserValue: selectedUserValue,
+                        onSelect: onSelect),
+                    ChipWidget(
+                        mealType: "SALAD".tr(),
+                        selectedUserValue: selectedUserValue,
+                        onSelect: onSelect),
+                    ChipWidget(
+                        mealType: "HEALTHY".tr(),
+                        selectedUserValue: selectedUserValue,
+                        onSelect: onSelect),
+                    ChipWidget(
+                      mealType: "DESSERT".tr(),
+                      selectedUserValue: selectedUserValue,
+                      onSelect: onSelect,
+                    ),
+                    ChipWidget(
+                      mealType: "QUICK&EASY".tr(),
+                      selectedUserValue: selectedUserValue,
+                      onSelect: onSelect,
+                    ),
+                    ChipWidget(
+                      mealType: "VEGETARIAN".tr(),
+                      selectedUserValue: selectedUserValue,
+                      onSelect: onSelect,
+                    ),
                   ]),
               const Divider(),
-              const SizedBox(height: 10,),
-              const Text("Serving",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                "Serving",
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+              ).tr(),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
-                  const Text("Enter number of serving :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
-                  const SizedBox(width: 20,),
-
+                  const Text(
+                    "Select number of serving :",
+                    style: TextStyle(color: Colors.deepOrange, fontSize: 18),
+                  ).tr(),
+                  const SizedBox(
+                    width: 20,
+                  ),
                   Text(servingValue.round().toString()),
 
                   /*SizedBox(
@@ -143,34 +178,51 @@ class _FiltterPageState extends State<FiltterPage> {
                           color: Colors.white,
                         ),
                       ),
-          
+
                     ),
                   ),*/
-                ],),
-         //SliderWidget(sliderValue: servingValue, min: 0, max: 10, division: 4),
-          Slider(
-            value: servingValue.roundToDouble(),
-            min: 0,
-            max: 10,
-            divisions: 10,
-            activeColor: Colors.deepOrange,
-            label: servingValue.round().toString(),
-            onChanged: (double value) {
-              setState(() {
-                servingValue = value;
-              });
-            },
-          ),
-              const SizedBox(height: 5,),
+                ],
+              ),
+              //slider serving
+              Slider(
+                value: servingValue.roundToDouble(),
+                min: 0,
+                max: 10,
+                divisions: 10,
+                activeColor: Colors.deepOrange,
+                label: servingValue.round().toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    servingValue = value;
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 5,
+              ),
               const Divider(),
-              const SizedBox(height: 10,),
-              const Text("Preparation Time",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                "Preparation Time",
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+              ).tr(),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
-                  const Text("Enter Preparation Time :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
-                  const SizedBox(width: 20,),
-                  Text(prepTimeValue.round().toString()+" mins"),
+                  const Text(
+                    "Select Preparation Time :",
+                    style: TextStyle(color: Colors.deepOrange, fontSize: 18),
+                  ).tr(),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(prepTimeValue.round().toString() + " mins".tr()),
+
+                  //set Manually
                   /*SizedBox(
                     height: 10,
                     width: 30,
@@ -184,11 +236,12 @@ class _FiltterPageState extends State<FiltterPage> {
                           color: Colors.white,
                         ),
                       ),
-          
+
                     ),
                   ),*/
-                ],),
-             // SliderWidget(sliderValue: prepTimeValue, min: 0, max: 100, division: 4),
+                ],
+              ),
+              //slider preparation time
               Slider(
                 value: prepTimeValue.roundToDouble(),
                 min: 0,
@@ -202,17 +255,31 @@ class _FiltterPageState extends State<FiltterPage> {
                   });
                 },
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
               const Divider(),
-              const SizedBox(height: 10,),
-              const Text("Calories",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 20),),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text(
+                "Calories",
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+              ).tr(),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
-                  const Text("Select Calories numbers :",style: TextStyle(color: Colors.deepOrange,fontSize: 18),),
-                  const SizedBox(width: 20,),
-                 Text(caloriesValue.round().toString()+" Cal."),
-                 /* SizedBox(
+                  const Text(
+                    "Select Calories numbers :",
+                    style: TextStyle(color: Colors.deepOrange, fontSize: 18),
+                  ).tr(),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(caloriesValue.round().toString() + " Cal.".tr()),
+                  /* SizedBox(
                     height: 10,
                     width: 40,
                     child: TextFormField(
@@ -225,27 +292,30 @@ class _FiltterPageState extends State<FiltterPage> {
                           color: Colors.white,
                         ),
                       ),
-          
+
                     ),
                   ),*/
-                ],),
-             // SliderWidget(sliderValue: caloriesValue, min: 0, max: 1000, division: 4),
+                ],
+              ),
+              //Slider Calories
               Slider(
                 value: caloriesValue.roundToDouble(),
                 min: 0,
                 max: 800,
                 divisions: 400,
                 activeColor: Colors.deepOrange,
-                label:caloriesValue.round().toString(),
+                label: caloriesValue.round().toString(),
                 onChanged: (double value) {
                   setState(() {
                     caloriesValue = value;
                   });
                 },
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
               const Divider(),
-          
+
               const SizedBox(height: 20),
               Center(
                 child: Container(
@@ -255,41 +325,29 @@ class _FiltterPageState extends State<FiltterPage> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all<Color>(
-                            Colors.deepOrange),
+                            MaterialStateProperty.all<Color>(Colors.deepOrange),
                       ),
                       onPressed: () async {
+                        selectedUserValue['serving'] =
+                            servingValue.round().toInt();
+                        selectedUserValue['prep_time'] =
+                            prepTimeValue.round().toInt();
+                        selectedUserValue['calories'] =
+                            caloriesValue.round().toInt();
 
-                       // print("""""""""""""""""""time=${time.runtimeType}""""""""""""""""""");
-                        print("""""""""""""""""""'meal_type'=${selectedUserValue['meal_type'].runtimeType}""""""""""""""""""");
-                       // print("""""""""""""""""""serving=${int?.parse(servingController.text).runtimeType}""""""""""""""""""");
-                     //   print("""""""""""""""""""calories=${int?.parse(caloriesController.text).runtimeType}""""""""""""""""""");
+                        NavigationUtils.push(
+                            context: context,
+                            page: FilterRecipes(
+                                valueSelected: selectedUserValue));
 
-                        //selectedUserValue['serving'] = int?.parse(servingController.text);
-                        //selectedUserValue['prep_time'] =int?.parse(prepTimeController.text);
-                        //selectedUserValue['calories']=int?.parse(caloriesController.text);
-                        selectedUserValue['serving'] = servingValue.round().toInt();
-                        selectedUserValue['prep_time'] = prepTimeValue.round().toInt();
-                        selectedUserValue['calories'] = caloriesValue.round().toInt();
-
-                        NavigationUtils.push(context: context, page: FiltterRecipes(valueselected: selectedUserValue));
-          
-                        print("kkkkkkkkkkkkkkkkkkkkkkkkkkSelectedUsers$selectedUserValue kkkkkkkkkkkkkkkkkkkkkkkkkkk");
-
-                      /*  servingController.Clear();
+                        /*  servingController.Clear();
                         prepTimeController.Clear();
                         caloriesController.Clear();*/
-
-                        //   if (value.formKey?.currentState?.validate() ?? false) {
-          
-                        //  }
-          
                       },
                       child: const Text(
-                        'Apply' ,
-                        style: TextStyle(
-                            fontSize: 20, color: Colors.white),
-                      ),
+                        "Apply",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ).tr(),
                     ),
                   ),
                 ),
@@ -303,12 +361,12 @@ class _FiltterPageState extends State<FiltterPage> {
 
   @override
   void dispose() {
-    servingValue =0;
-    prepTimeValue=0;
-    caloriesValue=0;
-   // servingController =null;
-   // prepTimeController=null;
-  //  caloriesController=null;
+    servingValue = 0;
+    prepTimeValue = 0;
+    caloriesValue = 0;
+    // servingController =null;
+    // prepTimeController=null;
+    //  caloriesController=null;
     // TODO: implement dispose
     super.dispose();
   }

@@ -1,105 +1,69 @@
+import 'package:animated_list_item/animated_list_item.dart';
 import 'package:daily_recipe/provider/recipes.provider.dart';
-import 'package:daily_recipe/widgets/toast.message.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../pages/recipe.view.page.dart';
-import '../provider/ads.provider.dart';
 import '../utils/navigation.utils.dart';
-import '../utils/toast.message.utils.dart';
-import '../utils/toast.status.dart';
 import 'card.recipe.dart';
 
 class FreshRecipesWidget extends StatefulWidget {
-  const FreshRecipesWidget({super.key,/*required this.currentIndex*/});
-
-  //int currentIndex;
+  const FreshRecipesWidget({super.key});
 
   @override
   State<FreshRecipesWidget> createState() => _FreshRecipesWidgetState();
 }
 
-class _FreshRecipesWidgetState extends State<FreshRecipesWidget> {
- late bool isRead;
-   @override
+class _FreshRecipesWidgetState extends State<FreshRecipesWidget>  with SingleTickerProviderStateMixin{
+ late AnimationController _animationController;
+ @override
+ void initState() {
+   super.initState();
+   _animationController = AnimationController(
+     duration: const Duration(milliseconds: 3000),
+     vsync: this,
+   );
+   _animationController.forward();
+ }
 
 
   @override
   Widget build(BuildContext context) {
     return Consumer<RecipesProvider>(builder: (context, value, child) {
-      //print(
-         // "==@@@@@@@@@@@@@@@@@@@@@@@@@2Recipes = ${value.recipesList}====================");
-
-      if (value.freshrecipesList.isNotEmpty) {
-
-      // ToastMessageUtils.showToastMessage(
-        //   context, ToastStatus.success, "Enjoy with our recipes.");
-
+      if (value.freshRecipesList.isNotEmpty) {
 
         return SizedBox(
           height:250,
           child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: value.freshrecipesList.length,
+              itemCount: value.freshRecipesList.length,
               itemBuilder: (context, index) {
-               /* isRead= Provider.of<RecipesProvider>(context, listen: false).
-               freshrecipesList[index].viewed_ids!.
-                contains(FirebaseAuth.instance.currentUser?.uid);
-                print("==================isRead=$isRead =============================");*/
-                return Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: GestureDetector(
-                    onTap: () {
+                return
+                    AnimatedListItem(
+                      index: index,
+                      length: value.freshRecipesList.length,
+                      aniController: _animationController,
+                      animationType: AnimationType.zoom,
 
-                     /* isRead = !isRead;
-                      value.addViewedRecipesToUser(
-                          value.freshrecipesList[index].docId!,
-                          *//*  isRead,*//*context) ;
-                      value.getViewedRecipes();
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: GestureDetector(
+                      onTap: () {
+                        NavigationUtils.push(
+                            context: context,
+                            page:RecipeViewPage(recipe: value.freshRecipesList[index]),
+                       );
+                      },
+                      child: CardRecipe(recipe: value.freshRecipesList[index]),
 
-
-                      print(
-                          "&&&&&&&&&&&&&&&&&&&&&&&&&&&GestureDetector&&&&&&&&&&&&&&&&&&&&");*/
-                      NavigationUtils.push(
-                          context: context,
-                          page:RecipeViewPage(recipe: value.freshrecipesList[index]),
-
-                        /*RecipeViewPage(
-                            mealType: value.freshrecipesList[index].mealType,
-                            title: value.freshrecipesList[index].title,
-                            image: value.freshrecipesList[index].image,
-                            calories: value.freshrecipesList[index].calories,
-                            prepTime: value.freshrecipesList[index].prepTime,
-                            serving: value.freshrecipesList[index].serving,
-                            ingredients: value.freshrecipesList[index].ingredients,
-                            directions: value.freshrecipesList[index].directions,
-                            currentIndex: index,
-                          )*/
-                      );
-                    },
-                    child: CardRecipe(recipe: value.freshrecipesList[index]),
-
-                    /*CardRecipe(
-                        mealType: value.freshrecipesList[index].mealType,
-                        title: value.freshrecipesList[index].title,
-                        image: value.freshrecipesList[index].image,
-                        calories: value.freshrecipesList[index].calories,
-                        prepTime: value.freshrecipesList[index].prepTime,
-                        serving: value.freshrecipesList[index].serving,
-                         currentIndex: index,
-                         //favorite: value.recipesList[index].favorite!
-                    ),*/
+                    ),
                   ),
                 );
               }),
         );
       }
 
-      return Container(
-        child: Center(child: Image.asset("assets/images/loading.gif",width: 200,height: 200,)),
-      );
+      return Center(child: Image.asset("assets/images/loading.gif",width: 200,height: 200,));
     });
   }
 }

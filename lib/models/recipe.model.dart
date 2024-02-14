@@ -1,4 +1,4 @@
-import 'package:daily_recipe/widgets/card.recipe.dart';
+
 
 class Recipe {
   String? docId;
@@ -18,8 +18,7 @@ class Recipe {
   bool? isRead;
 
   Recipe();
-  //Recipe({required this.mealType,required this.title,required this.image
-   // ,required this.calories,required this.prepTime,required this.serving});
+
   Recipe.fromJson(Map<String, dynamic> data, [String? id]) {
     docId = id;
     mealType = data['meal_type'];

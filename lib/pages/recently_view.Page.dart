@@ -1,17 +1,16 @@
+import 'package:animated_list_item/animated_list_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daily_recipe/models/recipe.model.dart';
+import 'package:daily_recipe/pages/filter.page.dart';
 import 'package:daily_recipe/pages/notification.page.dart';
 import 'package:daily_recipe/pages/recipe.view.page.dart';
 import 'package:daily_recipe/pages/side.menu.page.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:daily_recipe/widgets/header.bar.dart';
-import 'package:daily_recipe/widgets/fresh.recipes.widget.dart';
-import 'package:daily_recipe/widgets/recommended.recipes.widget.dart';
-import 'package:daily_recipe/widgets/search.bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../provider/recipes.provider.dart';
 import '../widgets/card.recipe.vertical.dart';
 
@@ -22,7 +21,8 @@ class RecentlyViewedPage extends StatefulWidget {
   State<RecentlyViewedPage> createState() => _RecentlyViewedPageState();
 }
 
-class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
+class _RecentlyViewedPageState extends State<RecentlyViewedPage>
+    with SingleTickerProviderStateMixin {
   List<Recipe> recipeList = [];
   List<Recipe> searchedRecipes = [];
 
@@ -35,22 +35,20 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
             recipe.title!.toLowerCase().contains(searchedRecipeLetter))
         .toList();
 
-    print("=================searched=$searchedRecipes");
-
     setState(() {});
   }
 
+  late AnimationController _animationController;
   @override
   void initState() {
-    // TODO: implement initState
-    searchedForRecipe('');
-
     super.initState();
+    searchedForRecipe('');
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 3000),
+      vsync: this,
+    );
+    _animationController.forward();
   }
-
-  /*bool get isUserInList => (widget.recipe.viewed_ids
-      ?.contains(FirebaseAuth.instance.currentUser?.uid) ??
-      false);*/
 
   @override
   Widget build(BuildContext context) {
@@ -61,33 +59,32 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SideMenuPage(),
+                      builder: (context) => const SideMenuPage(),
                     ));
               },
-              icon: Icon(Icons.sort)),
+              icon: const Icon(Icons.sort)),
           actions: [
             IconButton(
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NotificationPage(),
+                        builder: (context) => const NotificationPage(),
                       ));
                 },
-                icon: Icon(Icons.notifications)),
+                icon: const Icon(Icons.notifications)),
           ]),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HeaderBar(title: "Recently Viewed", titleRight: ""),
-                SizedBox(
+                 HeaderBar(title: "Recently Viewed".tr(), titleRight: ""),
+                const SizedBox(
                   height: 20,
                 ),
-
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: Row(
@@ -98,7 +95,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                           controller: searchController,
                           onChanged: searchedForRecipe,
                           decoration: InputDecoration(
-                            hintText: "searching",
+                            hintText: "searching".tr(),
                             hintStyle: TextStyle(color: Colors.grey.shade600),
                             prefixIcon: Icon(
                               Icons.search,
@@ -107,7 +104,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                             ),
                             filled: true,
                             fillColor: Colors.grey.shade100,
-                            contentPadding: EdgeInsets.all(10),
+                            contentPadding: const EdgeInsets.all(10),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
                                 borderSide:
@@ -115,7 +112,7 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Container(
@@ -127,17 +124,18 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.tune_sharp),
+                          child: InkWell(
+                              onTap: () => NavigationUtils.push(
+                                  context: context, page: const FilterPage()),
+                              child: const Icon(Icons.tune_sharp)),
                         ),
                       )
                     ],
                   ),
                 ),
-
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('recipes')
@@ -168,47 +166,58 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                                         ? recipeList.length
                                         : searchedRecipes.length,
                                     itemBuilder: (context, index) {
-                                      return Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10, bottom: 10),
-                                          child: Stack(
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  NavigationUtils.push(
-                                                      context: context,
-                                                      page: RecipeViewPage(
-                                                          recipe: recipeList[
-                                                              index]));
-                                                },
-                                                child: CardRecipeVertical(
-                                                    recipe: searchController
-                                                            .text.isEmpty
-                                                        ? recipeList[index]
-                                                        : searchedRecipes[
-                                                            index]),
-                                              ),
-                                              Positioned(
-                                                  top: 8,
-                                                  right: 10,
-                                                  child: GestureDetector(
-                                                      onTap: () => Provider.of<
-                                                                  RecipesProvider>(
-                                                              context,
-                                                              listen: false)
-                                                          .clearViewedRecipes(
-                                                              recipeList[index]
-                                                                  .docId!),
-                                                      child: Container(
-                                                          color:
-                                                              Colors.grey[200],
-                                                          child: Icon(
-                                                            Icons.delete,
-                                                            color: Colors.grey,
-                                                            size: 25,
-                                                          ))))
-                                            ],
-                                          ));
+                                      return AnimatedListItem(
+                                        index: index,
+                                        length: searchController.text.isEmpty
+                                            ? recipeList.length
+                                            : searchedRecipes.length,
+                                        aniController: _animationController,
+                                        animationType: AnimationType.zoom,
+                                        child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10, bottom: 10),
+                                            child: Stack(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    NavigationUtils.push(
+                                                        context: context,
+                                                        page: RecipeViewPage(
+                                                            recipe: recipeList[
+                                                                index]));
+                                                  },
+                                                  child: CardRecipeVertical(
+                                                      recipe: searchController
+                                                              .text.isEmpty
+                                                          ? recipeList[index]
+                                                          : searchedRecipes[
+                                                              index]),
+                                                ),
+                                                Positioned(
+                                                    top: 8,
+                                                    right: 10,
+                                                    child: GestureDetector(
+                                                        onTap: () => Provider
+                                                                .of<RecipesProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                            .clearViewedRecipes(
+                                                                recipeList[
+                                                                        index]
+                                                                    .docId!),
+                                                        child: Container(
+                                                            color: Colors
+                                                                .grey[200],
+                                                            child: const Icon(
+                                                              Icons.delete,
+                                                              color:
+                                                                  Colors.grey,
+                                                              size: 25,
+                                                            ))))
+                                              ],
+                                            )),
+                                      );
                                     }));
                           } else {
                             return const Text('No Selected Recipes');
@@ -216,46 +225,6 @@ class _RecentlyViewedPageState extends State<RecentlyViewedPage> {
                         }
                       }
                     }),
-
-                /* Consumer<RecipesProvider>(builder: (context, value, child) {
-                  */ /* print(
-              "==@@@@@@@@@@@@@@@@@@@@@@@@@2Recipes = ${value.recipesList}====================");*/ /*
-
-                  if (value.viewedRecipesList.isNotEmpty) {
-                    return SizedBox(
-                      height: 570,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: value.viewedRecipesList.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 10, bottom: 10),
-                                child: CardRecipeVertical(recipe: recipe)
-
-                              */ /*CardRecipeVertical(
-                                  mealType:
-                                      value.viewedRecipesList[index].mealType,
-                                  title: value.viewedRecipesList[index].title,
-                                  image: value.viewedRecipesList[index].image,
-                                  calories:
-                                      value.viewedRecipesList[index].calories,
-                                  prepTime:
-                                      value.viewedRecipesList[index].prepTime,
-                                  currentIndex: index,
-                                  serving:
-                                      value.viewedRecipesList[index].serving,
-                                )*/ /*
-                            );
-                          }),
-                    );*/
-                /* } else if (value.viewedRecipesList.isEmpty) {
-                    return const Text("No selected Recipes");
-                  } else
-                    return Container(
-                      child: Image.asset("assets/images/loading.gif"),
-                    );
-                }),*/
               ],
             ),
           ),

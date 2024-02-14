@@ -1,35 +1,25 @@
 import 'package:daily_recipe/pages/login.page.dart';
 import 'package:daily_recipe/provider/auth.Provider.dart';
-import 'package:daily_recipe/services/preference.services.dart';
 import 'package:daily_recipe/utils/images.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pw_validator/flutter_pw_validator.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
-  //final username;
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-/*  bool obscureText = true;
-  final _formKey = GlobalKey<FormState>();
-  late final emailController;
-  late final usernameController;
-  late final passwordController;*/
 
   @override
   void initState() {
-    Provider.of<AuthProviderViewModel>(context, listen: false).initProvider();
-    /* emailController = TextEditingController();
-    usernameController = TextEditingController();
-    passwordController = TextEditingController();*/
+    Provider.of<AuthProviderViewModel>(context, listen: false).initAuth();
+
     // TODO: implement initState
     super.initState();
   }
@@ -45,9 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             Container(
               decoration: BoxDecoration(
-                // color: Colors.brown
                 image: DecorationImage(
-                  //  opacity:.3,
                   image: AssetImage(ImagesPath.backgroundEffect),
                   fit: BoxFit.cover,
                 ),
@@ -57,7 +45,6 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  //SizedBox(height: 10),
                   Image(
                     width: 220,
                     image: AssetImage(ImagesPath.logo),
@@ -148,26 +135,25 @@ class _RegisterPageState extends State<RegisterPage> {
                                       Provider.of<AuthProviderViewModel>(
                                               context,
                                               listen: false)
-                                          .toggleObsecure();
-                                      /*  setState(() {
-                                         obscureText = !obscureText;
-                                       });*/
+                                          .toggleObscure();
                                     },
                                   )),
                               validator: (valid) {
                                 if (valid == null || valid.isEmpty) {
                                   return 'password is required';
                                 }
+                               // !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                                if( !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$').hasMatch(valid))
 
-                                if (valid.length < 6) {
-                                  return 'password too short';
+                                {
+                                  return 'Invalid Password must contain capital&small letter&num,';
                                 }
                                 return null;
                               }),
                         ),
                         const SizedBox(height: 8),
-                        Container(
-                          width: 200,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width*.60,
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: ElevatedButton(
@@ -177,24 +163,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                         Colors.deepOrange),
                               ),
                               onPressed: () {
-                                // Handle button press
-                                /*if (value.formKey?.currentState?.validate() ??
-                                              false) {*/
 
                                 value.registerUser(context);
-                                // }
-                                // Sign up the user with Firebase Authentication.
-/*
-                                   GetIt.I.get<SharedPreferences>().setString("name",  usernameController.text);
-                                   //PreferencService.saveUsernameData(
-                                   //  usernameController.text);
-                                   // Navigate to the next screen.
-                                   NavigationUtils.push(context: context, page:LoginPage());*/
 
-                                //emailController.clear();
-                                //passwordController.clear();
-                                //  usernameController.clear();
-                                //}
                               },
                               child: const Text(
                                 'Register',
@@ -204,7 +175,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ),
-                        //SizedBox(height: 55),
                       ],
                     ),
                   ),
@@ -220,7 +190,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 alignment: Alignment.bottomCenter,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  //crossAxisAlignment: CrossAxisAlignment.end,
+
                   children: [
                     const Text(
                       "Already registered?",
@@ -233,11 +203,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       onTap: () {
                         NavigationUtils.push(
                             context: context, page: const LoginPage());
-                        /*Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginPage(),
-                                ));*/
+
                       },
                       child: const Text(
                         "Sign in",
@@ -249,7 +215,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             )),
-            //Positioned(bottom:10,child: SizedBox(height: 10,))
           ],
         ),
       );

@@ -9,15 +9,15 @@ abstract class ToastMessageUtils {
         content: Row(
           children: [
             toastStatus == ToastStatus.success
-                ? Icon(Icons.check_circle_outline_outlined,color: Colors.green,)
-                : Icon(Icons.dangerous_outlined,color: Colors.red,),
+                ? const Icon(Icons.check_circle_outline_outlined,color: Colors.green,)
+                : const Icon(Icons.dangerous_outlined,color: Colors.red,),
             const SizedBox(
               width: 8,
             ),
             Flexible(
                 child: Text(
               message,
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
               maxLines: 2,
             )),
           ],

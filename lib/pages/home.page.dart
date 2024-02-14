@@ -1,4 +1,3 @@
-
 import 'package:daily_recipe/pages/notification.page.dart';
 import 'package:daily_recipe/pages/side.menu.page.dart';
 import 'package:daily_recipe/widgets/ads.Carousal.dart';
@@ -27,7 +26,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-
     controller = ZoomDrawerController();
     super.initState();
   }
@@ -80,11 +78,11 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     const Text(
                       " Good Morning, ",
-                      style: TextStyle(color: Colors.deepOrange),
+                      style: TextStyle(color: Colors.grey),
                     ).tr(),
                     Text(
-                      " ${FirebaseAuth.instance.currentUser!.displayName} .",
-                      style: const TextStyle(color: Colors.deepOrange),
+                      "${FirebaseAuth.instance.currentUser!.displayName}",
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
@@ -99,11 +97,10 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.italic),
                 ).tr(),
-                /*const SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-               SearchBarEX(hintText: "Search for recipes"),*/
-
+                SearchBarEX(hintText: "Search for recipes".tr()),
                 const SizedBox(
                   height: 20,
                 ),
@@ -113,22 +110,17 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const HeaderBar(
                     title: "Today's Fresh Recipes", titleRight: "See All"),
-                const SizedBox(
+            /*    const SizedBox(
                   height: 10,
-                ),
-                GestureDetector(
-                    /*onTap: () => NavigationUtils.push(
-                        context: context, page: const FiltterPage()),*/
-                    child: SearchBarEX(hintText: "Search for recipes".tr())),
+                ),*/
                 const SizedBox(
-                  height: 25,
+                  height: 20,
                 ),
                 const FreshRecipesWidget(),
                 const SizedBox(
                   height: 20,
                 ),
                 const HeaderBar(title: "Recommended", titleRight: "See All"),
-
                 const RecommendedRecipesWidget(),
               ],
             ),

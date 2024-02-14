@@ -2,9 +2,6 @@ import 'package:daily_recipe/pages/view.all.recipes.dart';
 import 'package:daily_recipe/utils/navigation.utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/recipes.provider.dart';
 
 class HeaderBar extends StatelessWidget {
   const HeaderBar({super.key, required this.title, required this.titleRight});

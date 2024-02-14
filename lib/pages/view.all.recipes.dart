@@ -1,16 +1,12 @@
 import 'package:daily_recipe/pages/recipe.view.page.dart';
-import 'package:daily_recipe/pages/side.menu.page.dart';
 import 'package:daily_recipe/provider/recipes.provider.dart';
 import 'package:daily_recipe/widgets/card.recipe.dart';
-import 'package:daily_recipe/widgets/fresh.recipes.widget.dart';
-import 'package:daily_recipe/widgets/header.bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flexible_grid_view/flexible_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:provider/provider.dart';
-
 import '../utils/navigation.utils.dart';
-import 'notification.page.dart';
 class ViewAllRecipes extends StatefulWidget {
   const ViewAllRecipes({super.key});
 
@@ -42,7 +38,7 @@ class _ViewAllRecipesState extends State<ViewAllRecipes> {
         menuScreen: const SideMenuPage(),
         mainScreen:*/
       Scaffold(
-        appBar: AppBar(title: Text("Our Recipes"),
+        appBar: AppBar(title: const Text("Our Recipes").tr(),
         backgroundColor: Colors.brown[50],),
       /*  body: NestedScrollView(
             physics: NeverScrollableScrollPhysics(),
@@ -80,11 +76,19 @@ class _ViewAllRecipesState extends State<ViewAllRecipes> {
                 axisCount: GridLayoutEnum.twoElementsInRow,
                 crossAxisSpacing:10,
                 mainAxisSpacing: 10,
-                children: value.recipesList!
-                    .map((e) => GestureDetector(onTap: ()=>NavigationUtils.push(context: context, page:
-               RecipeViewPage(recipe: e)),
+                children:
+                value.recipesList!
+                    .map((e) => GestureDetector(onTap:
+                    (){
+                      NavigationUtils.push(context: context, page:
+                      RecipeViewPage(recipe: e));
+
+                    },
+
+
                       child: CardRecipe(recipe: e),
-                    ))
+                    )
+                )
                     .toList(),
               )),
         ))
