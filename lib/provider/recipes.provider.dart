@@ -257,14 +257,14 @@ class RecipesProvider extends ChangeNotifier {
         _favoriteRecipesList = List<Recipe>.from(
             result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
 
-     //   notifyListeners();
+   
       } else {
         _favoriteRecipesList = [];
-     //   notifyListeners();
+  
       }
     } catch (e) {
       _favoriteRecipesList = [];
-    //  notifyListeners();
+  
     }
     notifyListeners();
   }
@@ -277,14 +277,14 @@ class RecipesProvider extends ChangeNotifier {
         _viewedRecipesList = List<Recipe>.from(
             result.docs.map((doc) => Recipe.fromJson(doc.data(), doc.id)));
 
-      //  notifyListeners();
+     
       } else {
         _viewedRecipesList = [];
-       // notifyListeners();
+    
       }
     } catch (e) {
       _viewedRecipesList = [];
-     // notifyListeners();
+   
     }
     notifyListeners();
   }
